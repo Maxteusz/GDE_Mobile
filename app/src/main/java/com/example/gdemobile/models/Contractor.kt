@@ -1,4 +1,4 @@
-package com.example.gdemobile.Models
+package com.example.gdemobile.models
 
 import com.google.gson.annotations.SerializedName
 

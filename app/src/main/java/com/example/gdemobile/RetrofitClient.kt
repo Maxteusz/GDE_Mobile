@@ -1,6 +1,6 @@
 package com.example.gdemobile
 
-import com.example.gdemobile.Config.Config
+import com.example.gdemobile.config.Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

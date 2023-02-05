@@ -1,4 +1,4 @@
-package com.example.gdemobile.Config
+package com.example.gdemobile.config
 class Config  {
     companion object {
         val ip: String = "192.168.1.168"

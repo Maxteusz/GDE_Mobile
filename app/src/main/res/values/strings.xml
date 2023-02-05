@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GDE Mobile</string>
+    <string name="contractor_kod">${contractor.kod}</string>
 </resources>
