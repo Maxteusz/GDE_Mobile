@@ -23,7 +23,7 @@ class CargoListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
-        adapter = ContractorAdapter(listContractor())
+        adapter = ContractorAdapter(CargoListView.listContractor())
         binding.recyclerview.adapter = adapter
         binding.recyclerview.setHasFixedSize(true)
 
@@ -34,23 +34,7 @@ class CargoListActivity : AppCompatActivity() {
 
     }
 
-fun listContractor() : List<Contractor>
-{
-    var list = listOf<Contractor>(
-        Contractor("ffdfd"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
-        Contractor("vcvbb"),
 
-
-
-    )
-    return list ;
-}
 
   /*  fun pobierzKontrahentow() {
 
