@@ -26,7 +26,7 @@ class ContractorAdapter (private val contractors : List<Contractor>) : RecyclerV
 
 
     override fun onBindViewHolder(holder: ContractorViewHolder, position: Int) {
-      holder.recyclerviewContractorHolder.contractor
+      holder.recyclerviewContractorHolder.contractor = contractors[position]
     }
 
     override fun getItemCount(): Int {

@@ -2,9 +2,9 @@ package com.example.gdemobile.models
 
 import com.google.gson.annotations.SerializedName
 
-class Contractor {
+class Contractor(val kod : String) {
 
-    @SerializedName("ResultInstance")
-    val kod : String? = null
-    constructor()
+
+
+
 }
