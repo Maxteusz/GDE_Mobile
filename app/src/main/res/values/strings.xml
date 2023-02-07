@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">GDE Mobile</string>
+
+    //recyclerview_contractor
     <string name="contractor_kod">${contractor.kod}</string>
+
+    //MenuActivty
+    <string name="przyjmowanie_towaru">Przyjmowanie towaru</string>
+    <string name="wydawanie_towaru">Wydawanie towaru</string>
 </resources>

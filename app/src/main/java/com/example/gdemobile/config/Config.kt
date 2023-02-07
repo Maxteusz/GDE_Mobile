@@ -6,4 +6,6 @@ class Config  {
         val username : String = "administrator"
         val password : String = ""
     }
+
+
 }
