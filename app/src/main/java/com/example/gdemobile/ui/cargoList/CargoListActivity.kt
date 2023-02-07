@@ -1,16 +1,13 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-
+import android.view.KeyEvent
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-
-import com.example.gdemobile.R
-import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.databinding.ActivityCargoListBinding
-import com.example.gdemobile.models.Contractor
 
 
 class CargoListActivity : AppCompatActivity() {
@@ -27,6 +24,24 @@ class CargoListActivity : AppCompatActivity() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.setHasFixedSize(true)
 
+        binding.barcodeTextfield.setEndIconOnClickListener({
+
+        })
+
+        //Keep focus on barcodeEditText and hide keyboard
+        binding.barcodeEdittext.requestFocusFromTouch()
+        getWindow().setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
+
+        binding.barcodeEdittext.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                Log.i("Key", "Pressed")
+                return@setOnKeyListener true
+            }
+            false
+
+        }
 
 
 

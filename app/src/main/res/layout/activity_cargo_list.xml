@@ -32,6 +32,7 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/barcode_textfield"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -41,9 +42,13 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Zeskanuj towar"
-                        app:endIconDrawable="@drawable/camera_icon">
+                        android:clickable="true"
+                        app:endIconDrawable="@drawable/baseline_camera_alt_24"
+
+                        app:endIconMode="custom">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/barcode_edittext"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -65,9 +70,10 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

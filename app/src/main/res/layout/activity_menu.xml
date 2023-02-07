@@ -20,7 +20,7 @@
                 android:src="@drawable/scan_to_connect_stc"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/issuing_button"
+                android:id="@+id/receiving_button"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
@@ -28,6 +28,7 @@
                 android:elevation="5dp"
                 android:layout_marginTop="100dp"/>
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/issuing_button"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:elevation="5dp"
