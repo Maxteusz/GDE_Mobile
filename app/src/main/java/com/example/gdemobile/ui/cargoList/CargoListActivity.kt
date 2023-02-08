@@ -13,6 +13,7 @@ import com.example.gdemobile.databinding.ActivityCargoListBinding
 class CargoListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCargoListBinding
     private lateinit var  adapter : ContractorAdapter
+    private  var  view : CargoListView = CargoListView()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class CargoListActivity : AppCompatActivity() {
         binding.recyclerview.setHasFixedSize(true)
 
         binding.barcodeTextfield.setEndIconOnClickListener({
-
+                view.openActivity(applicationContext, ScanBarcodeActivity(), null)
         })
 
         //Keep focus on barcodeEditText and hide keyboard
