@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="cargo"
+            type="com.example.gdemobile.models.Cargo" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"
+            android:text= "@{cargo.barcode}" />
+
+    </LinearLayout>
+</layout>

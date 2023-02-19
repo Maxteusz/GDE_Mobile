@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<variable
-    name="adapter"
-    type="com.example.gdemobile.ui.cargoList.ContractorAdapter" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,5 @@
 package com.example.gdemobile.models
 
-class Cargo {
+class Cargo (val barcode: String, val name : String){
+
 }
