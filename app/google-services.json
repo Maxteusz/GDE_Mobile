@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "383824473770",
+    "project_id": "gde-mobile-dc7f2",
+    "storage_bucket": "gde-mobile-dc7f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383824473770:android:622aaa2c7aae377da6aad3",
+        "android_client_info": {
+          "package_name": "com.example.gdemobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383824473770-8jlaj811ddjuv3sgabd0nc6o12gsp8lp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhCkP8dkfLgdcbVmNeHbd0hufHixh8gbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383824473770-8jlaj811ddjuv3sgabd0nc6o12gsp8lp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

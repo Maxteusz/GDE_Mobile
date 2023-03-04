@@ -3,7 +3,6 @@ package com.example.gdemobile.ui.cargoList
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,10 +32,15 @@ class CargoListView : ViewModel() {
 
 
 
-    fun openActivity(context: Context, activity: Activity, view: View?) {
+    fun openActivity(context: Context, activity: Activity, finishActivity: Boolean = false) {
         val intent = Intent(context, activity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent)
+        if(finishActivity) {
+            val activity = context as Activity
+            activity.finish()
+        }
+
 
     }
 

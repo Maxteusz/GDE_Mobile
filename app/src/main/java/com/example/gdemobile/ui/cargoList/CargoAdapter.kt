@@ -13,12 +13,8 @@ import com.example.gdemobile.ui.cargoList.CargoAdapter.CargoViewHolder
 
 class CargoAdapter(private val cargos: List<Cargo>): RecyclerView.Adapter<CargoViewHolder>() {
 
-
-
     inner class CargoViewHolder (val recyclerviewCargoHolder : RecyclerviewCargoBinding
-    ) : RecyclerView.ViewHolder(recyclerviewCargoHolder.root){
-
-    }
+    ) : RecyclerView.ViewHolder(recyclerviewCargoHolder.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CargoViewHolder(
         DataBindingUtil.inflate(

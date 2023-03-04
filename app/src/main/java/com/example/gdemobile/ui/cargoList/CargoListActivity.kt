@@ -1,10 +1,8 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.ActivityCargoListBinding
@@ -14,14 +12,17 @@ import com.example.gdemobile.utils.Utils
 class CargoListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCargoListBinding
-    private lateinit var view: CargoListView
+    companion object{
+        var view: CargoListView =  CargoListView()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
-        view = CargoListView()
-      //  binding.setLifecycleOwner(this)
+
+        binding.setLifecycleOwner(this)
 
         view = ViewModelProvider(this).get(CargoListView::class.java)
         view.getCargo()
@@ -33,20 +34,19 @@ class CargoListActivity : AppCompatActivity() {
             }
         })
         binding.cameraButton.setOnClickListener({
-            view.openActivity(applicationContext, ScanBarcodeActivity(), it)
+            view.openActivity(applicationContext, ScanBarcodeActivity())
         })
     }
 
-    var temp = ""
+    var readBarcode = ""
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        temp += event.getUnicodeChar().toChar()
+        if(keyCode != KeyEvent.KEYCODE_ENTER)
+        readBarcode += event.getUnicodeChar().toChar()
         return when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
-                Utils.showToast(applicationContext, temp)
-                view.addCargo(temp);
-                temp = "";
-                Log.i("CargoAdapter2", binding.recyclerview.adapter?.itemCount.toString())
-
+                Utils.showToast(applicationContext, readBarcode)
+                view.addCargo(readBarcode);
+                readBarcode = "";
                 true
             }
             else -> super.onKeyUp(keyCode, event)
