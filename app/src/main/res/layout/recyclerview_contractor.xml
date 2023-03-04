@@ -27,7 +27,7 @@
             android:fontFamily="sans-serif"
             android:textSize="14sp"
             android:layout_gravity="center_vertical"
-            android:text= "@{contractor.kod}" />
+            android:text= "@{contractor.code}" />
 
     </LinearLayout>
 </layout>

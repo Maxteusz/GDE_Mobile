@@ -30,13 +30,13 @@ class CargoListView : ViewModel() {
     }
 
 
-    fun addCargo(barcode: String) {
+/*    fun addCargo(barcode: String) {
         if (!barcode.isNullOrEmpty()) {
             val cargo = cargos.value?.toMutableList()
-            cargo?.add(Cargo(name = "Przykładowa nazwa", barcode = barcode))
+            cargo.add(Cargo(Name = "Przykładowa nazwa", Barcode = barcode))
             _cargos.postValue(cargo)
         }
-    }
+    }*/
 
     fun getCargo(): List<Cargo>? {
         return _cargos.value

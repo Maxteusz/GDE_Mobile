@@ -1,5 +1,5 @@
 package com.example.gdemobile.models
 
-class Cargo (val barcode: String, val name : String): java.io.Serializable{
+class Cargo (Id : Int, Code :  String,  Name : String,  val Barcode: String,): ObjectBase(Id, Code, Name), java.io.Serializable{
 
 }

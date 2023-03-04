@@ -2,9 +2,5 @@ package com.example.gdemobile.models
 
 
 
-class Contractor(val kod : String) {
-
-
-
-
+class Contractor(Id : Int, Code : String, Name : String) : ObjectBase(Id, Code,Name) {
 }

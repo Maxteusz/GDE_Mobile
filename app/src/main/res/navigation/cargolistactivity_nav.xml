@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cargolistactivity_nav"
+    app:startDestination="@id/cargoListFragment">
+
+    <fragment
+        android:id="@+id/cargoListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.CargoListFragment"
+        android:label="CargoListFragment" >
+        <action
+            android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
+            app:destination="@id/scanBarcodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanBarcodeFragment"
+        android:name="com.example.gdemobile.ui.cargoList.ScanBarcodeFragment"
+        android:label="fragment_scan_barcode"
+        tools:layout="@layout/fragment_scan_barcode" >
+        <action
+            android:id="@+id/action_scanBarcodeFragment_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" />
+    </fragment>
+</navigation>

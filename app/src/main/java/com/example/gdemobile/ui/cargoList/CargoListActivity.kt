@@ -8,8 +8,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ActivityCargoListBinding
 import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.*
@@ -18,34 +22,21 @@ import kotlinx.coroutines.*
 class CargoListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCargoListBinding
-    private lateinit var cargosAdapter: CargoAdapter
-    private lateinit var view: CargoListView
-
-
+    private lateinit var navController : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
         binding.setLifecycleOwner(this)
-        initViewModel()
-        initViewsMethods()
+       val navHostFragment = supportFragmentManager
+          .findFragmentById(R.id.cargoListFragment) as NavHostFragment
+        navController = navHostFragment.navController
+        // initViewModel()
+        // initViewsMethods()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val intent = getIntent()
-        val extras = intent.extras
-        val barcode = extras?.getString("scannedBarcode","").toString()
-
-        //if(!temp.toString().isNullOrEmpty())
-        Log.i("Get temp", extras?.getString("scannedBarcode","").toString())
-        view.addCargo(barcode)
-
-    }
-
-
-    var readBarcode = ""
+/*    var readBarcode = ""
 
     @SuppressLint("SuspiciousIndentation")
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
@@ -62,53 +53,34 @@ class CargoListActivity : AppCompatActivity() {
             else -> super.onKeyUp(keyCode, event)
         }
     }
-    fun clearFocus() {
+   *//* fun clearFocus() {
         binding.textField.clearFocus()
         binding.searchEditText.clearFocus()
-    }
+    }*//*
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
-    }
-    fun initViewModel() {
-        view = ViewModelProvider(this).get(CargoListView::class.java)
-        view.cargos.observe(this, { cargos ->
-            binding.recyclerview.also {
-                it.layoutManager = LinearLayoutManager(this)
-                it.setHasFixedSize(true)
-                cargosAdapter = CargoAdapter(cargos)
-                it.adapter = cargosAdapter
-            }
-        })
-        view.clearedFocus.observe(this, {x ->
-            //if(x)
-            //clearFocus()
-        })
-    }
-    fun initViewsMethods() {
-        binding.cameraButton.setOnClickListener({
-            Utils.openActivity(applicationContext, ScanBarcodeActivity())
-        })
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                view.resetCount()
-            }
+    }*/
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                view.resetCount()
-            }
+    /* fun initViewsMethods() {
+         binding.cameraButton.setOnClickListener({
+             Utils.openActivity(applicationContext, ScanBarcodeActivity())
+         })
+         binding.searchEditText.addTextChangedListener(object : TextWatcher {
+             override fun afterTextChanged(s: Editable?) {
+                 view.resetCount()
+             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                view.resetCount()
-                cargosAdapter.filtrElements(s.toString())
-            }
-        })
-    }
+             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                 view.resetCount()
+             }
 
-
-
-
-
+             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                 view.resetCount()
+                 cargosAdapter.filtrElements(s.toString())
+             }
+         })
+     }*/
 
 /*  fun pobierzKontrahentow() {
 
