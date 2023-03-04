@@ -28,10 +28,10 @@ class CargoAdapter(private val cargos: List<Cargo>): RecyclerView.Adapter<CargoV
             false))
 
     override fun onBindViewHolder(holder: CargoViewHolder, position: Int) {
-        holder.recyclerviewCargoHolder.cargo= cargos[position]
+        holder.recyclerviewCargoHolder.cargo= cargos.get(position)
     }
 
     override fun getItemCount(): Int {
-        return cargos.size;
+        return cargos.size
     }
 }

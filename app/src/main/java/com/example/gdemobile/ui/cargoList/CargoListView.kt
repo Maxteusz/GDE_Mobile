@@ -3,15 +3,12 @@ package com.example.gdemobile.ui.cargoList
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.utils.Utils
-import kotlin.coroutines.coroutineContext
 
 class CargoListView : ViewModel() {
 
@@ -31,9 +28,10 @@ class CargoListView : ViewModel() {
         }
     }
 
-    private val _cargos = MutableLiveData<List<Cargo>>()
-    val cargos: LiveData<List<Cargo>>
-        get() = _cargos
+    private var _cargos = MutableLiveData<List<Cargo>>(emptyList())
+    val cargos: LiveData<List<Cargo>> = _cargos
+
+
 
     fun openActivity(context: Context, activity: Activity, view: View?) {
         val intent = Intent(context, activity::class.java)
@@ -42,26 +40,16 @@ class CargoListView : ViewModel() {
 
     }
 
-    fun addCargo(context: Context,barcode: String) {
-        val cargo = cargos.value?.toMutableList()
-        Log.i("Cargo", cargo?.size.toString())
-        cargo?.add(Cargo(barcode,barcode))
-        Log.i("Cargo", cargo?.size.toString())
-        Utils.showToast(context,cargo?.last()?.name!!.toString())
-
-
-        _cargos.value = cargo
+    fun addCargo(barcode: String) {
+        if(!barcode.isNullOrEmpty()) {
+            val cargo = cargos.value?.toMutableList()
+            cargo?.add(Cargo(barcode, barcode))
+            _cargos.postValue(cargo)
+        }
     }
 
-    fun getCargo()
-    {
-        val cargo = listOf(
-
-            Cargo("3232","3232"),
-        )
-
-
-        _cargos.value = cargo
+    fun getCargo(): List<Cargo>? {
+        return _cargos.value
     }
 
 
