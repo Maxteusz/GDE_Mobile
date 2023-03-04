@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,17 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.ActivityCargoListBinding
 import com.example.gdemobile.utils.Utils
-import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.*
 
 
 class CargoListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCargoListBinding
-    private lateinit var  cargosAdapter : CargoAdapter
-    private  var timeCount : Long = System.currentTimeMillis()
-    companion object{
-        var view: CargoListView =  CargoListView()
-    }
+    private lateinit var cargosAdapter: CargoAdapter
+    private lateinit var view: CargoListView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,58 +28,29 @@ class CargoListActivity : AppCompatActivity() {
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
         binding.setLifecycleOwner(this)
-        view = ViewModelProvider(this).get(CargoListView::class.java)
-        clearFocus()
+        initViewModel()
+        initViewsMethods()
+    }
 
-        view.getCargo()
+    override fun onResume() {
+        super.onResume()
+        val intent = getIntent()
+        val extras = intent.extras
+        val barcode = extras?.getString("scannedBarcode","").toString()
 
-        view.cargos.observe(this, { cargos ->
-            binding.recyclerview.also {
-                it.layoutManager = LinearLayoutManager(this)
-                it.setHasFixedSize(true)
-                cargosAdapter = CargoAdapter(cargos)
-                it.adapter = cargosAdapter
-            }
-        })
-        binding.cameraButton.setOnClickListener({
-            view.openActivity(applicationContext, ScanBarcodeActivity())
-        })
-
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-               cargosAdapter.filtrElements(s.toString())
-                Log.i("CargosCount", view.cargos.value?.size.toString())
-            }
-        })
-        binding.searchEditText.setOnFocusChangeListener { view, b ->
-            if(!view.isFocused)
-            timeCount = System.currentTimeMillis()
-
-        }
+        //if(!temp.toString().isNullOrEmpty())
+        Log.i("Get temp", extras?.getString("scannedBarcode","").toString())
+        view.addCargo(barcode)
 
     }
 
+
     var readBarcode = ""
+
     @SuppressLint("SuspiciousIndentation")
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if(keyCode != KeyEvent.KEYCODE_ENTER)
-        {
-            val currentTime = System.currentTimeMillis()
-            Utils.showToast(applicationContext,currentTime.minus(timeCount).toString())
-            Log.i("Click", currentTime.minus(timeCount).toString());
-            if(currentTime.minus(timeCount) < 3000L) {
-                binding.textField.clearFocus()
-                binding.searchEditText.clearFocus()
-                readBarcode += event.getUnicodeChar().toChar()
-            }
-
-
+        if (keyCode != KeyEvent.KEYCODE_ENTER) {
+            readBarcode += event.getUnicodeChar().toChar()
         }
         return when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
@@ -92,12 +62,52 @@ class CargoListActivity : AppCompatActivity() {
             else -> super.onKeyUp(keyCode, event)
         }
     }
-
-    fun clearFocus()
-    {
+    fun clearFocus() {
         binding.textField.clearFocus()
         binding.searchEditText.clearFocus()
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+    fun initViewModel() {
+        view = ViewModelProvider(this).get(CargoListView::class.java)
+        view.cargos.observe(this, { cargos ->
+            binding.recyclerview.also {
+                it.layoutManager = LinearLayoutManager(this)
+                it.setHasFixedSize(true)
+                cargosAdapter = CargoAdapter(cargos)
+                it.adapter = cargosAdapter
+            }
+        })
+        view.clearedFocus.observe(this, {x ->
+            //if(x)
+            //clearFocus()
+        })
+    }
+    fun initViewsMethods() {
+        binding.cameraButton.setOnClickListener({
+            Utils.openActivity(applicationContext, ScanBarcodeActivity())
+        })
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                view.resetCount()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                view.resetCount()
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                view.resetCount()
+                cargosAdapter.filtrElements(s.toString())
+            }
+        })
+    }
+
+
+
+
 
 
 /*  fun pobierzKontrahentow() {

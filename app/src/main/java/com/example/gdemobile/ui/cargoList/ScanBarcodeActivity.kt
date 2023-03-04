@@ -2,10 +2,10 @@ package com.example.gdemobile.ui.cargoList
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -16,15 +16,15 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.gdemobile.databinding.ActivityScanBarcodeBinding
+import com.example.gdemobile.models.Cargo
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlin.concurrent.thread
 
 
 class ScanBarcodeActivity : AppCompatActivity() {
-    lateinit var binding: ActivityScanBarcodeBinding
-    private var lockedScanning : Boolean = false;
+    private lateinit var binding: ActivityScanBarcodeBinding
+    private var lockedScanning: Boolean = false;
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,23 +48,23 @@ class ScanBarcodeActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         val detector = FirebaseVision.getInstance()
             .visionBarcodeDetector
-
         cameraProviderFuture.addListener(
             {
                 // Used to bind the lifecycle of cameras to the lifecycle owner
                 val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
                 // Preview
-                val preview = getPreviewCamera()
-                val imageAnalysis = getImageAnalyzer()
+                val preview = initPreviewCamera()
+                val imageAnalysis = initImageAnalyzer()
 
                 imageAnalysis.setAnalyzer(getMainExecutor(), { imageProxy ->
                     val mediaImage = imageProxy?.toBitmap()
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            if(!barcodes.isNullOrEmpty() && !lockedScanning) {
+                            if (!barcodes.isNullOrEmpty() && !lockedScanning) {
                                 lockedScanning = true
-                                CargoListActivity.view.addCargo(barcodes.first().displayValue.toString())
+                                sendCargoToActivity(barcodes.first().displayValue.toString())
+                                //CargoListActivity.view.addCargo(barcodes.first().displayValue.toString())
                                 finishAndRemoveTask()
                             }
                             imageProxy.close()
@@ -72,7 +72,6 @@ class ScanBarcodeActivity : AppCompatActivity() {
                 })
                 // Select back camera as a default
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
                 try {
                     // Unbind use cases before rebinding
                     cameraProvider.unbindAll()
@@ -80,19 +79,16 @@ class ScanBarcodeActivity : AppCompatActivity() {
                     cameraProvider.bindToLifecycle(
                         this, cameraSelector, imageAnalysis, preview
                     )
-
                 } catch (exc: Exception) {
                     //Log.e(TAG, "Use case binding failed", exc)
                 }
-
-
             },
             ContextCompat.getMainExecutor(this)
         )
     }
 
     @SuppressLint("RestrictedApi")
-    private fun getPreviewCamera() : Preview {
+    private fun initPreviewCamera(): Preview {
         return Preview.Builder()
             .setDefaultCaptureConfig(CaptureConfig.defaultEmptyCaptureConfig())
             .build()
@@ -100,10 +96,18 @@ class ScanBarcodeActivity : AppCompatActivity() {
                 it.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
             }
     }
-    private fun getImageAnalyzer() : ImageAnalysis  {
+
+    private fun initImageAnalyzer(): ImageAnalysis {
         return ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
+    }
+
+    fun sendCargoToActivity(barcode : String)
+    {
+        val i = Intent(this@ScanBarcodeActivity, CargoListActivity::class.java)
+        i.putExtra("scannedBarcode", barcode)
+        startActivity(i)
     }
 
 }
