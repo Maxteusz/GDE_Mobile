@@ -9,6 +9,7 @@ android {
     namespace 'com.example.gdemobile'
     compileSdk 33
 
+
     defaultConfig {
         applicationId "com.example.gdemobile"
         minSdk 28
@@ -82,4 +83,6 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+  //  implementation 'com.android.support:appcompat-v7:23.2.0'
 }

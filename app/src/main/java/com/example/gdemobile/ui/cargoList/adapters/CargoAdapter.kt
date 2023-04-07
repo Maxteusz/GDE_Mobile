@@ -1,6 +1,5 @@
-package com.example.gdemobile.ui.cargoList
+package com.example.gdemobile.ui.cargoList.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewCargoBinding
 import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.ui.cargoList.CargoAdapter.CargoViewHolder
+import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter.CargoViewHolder
 
 class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<CargoViewHolder>() {
 
@@ -34,7 +33,7 @@ class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<Cargo
         cargos = tempCargos
         cargos = cargos.filter { it.Barcode.contains(chars) || it.Name.lowercase().contains(chars.lowercase()) }
         notifyDataSetChanged()
-        Log.i("FilteredCargos in Adapter", tempCargos.size.toString())
+
 
     }
 

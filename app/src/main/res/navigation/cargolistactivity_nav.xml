@@ -30,5 +30,13 @@
     <fragment
         android:id="@+id/documentDetailsFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDetailsFragment"
-        android:label="DocumentDetailsFragment" />
+        android:label="DocumentDetailsFragment" >
+        <action
+            android:id="@+id/action_documentDetailsFragment_to_contractorListFragment"
+            app:destination="@id/contractorListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contractorListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.ContractorListFragment"
+        android:label="ContractorListFragment" />
 </navigation>

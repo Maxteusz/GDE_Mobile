@@ -1,4 +1,4 @@
-package com.example.gdemobile.ui.cargoList
+package com.example.gdemobile.ui.cargoList.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

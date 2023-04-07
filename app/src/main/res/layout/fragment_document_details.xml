@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
     </data>
@@ -29,13 +30,19 @@
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-
+                android:id="@+id/contractor_textfield"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Kontrahent"
+                app:endIconDrawable= "@drawable/baseline_expand_more_24"
+                app:endIconMode= "custom"
                 android:layout_marginTop="15dp"
                 style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:id="@+id/contractor_edittext"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

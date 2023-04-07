@@ -44,7 +44,6 @@ class ScanBarcodeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Utils.showToast(requireContext(),"Udało się")
         sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
@@ -78,9 +77,11 @@ class ScanBarcodeFragment : Fragment() {
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 lockedScan = true
                                 sharedViewModel.addCargo(barcodes.first().displayValue.toString())
-                               // Utils.showToast(activity?.applicationContext!!, "Get Cargo ${sharedViewModel.cargos.value?.size.toString()}")
-                                Thread.sleep(2500)
+                                                               // Utils.showToast(activity?.applicationContext!!, "Get Cargo ${sharedViewModel.cargos.value?.size.toString()}")
+                                Thread.sleep(1500)
                             }
+                            barcodes.clear()
+                            lockedScan = false
 
                             imageProxy.close()
                           //  lockedScan = false

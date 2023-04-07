@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentCargoListBinding
-import com.example.gdemobile.ui.cargoList.CargoAdapter
+import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter
 import com.example.gdemobile.ui.cargoList.CargoListView
 
 class CargoListFragment : Fragment() {
@@ -46,9 +46,11 @@ class CargoListFragment : Fragment() {
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
             }
         } )
-        binding.cameraButton.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
-
+        }
+        binding.cameraButton.setOnClickListener {
+            findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)
         }
 
 
