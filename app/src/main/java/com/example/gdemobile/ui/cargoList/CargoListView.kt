@@ -14,9 +14,9 @@ import okhttp3.internal.filterList
 class CargoListView : ViewModel() {
 
 
-    private var _cargos = MutableLiveData<List<Cargo>>(emptyList())
+    private var _cargos = MutableLiveData<List<Cargo>?>(emptyList())
     private var timeCount: Int = 0
-    val cargos: LiveData<List<Cargo>>
+    val cargos: MutableLiveData<List<Cargo>?>
         get() = _cargos
     private var _clearedFocus = MutableLiveData<Boolean>()
     val clearedFocus: LiveData<Boolean>
@@ -30,13 +30,13 @@ class CargoListView : ViewModel() {
     }
 
 
-/*    fun addCargo(barcode: String) {
+    fun addCargo(barcode: String) {
         if (!barcode.isNullOrEmpty()) {
             val cargo = cargos.value?.toMutableList()
-            cargo.add(Cargo(Name = "Przykładowa nazwa", Barcode = barcode))
+            cargo?.add(Cargo(Id = 1, Name = "Przykładowa nazwa", Barcode = barcode, Code = "dsds"))
             _cargos.postValue(cargo)
         }
-    }*/
+    }
 
     fun getCargo(): List<Cargo>? {
         return _cargos.value

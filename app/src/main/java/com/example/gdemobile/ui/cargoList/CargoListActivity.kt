@@ -1,22 +1,11 @@
 package com.example.gdemobile.ui.cargoList
-
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.view.KeyEvent
+
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ActivityCargoListBinding
-import com.example.gdemobile.utils.Utils
-import kotlinx.coroutines.*
 
 
 class CargoListActivity : AppCompatActivity() {
@@ -30,8 +19,9 @@ class CargoListActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.setLifecycleOwner(this)
        val navHostFragment = supportFragmentManager
-          .findFragmentById(R.id.cargoListFragment) as NavHostFragment
+          .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+
         // initViewModel()
         // initViewsMethods()
     }
