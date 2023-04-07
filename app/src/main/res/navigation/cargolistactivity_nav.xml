@@ -7,16 +7,19 @@
 
     <fragment
         android:id="@+id/cargoListFragment"
-        android:name="com.example.gdemobile.ui.cargoList.CargoListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.CargoListFragment"
         android:label="CargoListFragment" >
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
             app:enterAnim="@animator/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
+            app:destination="@id/documentDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/scanBarcodeFragment"
-        android:name="com.example.gdemobile.ui.cargoList.ScanBarcodeFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.ScanBarcodeFragment"
         android:label="fragment_scan_barcode"
         tools:layout="@layout/fragment_scan_barcode" >
         <action
@@ -24,4 +27,8 @@
             app:destination="@id/cargoListFragment"
             app:popEnterAnim="@animator/nav_default_enter_anim"/>
     </fragment>
+    <fragment
+        android:id="@+id/documentDetailsFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDetailsFragment"
+        android:label="DocumentDetailsFragment" />
 </navigation>

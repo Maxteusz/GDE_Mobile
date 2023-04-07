@@ -1,23 +1,19 @@
-package com.example.gdemobile.ui.cargoList
+package com.example.gdemobile.ui.cargoList.fragments
 
-import android.opengl.Visibility
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.view.get
 import androidx.core.view.size
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
-import com.example.gdemobile.databinding.ActivityCargoListBinding
 import com.example.gdemobile.databinding.FragmentCargoListBinding
-import com.example.gdemobile.utils.Utils
+import com.example.gdemobile.ui.cargoList.CargoAdapter
+import com.example.gdemobile.ui.cargoList.CargoListView
 
 class CargoListFragment : Fragment() {
 
@@ -51,7 +47,7 @@ class CargoListFragment : Fragment() {
             }
         } )
         binding.cameraButton.setOnClickListener {
-            findNavController().navigate(R.id.scanBarcodeFragment)
+            findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
 
         }
 

@@ -1,4 +1,4 @@
-package com.example.gdemobile.ui.cargoList
+package com.example.gdemobile.ui.cargoList.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
+import com.example.gdemobile.ui.cargoList.CargoListView
 import com.example.gdemobile.utils.Utils
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
