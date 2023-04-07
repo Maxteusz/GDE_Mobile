@@ -1,6 +1,8 @@
 package com.example.gdemobile.ui.cargoList
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,10 +14,9 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.core.impl.CaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
-import com.example.gdemobile.R
-import com.example.gdemobile.databinding.FragmentCargoListBinding
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.utils.Utils
 import com.google.firebase.ml.vision.FirebaseVision
@@ -24,6 +25,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 class ScanBarcodeFragment : Fragment() {
 
     private lateinit var binding : FragmentScanBarcodeBinding
+     private lateinit var  sharedViewModel: CargoListView
+     private var lockedScan : Boolean = false
     companion object {
         fun newInstance() = ScanBarcodeFragment()
     }
@@ -41,7 +44,16 @@ class ScanBarcodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Utils.showToast(requireContext(),"Udało się")
+        sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED
+        )
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                listOf(Manifest.permission.CAMERA).toTypedArray(), 3
+            );
         startCamera()
+
     }
 
 
@@ -62,26 +74,29 @@ class ScanBarcodeFragment : Fragment() {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            if (!barcodes.isNullOrEmpty()) {
-
+                            if (!barcodes.isNullOrEmpty() && !lockedScan) {
+                                lockedScan = true
+                                sharedViewModel.addCargo(barcodes.first().displayValue.toString())
+                               // Utils.showToast(activity?.applicationContext!!, "Get Cargo ${sharedViewModel.cargos.value?.size.toString()}")
+                                Thread.sleep(2500)
                             }
+
                             imageProxy.close()
+                          //  lockedScan = false
                         }
                 })
-                // Select back camera as a default
+
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
                 try {
-                    // Unbind use cases before rebinding
+
                     cameraProvider.unbindAll()
-                    // Bind use cases to camera
                     cameraProvider.bindToLifecycle(
                         this, cameraSelector, imageAnalysis, preview
                     )
                 } catch (exc: Exception) {
-                    //Log.e(TAG, "Use case binding failed", exc)
                 }
             },
-            ContextCompat.getMainExecutor(requireContext())
+            getMainExecutor(requireContext())
         )
     }
 
