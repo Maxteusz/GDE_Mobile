@@ -34,11 +34,7 @@ private lateinit var binding : FragmentDocumentDetailsBinding
             binding.contractorEdittext.setText("fdfdfd")
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
         }
-        binding.contractorTextfield.setOnClickListener {
-            it.alpha = 0.0F
-            Utils.showToast(requireContext(),"Click")
 
-        }
         return binding.root
     }
 

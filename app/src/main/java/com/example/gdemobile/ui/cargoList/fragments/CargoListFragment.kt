@@ -35,6 +35,8 @@ class CargoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCargoListBinding.inflate(layoutInflater);
+        viewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+        cargoAdapter = CargoAdapter(viewModel.cargos.value!!)
         return binding.root
     }
 

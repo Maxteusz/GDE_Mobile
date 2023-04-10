@@ -34,6 +34,7 @@ class CargoListView : ViewModel() {
             val cargo = cargos.value?.toMutableList()
             cargo?.add(Cargo(Id = cargos.value?.size!!, Name = "Przykładowa nazwa", Barcode = barcode, Code = "dsds"))
             _cargos.postValue(cargo)
+
         }
     }
 

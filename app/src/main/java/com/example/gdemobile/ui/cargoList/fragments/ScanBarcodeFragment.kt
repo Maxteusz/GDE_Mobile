@@ -3,8 +3,10 @@ package com.example.gdemobile.ui.cargoList.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +24,7 @@ import com.example.gdemobile.ui.cargoList.CargoListView
 import com.example.gdemobile.utils.Utils
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import okhttp3.internal.wait
 
 class ScanBarcodeFragment : Fragment() {
 
@@ -74,17 +77,25 @@ class ScanBarcodeFragment : Fragment() {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
+                            barcodes.toHashSet()
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 lockedScan = true
                                 sharedViewModel.addCargo(barcodes.first().displayValue.toString())
-                                Thread.sleep(1500)
+
+                                Thread.sleep(2500)
+                                lockedScan = false
+                                barcodes.clear()
+
+
                             }
-                            barcodes.clear()
-                            lockedScan = false
+                            //lockedScan = false
 
                             imageProxy.close()
+                            return@addOnSuccessListener
                           //  lockedScan = false
+
                         }
+
                 })
 
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
