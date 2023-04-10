@@ -27,13 +27,13 @@ private lateinit var binding : FragmentDocumentDetailsBinding
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
-         binding.contractorTextfield.setEndIconOnClickListener({
+        binding.contractorTextfield.setEndIconOnClickListener({
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
         })
-        binding.contractorEdittext.setOnClickListener ({
+        binding.contractorEdittext.setOnClickListener {
             binding.contractorEdittext.setText("fdfdfd")
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
-        })
+        }
         binding.contractorTextfield.setOnClickListener {
             it.alpha = 0.0F
             Utils.showToast(requireContext(),"Click")

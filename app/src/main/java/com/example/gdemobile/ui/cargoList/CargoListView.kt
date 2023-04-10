@@ -29,7 +29,6 @@ class CargoListView : ViewModel() {
         }
     }
 
-
     fun addCargo(barcode: String) {
         if (!barcode.isNullOrEmpty()) {
             val cargo = cargos.value?.toMutableList()

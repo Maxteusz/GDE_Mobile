@@ -77,7 +77,6 @@ class ScanBarcodeFragment : Fragment() {
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 lockedScan = true
                                 sharedViewModel.addCargo(barcodes.first().displayValue.toString())
-                                                               // Utils.showToast(activity?.applicationContext!!, "Get Cargo ${sharedViewModel.cargos.value?.size.toString()}")
                                 Thread.sleep(1500)
                             }
                             barcodes.clear()

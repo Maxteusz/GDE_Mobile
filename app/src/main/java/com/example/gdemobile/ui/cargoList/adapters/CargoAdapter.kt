@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -33,6 +34,7 @@ class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<Cargo
         cargos = tempCargos
         cargos = cargos.filter { it.Barcode.contains(chars) || it.Name.lowercase().contains(chars.lowercase()) }
         notifyDataSetChanged()
+        Log.i("Filter cargos",  "${cargos.size}")
 
 
     }
