@@ -6,10 +6,20 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.gdemobile.ApiInterface
+import com.example.gdemobile.RetrofitClient
+import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
+import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import okhttp3.internal.filterList
+import okio.Timeout
+import org.json.JSONObject
+import retrofit2.create
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.util.concurrent.TimeoutException
 
 class CargoListView : ViewModel() {
 
@@ -54,8 +64,30 @@ class CargoListView : ViewModel() {
         else
             _clearedFocus.value = false
     }
-}
 
+    fun getToken() {
+            val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+            val map: HashMap<String, String> =
+                hashMapOf("login" to Config.usernameERP, "password" to Config.passwordERP)
+        Log.i("Json", map.toString())
+            GlobalScope.launch {
+                try {
+                    val result = quotesApi.getToken(map)
+                    if (result != null) {
+                       // Config.tokenApi = result.body().toString()
+                         Log.i("GetToken", result.code().toString())
+                    }
+                } catch (timeout: SocketTimeoutException) {
+                    Log.e("SocketTimeoutException", timeout.message.toString())
+                }
+                catch (exception: ConnectException) {
+                    Log.e("ConnectException", exception.message.toString())
+                }
+
+
+            }
+    }
+}
 
 
 

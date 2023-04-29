@@ -1,23 +1,23 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentCargoListBinding
-import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter
 import com.example.gdemobile.ui.cargoList.CargoListView
+import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter
+import com.google.gson.JsonObject
+
 
 class CargoListFragment : Fragment() {
 
@@ -81,6 +81,11 @@ class CargoListFragment : Fragment() {
             binding.searchTextfield.text?.clear()
 
         })
+
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("user", "Administrator")
+        jsonObject.addProperty("password", "12345")
+        viewModel.getToken()
     }
 
 

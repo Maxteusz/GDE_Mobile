@@ -72,6 +72,7 @@ class ScanBarcodeFragment : Fragment() {
                 val preview = initPreviewCamera()
                 val imageAnalysis = initImageAnalyzer()
 
+
                 imageAnalysis.setAnalyzer(getMainExecutor(requireContext()), { imageProxy ->
                     val mediaImage = imageProxy?.toBitmap()
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
@@ -81,12 +82,9 @@ class ScanBarcodeFragment : Fragment() {
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 lockedScan = true
                                 sharedViewModel.addCargo(barcodes.first().displayValue.toString())
-
                                 Thread.sleep(2500)
                                 lockedScan = false
                                 barcodes.clear()
-
-
                             }
                             //lockedScan = false
 
