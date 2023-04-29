@@ -27,70 +27,13 @@ class CargoListActivity : AppCompatActivity() {
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
-        // initViewModel()
-        // initViewsMethods()
-    }
 
-    var readBarcode = ""
-
-    @SuppressLint("SuspiciousIndentation")
-    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode != KeyEvent.KEYCODE_ENTER) {
-            readBarcode += event.getUnicodeChar().toChar()
-        }
-        return when (keyCode) {
-            KeyEvent.KEYCODE_ENTER -> {
-
-                view.addCargo(readBarcode);
-                readBarcode = "";
-                true
-            }
-            else -> super.onKeyUp(keyCode, event)
-        }
     }
 
 
-    /* fun initViewsMethods() {
-         binding.cameraButton.setOnClickListener({
-             Utils.openActivity(applicationContext, ScanBarcodeActivity())
-         })
-         binding.searchEditText.addTextChangedListener(object : TextWatcher {
-             override fun afterTextChanged(s: Editable?) {
-                 view.resetCount()
-             }
 
-             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                 view.resetCount()
-             }
 
-             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                 view.resetCount()
-                 cargosAdapter.filtrElements(s.toString())
-             }
-         })
-     }*/
 
-/*  fun pobierzKontrahentow() {
-
-        var retrofit = RetrofitClient().getInstance()
-        var apiInterface = retrofit.create(ApiInterface::class.java)
-        lifecycleScope.launchWhenStarted {
-            try {
-                val response = apiInterface.getContractors();
-                if (response.isSuccessful()) {
-
-                } else {
-                    Toast.makeText(
-                        this@CargoListActivity,
-                        response.errorBody().toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            } catch (Ex: Exception) {
-                Log.e("Error", Ex.localizedMessage)
-            }
-        }
-    }*/
 
 
 }

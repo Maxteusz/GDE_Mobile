@@ -11,6 +11,7 @@ import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
+import com.example.gdemobile.ui.StateResponse
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import okhttp3.internal.filterList
@@ -23,11 +24,14 @@ import java.util.concurrent.TimeoutException
 
 class CargoListView : ViewModel() {
 
-
+    var stateResponse : StateResponse? = null
     private var _cargos = MutableLiveData<List<Cargo>?>(emptyList())
+    private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var timeCount: Int = 0
     val cargos: MutableLiveData<List<Cargo>?>
         get() = _cargos
+    val contracotrs: MutableLiveData<List<Contractor>?>
+        get() = _contractors
     private var _clearedFocus = MutableLiveData<Boolean>()
     val clearedFocus: LiveData<Boolean>
         get() = _clearedFocus
@@ -48,13 +52,13 @@ class CargoListView : ViewModel() {
         }
     }
 
-    fun getCargo(): List<Cargo>? {
+   /* fun getCargo(): List<Cargo>? {
         return _cargos.value
     }
 
     fun resetCount() {
         timeCount = 0
-    }
+    }*/
 
     private suspend fun startCount() {
         timeCount++
@@ -65,28 +69,30 @@ class CargoListView : ViewModel() {
             _clearedFocus.value = false
     }
 
-    fun getToken() {
-            val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
-            val map: HashMap<String, String> =
-                hashMapOf("login" to Config.usernameERP, "password" to Config.passwordERP)
-        Log.i("Json", map.toString())
-            GlobalScope.launch {
-                try {
-                    val result = quotesApi.getToken(map)
-                    if (result != null) {
-                       // Config.tokenApi = result.body().toString()
-                         Log.i("GetToken", result.code().toString())
-                    }
-                } catch (timeout: SocketTimeoutException) {
-                    Log.e("SocketTimeoutException", timeout.message.toString())
+    fun getContractors()
+    {
+        stateResponse?.OnLoading()
+        val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+       viewModelScope.launch {
+            try {
+                val result = quotesApi.getContractors(Config.tokenApi)
+                if (result != null) {
+                    stateResponse?.OnSucces()
+                    Log.i("GetContractors", result.body().toString())
                 }
-                catch (exception: ConnectException) {
-                    Log.e("ConnectException", exception.message.toString())
-                }
-
-
+            } catch (timeout: SocketTimeoutException) {
+                stateResponse?.OnError()
+                Log.e("SocketTimeoutException", timeout.message.toString())
             }
+            catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e("ConnectException", exception.message.toString())
+            }
+        }
     }
+
+
+    
 }
 
 

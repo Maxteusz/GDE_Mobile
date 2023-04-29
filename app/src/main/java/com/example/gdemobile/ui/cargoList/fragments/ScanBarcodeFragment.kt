@@ -22,31 +22,38 @@ import androidx.core.content.ContextCompat.getMainExecutor
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.cargoList.CargoListView
 import com.example.gdemobile.utils.Utils
+import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import okhttp3.internal.wait
 
 class ScanBarcodeFragment : Fragment() {
 
-    private lateinit var binding : FragmentScanBarcodeBinding
-     private lateinit var  sharedViewModel: CargoListView
-     private var lockedScan : Boolean = false
+    private lateinit var binding: FragmentScanBarcodeBinding
+    private lateinit var sharedViewModel: CargoListView
+    private var lockedScan: Boolean = false
+
     companion object {
         fun newInstance() = ScanBarcodeFragment()
     }
 
+    init {
+        FirebaseApp.initializeApp(requireContext())
+    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        FirebaseApp.initializeApp(requireContext())
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
@@ -90,7 +97,7 @@ class ScanBarcodeFragment : Fragment() {
 
                             imageProxy.close()
                             return@addOnSuccessListener
-                          //  lockedScan = false
+                            //  lockedScan = false
 
                         }
 

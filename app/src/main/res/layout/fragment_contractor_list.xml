@@ -11,11 +11,18 @@
         android:layout_height="match_parent"
         tools:context=".ui.cargoList.fragments.ContractorListFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center">
+           <ProgressBar
+               android:id="@+id/cicular_icon"
+               android:layout_width="50dp"
+               android:layout_height="50dp"/>
+
+       </LinearLayout>
+
 
     </FrameLayout>
 </layout>
