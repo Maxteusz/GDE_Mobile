@@ -40,8 +40,6 @@ class CargoListFragment : Fragment(), StateResponse {
     }
 
     init {
-
-        if (Config.tokenApi.isNullOrEmpty())
             lifecycleScope.launch(Dispatchers.Main) {
                 Config.getToken(thisFragment)
             }
@@ -105,11 +103,8 @@ class CargoListFragment : Fragment(), StateResponse {
         binding.refreshButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
                 Config.getToken(thisFragment)
-
             }
         }
-
-
     }
 
     override fun OnLoading() {

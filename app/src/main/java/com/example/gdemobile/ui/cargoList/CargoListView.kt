@@ -12,6 +12,7 @@ import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.ui.StateResponse
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import okhttp3.internal.filterList
@@ -24,13 +25,13 @@ import java.util.concurrent.TimeoutException
 
 class CargoListView : ViewModel() {
 
-    var stateResponse : StateResponse? = null
+    var stateResponse: StateResponse? = null
     private var _cargos = MutableLiveData<List<Cargo>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var timeCount: Int = 0
     val cargos: MutableLiveData<List<Cargo>?>
         get() = _cargos
-    val contracotrs: MutableLiveData<List<Contractor>?>
+     val contracotrs: MutableLiveData<List<Contractor>?>
         get() = _contractors
     private var _clearedFocus = MutableLiveData<Boolean>()
     val clearedFocus: LiveData<Boolean>
@@ -46,19 +47,26 @@ class CargoListView : ViewModel() {
     fun addCargo(barcode: String) {
         if (!barcode.isNullOrEmpty()) {
             val cargo = cargos.value?.toMutableList()
-            cargo?.add(Cargo(Id = cargos.value?.size!!, Name = "Przykładowa nazwa", Barcode = barcode, Code = "dsds"))
+            cargo?.add(
+                Cargo(
+                    Id = "kjkj",
+                    Name = "Przykładowa nazwa",
+                    Barcode = barcode,
+                    Code = "dsds"
+                )
+            )
             _cargos.postValue(cargo)
 
         }
     }
 
-   /* fun getCargo(): List<Cargo>? {
-        return _cargos.value
-    }
+    /* fun getCargo(): List<Cargo>? {
+         return _cargos.value
+     }
 
-    fun resetCount() {
-        timeCount = 0
-    }*/
+     fun resetCount() {
+         timeCount = 0
+     }*/
 
     private suspend fun startCount() {
         timeCount++
@@ -69,22 +77,24 @@ class CargoListView : ViewModel() {
             _clearedFocus.value = false
     }
 
-    fun getContractors()
-    {
-        stateResponse?.OnLoading()
+    fun getContractors() {
+        val gson = Gson()
+        Log.i("ApiToken", Config.tokenApi)
+      //  stateResponse?.OnLoading()
         val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
-       viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 val result = quotesApi.getContractors(Config.tokenApi)
                 if (result != null) {
-                    stateResponse?.OnSucces()
-                    Log.i("GetContractors", result.body().toString())
+                    //stateResponse?.OnSucces()
+
+                  //  _contractors= gson.toJson(result.body().toString(),Contractor::class.java) as MutableLiveData<List<Contractor>?>
+                    Log.i("GetContractors",result.body().toString())
                 }
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
                 Log.e("SocketTimeoutException", timeout.message.toString())
-            }
-            catch (exception: ConnectException) {
+            } catch (exception: ConnectException) {
                 stateResponse?.OnError()
                 Log.e("ConnectException", exception.message.toString())
             }
@@ -92,7 +102,6 @@ class CargoListView : ViewModel() {
     }
 
 
-    
 }
 
 

@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ActivityCargoListBinding
+import com.google.firebase.FirebaseApp
 
 
 class CargoListActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class CargoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
+        FirebaseApp.initializeApp(applicationContext)
         view = ViewModelProvider(this).get(CargoListView::class.java)
         binding.setLifecycleOwner(this)
         val navHostFragment = supportFragmentManager

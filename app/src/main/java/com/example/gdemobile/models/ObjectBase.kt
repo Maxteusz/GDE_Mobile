@@ -1,5 +1,7 @@
 package com.example.gdemobile.models
 
-open class ObjectBase (val Id : Int, val Code : String, val Name : String) {
+import com.google.gson.annotations.SerializedName
+
+open class ObjectBase (@SerializedName("id") val Id : String, @SerializedName("code") val Code : String, @SerializedName("name") val Name : String) {
 
 }

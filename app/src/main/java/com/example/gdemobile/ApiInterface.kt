@@ -5,6 +5,7 @@ import com.example.gdemobile.config.Config.Companion.tokenApi
 import com.example.gdemobile.models.Contractor
 import com.google.gson.JsonObject
 import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,7 +18,7 @@ interface ApiInterface {
 
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("contractors")
-    suspend fun getContractors(@Header("AuthToken") apiKey : String): Response<List<Contractor>>
+    suspend fun getContractors(@Header("AuthToken") apiKey : String): Response<ArrayList<Contractor>>
 
     @Headers("Content-Type: application/json","Accept: application/json")
     @POST("auth/loginpassword")

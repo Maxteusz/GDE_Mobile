@@ -46,7 +46,7 @@ class ScanBarcodeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FirebaseApp.initializeApp(requireContext())
+       // FirebaseApp.initializeApp(requireContext())
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }
@@ -54,7 +54,7 @@ class ScanBarcodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+       // sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
@@ -62,7 +62,7 @@ class ScanBarcodeFragment : Fragment() {
                 requireActivity(),
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             );
-        startCamera()
+        //startCamera()
 
     }
 
