@@ -1,27 +1,16 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.gdemobile.ApiInterface
 import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.ui.StateResponse
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import kotlinx.coroutines.*
-import okhttp3.internal.filterList
-import okio.Timeout
-import org.json.JSONObject
-import retrofit2.create
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-import java.util.concurrent.TimeoutException
 
 class CargoListView : ViewModel() {
 
@@ -31,7 +20,7 @@ class CargoListView : ViewModel() {
     private var timeCount: Int = 0
     val cargos: MutableLiveData<List<Cargo>?>
         get() = _cargos
-     val contracotrs: MutableLiveData<List<Contractor>?>
+    val contractors: MutableLiveData<List<Contractor>?>
         get() = _contractors
     private var _clearedFocus = MutableLiveData<Boolean>()
     val clearedFocus: LiveData<Boolean>
@@ -78,18 +67,14 @@ class CargoListView : ViewModel() {
     }
 
     fun getContractors() {
-        val gson = Gson()
-        Log.i("ApiToken", Config.tokenApi)
-      //  stateResponse?.OnLoading()
+        stateResponse?.OnLoading()
         val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             try {
                 val result = quotesApi.getContractors(Config.tokenApi)
                 if (result != null) {
-                    //stateResponse?.OnSucces()
-
-                  //  _contractors= gson.toJson(result.body().toString(),Contractor::class.java) as MutableLiveData<List<Contractor>?>
-                    Log.i("GetContractors",result.body().toString())
+                    stateResponse?.OnSucces()
+                    _contractors.value = result.body()?.toMutableList()
                 }
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()

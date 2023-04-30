@@ -10,7 +10,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="55dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="40dp"
@@ -18,6 +19,11 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/contractor_icon"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,9 +31,20 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             android:fontFamily="sans-serif"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:layout_gravity="center_vertical"
             android:text= "@{contractor.code}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:text= "@{contractor.name}" />
+        </LinearLayout>
+
 
     </LinearLayout>
 </layout>

@@ -11,7 +11,9 @@
         android:layout_height="match_parent"
         tools:context=".ui.cargoList.fragments.ContractorListFragment">
 
+        <!--OnLoadingLayout-->
        <LinearLayout
+           android:id="@+id/loadinglayout"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical"
@@ -20,8 +22,20 @@
                android:id="@+id/cicular_icon"
                android:layout_width="50dp"
                android:layout_height="50dp"/>
-
        </LinearLayout>
+
+        <!--OnSuccesLayout-->
+        <LinearLayout
+            android:id="@+id/succeslayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contractors_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
 
     </FrameLayout>

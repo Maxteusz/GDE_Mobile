@@ -23,29 +23,6 @@ class Config {
         val usernameERP: String = "Administrator"
         val passwordERP: String = "12345"
 
-        suspend fun getToken(stateResponse: StateResponse) {
-            stateResponse.OnLoading()
-            val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
-            val map: HashMap<String, String> =
-                hashMapOf("login" to usernameERP, "password" to passwordERP)
-            Log.i("Json", map.toString())
-            try {
-                val result = quotesApi.getToken(map)
-                if (result != null) {
-                    tokenApi = result.body().toString()
-                    stateResponse.OnSucces()
-                    Log.i("GetToken", result.body().toString())
-                }
-            } catch (timeout: SocketTimeoutException) {
-                Log.e("SocketTimeoutException", timeout.message.toString())
-                stateResponse.OnError()
-            } catch (exception: ConnectException) {
-                Log.e("ConnectException", exception.message.toString())
-                stateResponse.OnError()
-            }
-
-        }
-
     }
 
 
