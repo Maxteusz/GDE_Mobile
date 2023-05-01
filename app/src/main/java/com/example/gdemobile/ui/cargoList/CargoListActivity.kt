@@ -22,12 +22,13 @@ class CargoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
-        FirebaseApp.initializeApp(applicationContext)
+        FirebaseApp.initializeApp(this)
         view = ViewModelProvider(this).get(CargoListView::class.java)
         binding.setLifecycleOwner(this)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+
 
 
     }

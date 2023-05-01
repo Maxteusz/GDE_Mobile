@@ -37,32 +37,32 @@ class ScanBarcodeFragment : Fragment() {
         fun newInstance() = ScanBarcodeFragment()
     }
 
-    init {
-        FirebaseApp.initializeApp(requireContext())
-    }
 
+init {
+    FirebaseApp.initializeApp(requireActivity())
+}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       // FirebaseApp.initializeApp(requireContext())
+
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        FirebaseApp.initializeApp(requireActivity())
        // sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             );
-        //startCamera()
+        startCamera()
 
     }
 
@@ -80,7 +80,7 @@ class ScanBarcodeFragment : Fragment() {
                 val imageAnalysis = initImageAnalyzer()
 
 
-                imageAnalysis.setAnalyzer(getMainExecutor(requireContext()), { imageProxy ->
+                imageAnalysis.setAnalyzer(getMainExecutor(requireActivity()), { imageProxy ->
                     val mediaImage = imageProxy?.toBitmap()
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
@@ -113,7 +113,7 @@ class ScanBarcodeFragment : Fragment() {
                 } catch (exc: Exception) {
                 }
             },
-            getMainExecutor(requireContext())
+            getMainExecutor(requireActivity())
         )
     }
 

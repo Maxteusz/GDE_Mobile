@@ -22,7 +22,8 @@
 
         <activity
             android:name=".ui.menu.MenuActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

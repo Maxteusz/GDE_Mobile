@@ -69,6 +69,7 @@ class CargoListFragment : Fragment(), StateResponse {
         })
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
+
         }
         binding.cameraButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)

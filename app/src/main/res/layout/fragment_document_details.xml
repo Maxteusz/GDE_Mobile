@@ -4,6 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <variable
+            name="document"
+            type="com.example.gdemobile.models.Document" />
     </data>
 
     <FrameLayout
@@ -42,7 +46,7 @@
                     android:editable="false"
                     android:focusableInTouchMode="false"
                     android:id="@+id/contractor_edittext"
-
+                    android:text="@{document.contractor.name}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

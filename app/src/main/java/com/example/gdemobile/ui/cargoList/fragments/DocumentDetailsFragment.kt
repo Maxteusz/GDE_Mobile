@@ -2,6 +2,7 @@ package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,13 +39,11 @@ private lateinit var binding : FragmentDocumentDetailsBinding
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
         }
         viewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
-        viewModel.document.observe(viewLifecycleOwner, {doc ->
-            binding.contractorEdittext.setText(doc.contractor.Code)
-        })
-
-
+        binding.document = viewModel.document.value
         return binding.root
     }
+
+
 
 
 }

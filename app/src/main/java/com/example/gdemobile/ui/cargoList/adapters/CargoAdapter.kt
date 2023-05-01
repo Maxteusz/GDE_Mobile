@@ -32,9 +32,9 @@ class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<Cargo
 
     fun filtrElements(chars: String) {
         cargos = tempCargos
-        cargos = cargos.filter { it.Barcode.contains(chars) || it.Name.lowercase().contains(chars.lowercase()) }
+        cargos = cargos.filter { it.Barcode.contains(chars) || it.Name?.lowercase()?.contains(chars.lowercase()) == true }
         notifyDataSetChanged()
-        Log.i("Filter cargos",  "${cargos.size}")
+
 
 
     }

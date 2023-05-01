@@ -1,15 +1,22 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
+
+import android.app.Activity
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.ui.cargoList.CargoListView
 
-class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListView) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
+
+class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListView, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
 
 
     inner class ContractorViewHolder (val recyclerviewContractorHolder : RecyclerviewContractorBinding
@@ -28,9 +35,14 @@ class ContractorAdapter (private val contractors : List<Contractor>, private val
 
     override fun onBindViewHolder(holder: ContractorViewHolder, position: Int) {
       holder.recyclerviewContractorHolder.contractor = contractors[position]
-        holder.itemView.setOnClickListener {
-            cargoListView.document.value?.contractor = contractors[position]
+        holder.recyclerviewContractorHolder.maincard.setOnClickListener {
+            cargoListView.document.value?.setContractor(contractors[position])
+            Log.i("Set Contractor", cargoListView.document.value?.contractor?.Name!!)
+            fragment.findNavController().navigate(R.id.action_contractorListFragment_to_documentDetailsFragment)
+           // notifyDataSetChanged()
         }
+
+
     }
 
     override fun getItemCount(): Int {

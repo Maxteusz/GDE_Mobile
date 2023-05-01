@@ -18,7 +18,7 @@ class CargoListView : ViewModel() {
     var stateResponse: StateResponse? = null
     private var _cargos = MutableLiveData<List<Cargo>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
-    private val _document: MutableLiveData<Document> = MutableLiveData<Document>();
+    private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
     val document: MutableLiveData<Document>
         get() = _document
 
