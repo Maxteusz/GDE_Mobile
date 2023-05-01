@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.models.Contractor
+import com.example.gdemobile.ui.cargoList.CargoListView
 
-class ContractorAdapter (private val contractors : List<Contractor>) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
+class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListView) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
 
 
     inner class ContractorViewHolder (val recyclerviewContractorHolder : RecyclerviewContractorBinding
@@ -27,6 +28,9 @@ class ContractorAdapter (private val contractors : List<Contractor>) : RecyclerV
 
     override fun onBindViewHolder(holder: ContractorViewHolder, position: Int) {
       holder.recyclerviewContractorHolder.contractor = contractors[position]
+        holder.itemView.setOnClickListener {
+            cargoListView.document.value?.contractor = contractors[position]
+        }
     }
 
     override fun getItemCount(): Int {

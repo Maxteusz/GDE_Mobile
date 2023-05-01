@@ -47,10 +47,10 @@ class ContractorListFragment : Fragment(), StateResponse {
             binding.contractorsRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                contractorAdapter = ContractorAdapter(viewModel.contractors.value!!.sortedBy { n -> n.Name })
+                contractorAdapter = ContractorAdapter(viewModel.contractors.value!!.sortedBy { n -> n.Name }, viewModel)
                 binding.contractorsRecyclerview.adapter = contractorAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.contractorsRecyclerview.size)
-                Log.i("ContracotrAdapterSize", "${contractorAdapter.itemCount}")
+
             }
         })
     }
