@@ -11,11 +11,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/maincard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
 
@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+
                 android:orientation="vertical">
 
                 <TextView
@@ -50,7 +51,8 @@
                     android:fontFamily="sans-serif"
                     android:text="@{contractor.name}"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                   />
 
             </LinearLayout>
 

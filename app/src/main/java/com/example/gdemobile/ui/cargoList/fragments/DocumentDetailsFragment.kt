@@ -38,6 +38,15 @@ private lateinit var binding : FragmentDocumentDetailsBinding
         binding.contractorEdittext.setOnClickListener {
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
         }
+
+        binding.dokdefTextfield.setEndIconOnClickListener({
+            findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment)
+        })
+        binding.dokdefEdittext.setOnClickListener {
+            findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment)
+        }
+
+
         viewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
         binding.document = viewModel.document.value
         return binding.root

@@ -36,7 +36,7 @@ class ContractorAdapter (private val contractors : List<Contractor>, private val
     override fun onBindViewHolder(holder: ContractorViewHolder, position: Int) {
       holder.recyclerviewContractorHolder.contractor = contractors[position]
         holder.recyclerviewContractorHolder.maincard.setOnClickListener {
-            cargoListView.document.value?.setContractor(contractors[position])
+            cargoListView.document.value?.contractor = contractors[position]
             Log.i("Set Contractor", cargoListView.document.value?.contractor?.Name!!)
             fragment.findNavController().popBackStack()
 

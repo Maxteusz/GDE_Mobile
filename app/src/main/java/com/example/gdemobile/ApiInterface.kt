@@ -3,6 +3,7 @@ package com.example.gdemobile
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.config.Config.Companion.tokenApi
 import com.example.gdemobile.models.Contractor
+import com.example.gdemobile.models.DocumentDefinition
 import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
@@ -19,6 +20,10 @@ interface ApiInterface {
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("contractors")
     suspend fun getContractors(@Header("AuthToken") apiKey : String): Response<ArrayList<Contractor>>
+
+    @Headers("Content-Type: application/json","Accept: application/json")
+    @GET("dokdefs")
+    suspend fun getDocumentDefinitions(@Header("AuthToken") apiKey : String): Response<ArrayList<DocumentDefinition>>
 
     @Headers("Content-Type: application/json","Accept: application/json")
     @POST("auth/loginpassword")

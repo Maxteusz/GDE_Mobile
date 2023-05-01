@@ -1,4 +1,7 @@
 package com.example.gdemobile.models
 
-class DocumentDefinition(Id: String?, Code: String?, Name: String?) : ObjectBase(Id, Code, Name) {
+class DocumentDefinition() {
+     var  id : String = ""
+     var code : String = ""
+     var symbol : String = ""
 }

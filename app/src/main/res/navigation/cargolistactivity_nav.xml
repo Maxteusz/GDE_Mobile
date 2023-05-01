@@ -36,8 +36,8 @@
             app:destination="@id/contractorListFragment"
             />
         <action
-            android:id="@+id/action_documentDetailsFragment_to_documentDefinitonFragment"
-            app:destination="@id/documentDefinitonFragment" />
+            android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
+            app:destination="@id/documentDefinitionListFragment" />
     </fragment>
     <fragment
         android:id="@+id/contractorListFragment"
@@ -48,12 +48,11 @@
             app:destination="@id/documentDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/documentDefinitonFragment"
-        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDefinitonFragment"
-        android:label="fragment_document_definiton"
-        tools:layout="@layout/fragment_document_definiton" >
+        android:id="@+id/documentDefinitionListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDefinitionListFragment"
+        android:label="DocumentDefinitionListFragment" >
         <action
-            android:id="@+id/action_documentDefinitonFragment_to_documentDetailsFragment"
+            android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
     </fragment>
 </navigation>
