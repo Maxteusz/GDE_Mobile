@@ -38,7 +38,8 @@ class ContractorAdapter (private val contractors : List<Contractor>, private val
         holder.recyclerviewContractorHolder.maincard.setOnClickListener {
             cargoListView.document.value?.setContractor(contractors[position])
             Log.i("Set Contractor", cargoListView.document.value?.contractor?.Name!!)
-            fragment.findNavController().navigate(R.id.action_contractorListFragment_to_documentDetailsFragment)
+            fragment.findNavController().popBackStack()
+
            // notifyDataSetChanged()
         }
 
