@@ -1,20 +1,11 @@
 package com.example.gdemobile.ui.menu
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.View
-import com.example.gdemobile.R
-import com.example.gdemobile.config.Config
-import com.example.gdemobile.config.Mode
-import com.example.gdemobile.databinding.ActivityCargoListBinding
 import com.example.gdemobile.databinding.ActivityMenuBinding
 import com.example.gdemobile.ui.cargoList.CargoListActivity
-import com.example.gdemobile.ui.cargoList.CargoListView
-import kotlin.math.log
+import com.example.gdemobile.ui.configuration.ConfigurationActivity
+
 
 class MenuActivity : AppCompatActivity() {
     lateinit var binding: ActivityMenuBinding
@@ -35,6 +26,8 @@ class MenuActivity : AppCompatActivity() {
             menuView.openActivity(applicationContext, CargoListActivity(), it)
         }
 
-
+        binding.confButton.setOnClickListener {
+            menuView.openActivity(applicationContext, ConfigurationActivity(),null)
+        }
     }
 }

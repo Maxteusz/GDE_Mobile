@@ -1,8 +1,6 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
 
-import android.app.Activity
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.ui.cargoList.CargoListView
+import com.example.gdemobile.ui.cargoList.CargoListViewModel
 
 
-class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListView, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
+class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
 
 
     inner class ContractorViewHolder (val recyclerviewContractorHolder : RecyclerviewContractorBinding
@@ -37,7 +35,7 @@ class ContractorAdapter (private val contractors : List<Contractor>, private val
       holder.recyclerviewContractorHolder.contractor = contractors[position]
         holder.recyclerviewContractorHolder.maincard.setOnClickListener {
             cargoListView.document.value?.contractor = contractors[position]
-            Log.i("Set Contractor", cargoListView.document.value?.contractor?.Name!!)
+            Log.i("Set Contractor", cargoListView.document.value?.contractor?.name!!)
             fragment.findNavController().popBackStack()
 
            // notifyDataSetChanged()

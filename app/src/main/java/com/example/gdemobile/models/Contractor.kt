@@ -1,7 +1,7 @@
 package com.example.gdemobile.models
 
 
-class Contractor(Id: String?, Code: String?, Name: String?) : ObjectBase(Id, Code,Name),  java.io.Serializable {
+class Contractor(id: String?, code: String?, name: String?) : ObjectBase(id, code,name) {
 
     constructor() : this(null,null,null)
 }

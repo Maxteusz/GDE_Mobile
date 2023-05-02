@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusableInTouchMode="false"
-                    android:text="@{document.definition.symbol}"/>
+                    android:text="@{document.definition.fullName}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -4,6 +4,7 @@ import com.example.gdemobile.config.Config
 import com.example.gdemobile.config.Config.Companion.tokenApi
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.DocumentDefinition
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
 import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
@@ -22,8 +23,9 @@ interface ApiInterface {
     suspend fun getContractors(@Header("AuthToken") apiKey : String): Response<ArrayList<Contractor>>
 
     @Headers("Content-Type: application/json","Accept: application/json")
+
     @GET("dokdefs")
-    suspend fun getDocumentDefinitions(@Header("AuthToken") apiKey : String): Response<ArrayList<DocumentDefinition>>
+    suspend fun getDocumentDefinitions(@Header("AuthToken") apiKey : String, @Query("pagesize") pagesize : Int = 1000): Response<ArrayList<DocumentDefinition>>
 
     @Headers("Content-Type: application/json","Accept: application/json")
     @POST("auth/loginpassword")

@@ -14,7 +14,7 @@ import kotlinx.coroutines.*
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
-class CargoListView : ViewModel() {
+class CargoListViewModel : ViewModel() {
 
     var stateResponse: StateResponse? = null
     private var _cargos = MutableLiveData<List<Cargo>?>(emptyList())

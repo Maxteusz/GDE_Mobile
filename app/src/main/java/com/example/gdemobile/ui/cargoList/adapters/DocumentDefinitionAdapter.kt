@@ -1,6 +1,5 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,13 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
-import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.databinding.RecyclerviewDocumentdefinitionBinding
-import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.DocumentDefinition
-import com.example.gdemobile.ui.cargoList.CargoListView
+import com.example.gdemobile.ui.cargoList.CargoListViewModel
 
-class DocumentDefinitionAdapter (private val documentDefinitions : List<DocumentDefinition>, private val cargoListView: CargoListView, private val fragment: Fragment) : RecyclerView.Adapter<DocumentDefinitionAdapter.DocumentDefnitionViewHolder>() {
+class DocumentDefinitionAdapter (private val documentDefinitions : List<DocumentDefinition>, private val cargoListView: CargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<DocumentDefinitionAdapter.DocumentDefnitionViewHolder>() {
 
    inner class DocumentDefnitionViewHolder(val recyclerviewDocumentdefinitionBinding: RecyclerviewDocumentdefinitionBinding
    ) : RecyclerView.ViewHolder(recyclerviewDocumentdefinitionBinding.root){

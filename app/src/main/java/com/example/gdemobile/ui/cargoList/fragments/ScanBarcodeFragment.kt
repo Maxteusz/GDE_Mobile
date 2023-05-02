@@ -3,10 +3,7 @@ package com.example.gdemobile.ui.cargoList.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.graphics.Rect
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,17 +17,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
-import com.example.gdemobile.ui.cargoList.CargoListView
-import com.example.gdemobile.utils.Utils
+import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import okhttp3.internal.wait
 
 class ScanBarcodeFragment : Fragment() {
 
     private lateinit var binding: FragmentScanBarcodeBinding
-    private lateinit var sharedViewModel: CargoListView
+    private lateinit var sharedViewModel: CargoListViewModel
     private var lockedScan: Boolean = false
 
     companion object {

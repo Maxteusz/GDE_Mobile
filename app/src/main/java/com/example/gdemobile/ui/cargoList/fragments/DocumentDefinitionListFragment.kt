@@ -11,18 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.gdemobile.R
-import com.example.gdemobile.databinding.FragmentContractorListBinding
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
-import com.example.gdemobile.ui.cargoList.CargoListView
-import com.example.gdemobile.ui.cargoList.adapters.ContractorAdapter
+import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
 import kotlinx.coroutines.launch
 
 
 class DocumentDefinitionListFragment : Fragment() {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
-    private lateinit var viewModel: CargoListView
+    private lateinit var viewModel: CargoListViewModel
     private lateinit var adapter: DocumentDefinitionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +33,7 @@ class DocumentDefinitionListFragment : Fragment() {
     ): View? {
 
         binding = FragmentDocumentDefinitionListBinding.inflate(layoutInflater);
-        viewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
 
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {

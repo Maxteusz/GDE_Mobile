@@ -1,8 +1,6 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.KeyEvent
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +15,13 @@ class CargoListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCargoListBinding
     private lateinit var navController: NavController
-    private lateinit var view: CargoListView
+    private lateinit var view: CargoListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
-        view = ViewModelProvider(this).get(CargoListView::class.java)
+        view = ViewModelProvider(this).get(CargoListViewModel::class.java)
         binding.setLifecycleOwner(this)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment

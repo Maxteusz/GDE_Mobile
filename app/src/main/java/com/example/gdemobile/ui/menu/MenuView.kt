@@ -3,16 +3,15 @@ package com.example.gdemobile.ui.menu
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap.Config
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Mode
 
 class MenuView : ViewModel() {
-    fun openActivity (context : Context, activity: Activity, view : View?)
+    fun openActivity (context : Context, targetActivity: Activity, view : View?)
     {
-        val intent = Intent(context, activity::class.java)
+        val intent = Intent(context, targetActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         when (view?.id)
         {

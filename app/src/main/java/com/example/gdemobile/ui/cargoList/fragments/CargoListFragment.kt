@@ -14,10 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
-import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentCargoListBinding
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.ui.cargoList.CargoListView
+import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter
 import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +40,7 @@ class CargoListFragment : Fragment(), StateResponse {
     }
 
 
-    private lateinit var viewModel: CargoListView
+    private lateinit var viewModel: CargoListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +48,7 @@ class CargoListFragment : Fragment(), StateResponse {
     ): View? {
 
         binding = FragmentCargoListBinding.inflate(layoutInflater);
-        viewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
         cargoAdapter = CargoAdapter(viewModel.cargos.value!!)
 
         return binding.root
