@@ -7,6 +7,9 @@ import com.example.gdemobile.ui.cargoList.CargoListActivity
 import com.example.gdemobile.ui.configuration.ConfigurationActivity
 
 
+import com.example.gdemobile.utils.Utils
+
+
 class MenuActivity : AppCompatActivity() {
     lateinit var binding: ActivityMenuBinding
     var  menuView : MenuView = MenuView()
@@ -14,6 +17,7 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater);
         setContentView(binding.root)
+        Utils.getConfiguration(this)
         init()
     }
 

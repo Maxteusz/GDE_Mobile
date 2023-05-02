@@ -16,14 +16,14 @@ import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
-class Config  {
+class Config {
 
     companion object {
-        var tokenApi = "";
-        var ip: String = "192.168.1.168"
-        var port: String = "2001"
-        var usernameERP: String = "Administrator"
-        var passwordERP: String = "12345"
+        var tokenApi: String? = null;
+        var ip: String? = null
+        var port: String? = null
+        var usernameERP: String? = null
+        var passwordERP: String? = null
 
     }
 

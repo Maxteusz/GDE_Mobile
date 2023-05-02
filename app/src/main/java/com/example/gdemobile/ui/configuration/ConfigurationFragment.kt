@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentConfigurationBinding
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.utils.Utils
 
 
 class ConfigurationFragment : Fragment() {
@@ -29,8 +30,8 @@ lateinit var viewModel: ConfigurationViewModel
         viewModel.binding = binding
         binding.saveButton.setOnClickListener {
             viewModel.setConfiguration()
-            viewModel.saveConfiguration(requireActivity())
-
+            viewModel.saveConfiguration(this.requireActivity())
+            Utils.getConfiguration(requireActivity())
         }
         return binding.root
     }

@@ -39,7 +39,6 @@ class ContractorListFragment : Fragment(), StateResponse {
 
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.contractors.observe(viewLifecycleOwner, Observer { cargos ->
@@ -49,20 +48,16 @@ class ContractorListFragment : Fragment(), StateResponse {
                 contractorAdapter = ContractorAdapter(viewModel.contractors.value!!.sortedBy { n -> n.name }, viewModel, this)
                 binding.contractorsRecyclerview.adapter = contractorAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.contractorsRecyclerview.size)
-
             }
         })
     }
-
     override fun OnLoading() {
        binding.cicularIcon.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
     }
-
     override fun OnError() {
         binding.cicularIcon.visibility = View.VISIBLE
     }
-
     override fun OnSucces() {
         binding.cicularIcon.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE

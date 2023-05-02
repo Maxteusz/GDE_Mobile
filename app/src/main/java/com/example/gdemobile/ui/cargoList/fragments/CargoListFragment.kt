@@ -57,7 +57,7 @@ class CargoListFragment : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.cargos.observe(viewLifecycleOwner, Observer { cargos ->
+        viewModel.cargos.observe(viewLifecycleOwner, Observer {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
