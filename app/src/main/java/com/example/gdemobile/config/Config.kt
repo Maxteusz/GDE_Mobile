@@ -1,6 +1,8 @@
 package com.example.gdemobile.config
 
 import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.ApiInterface
@@ -14,14 +16,14 @@ import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
-class Config {
+class Config  {
 
     companion object {
         var tokenApi = "";
-        val ip: String = "192.168.1.168"
-        val port: String = "2001"
-        val usernameERP: String = "Administrator"
-        val passwordERP: String = "12345"
+        var ip: String = "192.168.1.168"
+        var port: String = "2001"
+        var usernameERP: String = "Administrator"
+        var passwordERP: String = "12345"
 
     }
 
