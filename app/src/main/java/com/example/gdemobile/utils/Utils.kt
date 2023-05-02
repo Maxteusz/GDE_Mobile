@@ -14,12 +14,9 @@ import java.net.SocketTimeoutException
 
 class Utils {
     companion object {
-        fun showToast(context: Context,message: String)
-        {
+        fun showToast(context: Context,message: String) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
-
-
         suspend fun getToken(stateResponse: StateResponse) {
             stateResponse.OnLoading()
             val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)

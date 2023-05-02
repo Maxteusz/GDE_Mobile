@@ -13,10 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/document_icon" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+
                 android:orientation="vertical">
 
                 <TextView
@@ -38,7 +55,9 @@
                     android:text="@{documentDefinition.name}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    android:layout_marginBottom="10dp"/>
+                    />
+
+            </LinearLayout>
 
 
         </LinearLayout>
