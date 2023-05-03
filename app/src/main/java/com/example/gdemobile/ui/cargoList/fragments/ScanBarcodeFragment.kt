@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,11 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
+import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.utils.Utils
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -28,14 +32,7 @@ class ScanBarcodeFragment : Fragment() {
     private lateinit var sharedViewModel: CargoListViewModel
     private var lockedScan: Boolean = false
 
-    companion object {
-        fun newInstance() = ScanBarcodeFragment()
-    }
 
-
-init {
-    FirebaseApp.initializeApp(requireActivity())
-}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +46,7 @@ init {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-       // sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListView::class.java)
+         sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
@@ -80,18 +77,25 @@ init {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            barcodes.toHashSet()
+                            if(lockedScan)
+                                return@addOnSuccessListener
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 lockedScan = true
-                                sharedViewModel.addCargo(barcodes.first().displayValue.toString())
-                                Thread.sleep(2500)
-                                lockedScan = false
+                                Utils.showToast(requireActivity(),"Zaczyatno")
+                                sharedViewModel.addCargo(barcodes.first().rawValue.toString())
+                                Log.i("BarcodeValue", barcodes.first().displayValue.toString())
+                                Log.i("BarcodeRaw", barcodes.first().rawValue.toString())
+
+
                                 barcodes.clear()
                             }
+
+
                             //lockedScan = false
 
                             imageProxy.close()
-                            return@addOnSuccessListener
+
+                            //return@addOnSuccessListener
                             //  lockedScan = false
 
                         }
