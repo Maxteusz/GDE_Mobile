@@ -48,18 +48,6 @@ class Utils {
 
 
         }
-        fun getConfiguration (activity : Activity)
-        {
 
-            val sharedPref = activity?.getSharedPreferences("configuration",Context.MODE_PRIVATE) ?: return
-            Config.ip = sharedPref.getString(activity.getString(R.string.ip_conf), "")
-            Config.port = sharedPref.getString(activity.getString(R.string.port_conf), "")
-            Config.usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")
-            Config.passwordERP = sharedPref.getString(activity.getString(R.string.password_conf), "")
-
-            Log.i("fdfd", Config.ip.toString())
-
-
-        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.gdemobile.ui.menu
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.ActivityMenuBinding
 import com.example.gdemobile.ui.cargoList.CargoListActivity
 import com.example.gdemobile.ui.configuration.ConfigurationActivity
@@ -17,7 +18,7 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater);
         setContentView(binding.root)
-        Utils.getConfiguration(this)
+        Config.loadConfiguration(this)
         init()
     }
 

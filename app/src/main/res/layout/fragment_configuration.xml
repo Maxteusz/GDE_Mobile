@@ -27,10 +27,20 @@
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amethysta"
+                android:text="Konfiguracja połączenia"
+                android:textColor="@color/black"
+                android:textSize="20dp">
+
+            </TextView>
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:hint="Adres IP">
 
                 <com.google.android.material.textfield.TextInputEditText
