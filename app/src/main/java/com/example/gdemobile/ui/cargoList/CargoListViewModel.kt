@@ -51,7 +51,6 @@ class CargoListViewModel : ViewModel() {
 
     fun getContractors() {
         stateResponse?.OnLoading()
-
         viewModelScope.launch {
             try {
                 Log.i("Token",Config.tokenApi.toString())
@@ -75,7 +74,7 @@ class CargoListViewModel : ViewModel() {
         val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             try {
-                val result = quotesApi.getDocumentDefinitions(Config.tokenApi!!)
+                val result = quotesApi.getAllDocumentDefinitions(Config.tokenApi!!)
                 stateResponse?.OnSucces()
                 _documentDefinitions.value = result.body()?.toMutableList()
 

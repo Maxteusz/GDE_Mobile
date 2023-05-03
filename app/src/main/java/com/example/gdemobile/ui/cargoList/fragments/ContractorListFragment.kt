@@ -56,10 +56,10 @@ class ContractorListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
     override fun OnError() {
-        binding.cicularIcon.visibility = View.VISIBLE
+        binding.loadinglayout.visibility = View.VISIBLE
     }
     override fun OnSucces() {
-        binding.cicularIcon.visibility = View.GONE
+        binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
     }
 

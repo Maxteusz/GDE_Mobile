@@ -83,8 +83,6 @@
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
         </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-
-
         <!--OnLoadingLayout-->
         <LinearLayout
             android:id="@+id/loadinglayout"
@@ -99,8 +97,6 @@
             android:layout_height="50dp"
            />
         </LinearLayout>
-
-
         <!--OnErrorLayout-->
         <LinearLayout
             android:id="@+id/errorlayout"
@@ -112,7 +108,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -134,12 +131,12 @@
                         android:textSize="14sp"/>
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/refresh_button"
-                        android:layout_width="150dp"
-                        android:layout_height="60dp"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_gravity="end"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginBottom="10dp"
                         android:text="Odśwież"
                         android:textSize="10sp"/>
@@ -148,5 +145,6 @@
 
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+
     </FrameLayout>
 </layout>

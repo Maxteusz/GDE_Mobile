@@ -30,17 +30,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/amethysta"
-                android:text="Konfiguracja połączenia"
-                android:textColor="@color/black"
-                android:textSize="20dp">
+                android:fontFamily="sans-serif"
+                android:text="Połączenie"
+                android:textColor="@color/design_default_color_primary"
+                android:textStyle="bold"
+                android:textSize="16dp">
 
             </TextView>
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:hint="Adres IP">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -66,6 +67,15 @@
                     android:text="@{config.Companion.port}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Logowanie do systemu"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/design_default_color_primary"
+                android:textStyle="bold"
+                android:textSize="16dp"/>
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"

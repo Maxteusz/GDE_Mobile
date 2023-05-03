@@ -11,14 +11,32 @@
         android:layout_height="match_parent"
         tools:context=".ui.cargoList.fragments.DocumentDefinitionListFragment">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_marginTop="5dp"
+        <LinearLayout
+            android:id="@+id/succeslayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+        <!--OnLoadingLayout-->
+        <LinearLayout
+            android:id="@+id/loadinglayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/cicular_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
 
     </FrameLayout>
 </layout>
