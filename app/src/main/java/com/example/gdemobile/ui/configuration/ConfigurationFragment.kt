@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.configuration
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentConfigurationBinding
+import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.utils.Utils
 
@@ -32,10 +34,12 @@ lateinit var viewModel: ConfigurationViewModel
         binding.saveButton.setOnClickListener {
             viewModel.setConfiguration()
             Config.saveConfiguration(requireActivity())
-            Config.loadConfiguration(requireActivity())
+            requireActivity().finish()
+
         }
         return binding.root
     }
+
 
 
 

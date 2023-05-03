@@ -7,9 +7,12 @@
     //MenuActivty
     <string name="przyjmowanie_towaru">Przyjmowanie towaru</string>
     <string name="wydawanie_towaru">Wydawanie towaru</string>
+
+    //Config
     <string name="ip_conf">ip_conf</string>
     <string name="port_conf">port_conf</string>
     <string name="username_conf">username_conf</string>
     <string name="password_conf">password_conf</string>
+    <string name="configuration_file">configuration</string>
 
 </resources>

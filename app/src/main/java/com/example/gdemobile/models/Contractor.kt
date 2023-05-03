@@ -1,7 +1,7 @@
 package com.example.gdemobile.models
 
 
-class Contractor(id: String?, code: String?, name: String?) : ObjectBase(id, code,name) {
+class Contractor(val id: String?, val code: String?, val name: String?) : ObjectBase() {
 
     constructor() : this(null,null,null)
 }

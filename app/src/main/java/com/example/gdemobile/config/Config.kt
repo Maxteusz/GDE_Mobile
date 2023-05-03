@@ -34,7 +34,7 @@ class Config() {
 
         fun saveConfiguration(activity : Activity)
         {
-            val sharedPref = activity?.getSharedPreferences("configuration", Context.MODE_PRIVATE) ?: return
+            val sharedPref = activity?.getSharedPreferences(activity.getString(R.string.configuration_file), Context.MODE_PRIVATE) ?: return
             with (sharedPref.edit()) {
                 putString(activity.getString(R.string.ip_conf), ip)
                 putString(activity.getString(R.string.port_conf), port)
@@ -47,7 +47,7 @@ class Config() {
 
         fun loadConfiguration (activity : Activity)
         {
-            val sharedPref = activity?.getSharedPreferences("configuration",Context.MODE_PRIVATE) ?: return
+            val sharedPref = activity?.getSharedPreferences(activity.getString(R.string.configuration_file),Context.MODE_PRIVATE) ?: return
             ip = sharedPref.getString(activity.getString(R.string.ip_conf), "")
             port = sharedPref.getString(activity.getString(R.string.port_conf), "")
             usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")

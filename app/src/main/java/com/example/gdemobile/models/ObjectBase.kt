@@ -1,8 +1,22 @@
 package com.example.gdemobile.models
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
-open class ObjectBase (@field:SerializedName("id") val id : String?,@field:SerializedName("code") val code : String?,@field:SerializedName("name")val name : String?) {
+open class ObjectBase () {
+
+    fun toJson() : String
+    {
+        val gson = Gson()
+        return gson.toJson(this)
+    }
+
+    fun fromJson(string : String) : ObjectBase
+    {
+        val gson = Gson()
+        return gson.fromJson(string,ObjectBase::class.java)
+    }
 
 
 
