@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
+import android.text.style.ImageSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
                adapter = DocumentDefinitionAdapter(viewModel.documentDefinitions.value!!.sortedBy { n -> n.symbol }, viewModel, this)
                 binding.recyclerview.adapter = adapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
+
 
             }
         })

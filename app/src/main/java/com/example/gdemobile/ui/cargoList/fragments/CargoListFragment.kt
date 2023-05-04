@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.EmojiCompatConfigurationView
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -34,9 +35,9 @@ class CargoListFragment : Fragment(), StateResponse {
     }
 
     init {
-            lifecycleScope.launch(Dispatchers.Main) {
-                Utils.getToken(thisFragment)
-            }
+        lifecycleScope.launch(Dispatchers.Main) {
+            Utils.getToken(thisFragment)
+        }
     }
 
 
@@ -85,8 +86,10 @@ class CargoListFragment : Fragment(), StateResponse {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 cargoAdapter.filtrElements(s.toString())
-
+                if (s?.contains("<Agata>")!!)
+                    binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
             }
+
 
             override fun afterTextChanged(s: Editable?) {
 
