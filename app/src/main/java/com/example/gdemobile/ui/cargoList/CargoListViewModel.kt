@@ -54,11 +54,12 @@ class CargoListViewModel : ViewModel() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
             try {
-                Log.i("Token",Config.tokenApi.toString())
                 val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
                 val result = quotesApi.getContractors(Config.tokenApi!!)
-                stateResponse?.OnSucces()
-                _contractors.value = result.body()?.toMutableList()
+                if(result.code() == 200) {
+                    stateResponse?.OnSucces()
+                    _contractors.value = result.body()?.toMutableList()
+                }
 
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
@@ -72,13 +73,14 @@ class CargoListViewModel : ViewModel() {
 
     fun getDocumentDefinitions() {
         stateResponse?.OnLoading()
-        val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             try {
+                val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
                 val result = quotesApi.getAllDocumentDefinitions(Config.tokenApi!!)
-                stateResponse?.OnSucces()
-                _documentDefinitions.value = result.body()?.toMutableList()
-
+                if(result.code() == 200) {
+                    stateResponse?.OnSucces()
+                    _documentDefinitions.value = result.body()?.toMutableList()
+                }
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
                 Log.e("SocketTimeoutException", timeout.message.toString())

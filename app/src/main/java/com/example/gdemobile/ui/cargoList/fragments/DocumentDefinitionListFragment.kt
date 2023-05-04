@@ -41,6 +41,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
             whenStarted {
                 if (viewModel.documentDefinitions.value?.isEmpty() == true)
                     viewModel.getDocumentDefinitions()
+
             }
         }
         return binding.root
@@ -61,11 +62,11 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
     }
 
     override fun OnLoading() {
-        binding.cicularIcon.visibility = View.VISIBLE
+        binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
     }
     override fun OnError() {
-        binding.loadinglayout.visibility = View.VISIBLE
+        //binding.loadinglayout.visibility = View.VISIBLE
     }
     override fun OnSucces() {
         binding.loadinglayout.visibility = View.GONE

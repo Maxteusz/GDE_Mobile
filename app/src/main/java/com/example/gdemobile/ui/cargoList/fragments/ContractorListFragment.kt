@@ -35,8 +35,6 @@ class ContractorListFragment : Fragment(), StateResponse {
                 viewModel.getContractors()
             }
         }
-
-
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +54,7 @@ class ContractorListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
     override fun OnError() {
-        binding.loadinglayout.visibility = View.VISIBLE
+        //binding.loadinglayout.visibility = View.GONE
     }
     override fun OnSucces() {
         binding.loadinglayout.visibility = View.GONE
