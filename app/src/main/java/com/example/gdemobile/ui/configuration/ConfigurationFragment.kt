@@ -37,13 +37,6 @@ lateinit var viewModel: ConfigurationViewModel
             requireActivity().finish()
 
         }
-        binding.aggregationSwitch.setOnCheckedChangeListener { buttonView, isChecked -> {
-            if(isChecked)
-                Config.aggregation = true
-            else
-                Config.aggregation = false
-
-        } }
 
 
         return binding.root
