@@ -105,6 +105,21 @@
                     android:text="@{config.Companion.passwordERP}"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Konfiguracja programu"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/design_default_color_primary"
+                android:textStyle="bold"
+                android:textSize="16dp"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/aggregation_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agregacja pozycji"
+                android:textSize="16sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -115,7 +130,6 @@
                 android:id="@+id/save_button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-
                 android:text="Zapisz"
                  />
             </LinearLayout>

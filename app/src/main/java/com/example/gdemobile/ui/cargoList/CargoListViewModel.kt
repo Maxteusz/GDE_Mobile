@@ -44,7 +44,6 @@ class CargoListViewModel : ViewModel() {
                     code = "dsds"
                 )
             )
-            Thread.sleep(2000)
             _cargos.postValue(cargo)
 
         }

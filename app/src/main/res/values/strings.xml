@@ -14,5 +14,6 @@
     <string name="username_conf">username_conf</string>
     <string name="password_conf">password_conf</string>
     <string name="configuration_file">configuration</string>
+    <string name="aggreagtion">aggregation</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -88,6 +90,13 @@ class CargoListFragment : Fragment(), StateResponse {
                 cargoAdapter.filtrElements(s.toString())
                 if (s?.contains("<Agata>")!!)
                     binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
+               /* if(s?.contains("<Ikea>")!!)
+                {
+                    val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.")
+                    startActivity(mapIntent)
+                }*/
             }
 
 

@@ -31,34 +31,39 @@ class Config() {
         var port: String? = null
         var usernameERP: String? = null
         var passwordERP: String? = null
+        var aggregation: Boolean = false
 
-        fun saveConfiguration(activity : Activity)
-        {
-            val sharedPref = activity?.getSharedPreferences(activity.getString(R.string.configuration_file), Context.MODE_PRIVATE) ?: return
-            with (sharedPref.edit()) {
+        fun saveConfiguration(activity: Activity) {
+            val sharedPref = activity?.getSharedPreferences(
+                activity.getString(R.string.configuration_file),
+                Context.MODE_PRIVATE
+            ) ?: return
+            with(sharedPref.edit()) {
                 putString(activity.getString(R.string.ip_conf), ip)
                 putString(activity.getString(R.string.port_conf), port)
                 putString(activity.getString(R.string.username_conf), usernameERP)
                 putString(activity.getString(R.string.password_conf), passwordERP)
+                putBoolean(activity.getString(R.string.aggreagtion), aggregation)
+
                 apply()
                 commit()
             }
         }
 
-        fun loadConfiguration (activity : Activity)
-        {
-            val sharedPref = activity?.getSharedPreferences(activity.getString(R.string.configuration_file),Context.MODE_PRIVATE) ?: return
+        fun loadConfiguration(activity: Activity) {
+            val sharedPref = activity?.getSharedPreferences(
+                activity.getString(R.string.configuration_file),
+                Context.MODE_PRIVATE
+            ) ?: return
             ip = sharedPref.getString(activity.getString(R.string.ip_conf), "")
             port = sharedPref.getString(activity.getString(R.string.port_conf), "")
             usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")
             passwordERP = sharedPref.getString(activity.getString(R.string.password_conf), "")
+            aggregation = sharedPref.getBoolean(activity.getString(R.string.aggreagtion), false)
         }
 
 
-
     }
-
-
 
 
 }

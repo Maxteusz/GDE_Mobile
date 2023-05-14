@@ -20,32 +20,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView"
-                android:layout_width="130dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="40dp"
-                android:alpha="0.6"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/unlock_button"
+                android:layout_width="160dp"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:alpha="0.7"
+                android:backgroundTint="@color/green"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                android:text="Skanowanie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
-                
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="Zeskanuj kod"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
 
-                </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+            </com.google.android.material.button.MaterialButton>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

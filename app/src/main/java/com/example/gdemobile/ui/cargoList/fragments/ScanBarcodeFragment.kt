@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.lifecycle.ViewModelProvider
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.utils.Utils
@@ -33,7 +34,6 @@ class ScanBarcodeFragment : Fragment() {
     private var lockedScan: Boolean = false
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +46,7 @@ class ScanBarcodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-         sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
@@ -54,6 +54,12 @@ class ScanBarcodeFragment : Fragment() {
                 requireActivity(),
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             );
+        binding.unlockButton.setOnClickListener {
+            if(lockedScan)
+            unlockScanning()
+            else
+                lockScanning()
+        }
         startCamera()
 
     }
@@ -77,39 +83,24 @@ class ScanBarcodeFragment : Fragment() {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            if(lockedScan)
-                                return@addOnSuccessListener
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
-                                lockedScan = true
-                                Utils.showToast(requireActivity(),"Zaczyatno")
                                 sharedViewModel.addCargo(barcodes.first().rawValue.toString())
-                                Log.i("BarcodeValue", barcodes.first().displayValue.toString())
-                                Log.i("BarcodeRaw", barcodes.first().rawValue.toString())
-
-
-                                barcodes.clear()
+                                lockScanning()
                             }
 
-
-                            //lockedScan = false
-
-                            imageProxy.close()
-
-                            //return@addOnSuccessListener
-                            //  lockedScan = false
-
                         }
+                    imageProxy.close()
 
                 })
 
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
                 try {
-
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
                         this, cameraSelector, imageAnalysis, preview
                     )
-                } catch (exc: Exception) {
+                }
+                catch (exc: Exception) {
                 }
             },
             getMainExecutor(requireActivity())
@@ -130,6 +121,20 @@ class ScanBarcodeFragment : Fragment() {
         return ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
+    }
+
+    fun lockScanning() {
+        binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
+        binding.unlockButton.setText("Zablokowane")
+        lockedScan = true;
+
+    }
+
+    fun unlockScanning() {
+        binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
+        binding.unlockButton.setText("Skanowanie")
+        lockedScan = false;
+
     }
 
 }
