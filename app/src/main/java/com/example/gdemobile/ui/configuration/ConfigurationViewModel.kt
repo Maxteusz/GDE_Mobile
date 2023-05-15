@@ -26,6 +26,7 @@ class ConfigurationViewModel : ViewModel() {
         Config.usernameERP = binding.usernameTextedit.text.toString()
         Config.passwordERP = binding.passwordTextedit.text.toString()
         Config.aggregation = binding.aggregationSwitch.isChecked
+        Log.i("Switch", Config.aggregation.toString())
     }
 
 }

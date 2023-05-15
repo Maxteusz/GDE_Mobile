@@ -34,9 +34,6 @@ class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<Cargo
         cargos = tempCargos
         cargos = cargos.filter { it.barcode.contains(chars) || it.name?.lowercase()?.contains(chars.lowercase()) == true }
         notifyDataSetChanged()
-
-
-
     }
 
 

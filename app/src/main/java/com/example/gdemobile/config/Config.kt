@@ -59,7 +59,7 @@ class Config() {
             port = sharedPref.getString(activity.getString(R.string.port_conf), "")
             usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")
             passwordERP = sharedPref.getString(activity.getString(R.string.password_conf), "")
-            aggregation = sharedPref.getBoolean(activity.getString(R.string.aggreagtion), false)
+            aggregation = sharedPref.getBoolean(activity.getString(R.string.aggreagtion), true)
         }
 
 

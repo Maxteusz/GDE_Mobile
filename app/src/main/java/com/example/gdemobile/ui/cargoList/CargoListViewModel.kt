@@ -28,7 +28,19 @@ class CargoListViewModel : ViewModel() {
         get() = _documentDefinitions
 
     val cargos: MutableLiveData<List<Cargo>?>
-        get() = _cargos
+        get() {
+            val cargo = _cargos.value?.toMutableList()
+            if (Config.aggregation)
+                _cargos.postValue(cargo)
+            else
+                cargo?.groupBy { it.name }?.forEach {
+                    _cargos.postValue(it.value)
+                }
+        return _cargos
+
+
+
+        }
     val contractors: MutableLiveData<List<Contractor>?>
         get() = _contractors
 
@@ -92,6 +104,7 @@ class CargoListViewModel : ViewModel() {
 
 
 }
+
 
 
 

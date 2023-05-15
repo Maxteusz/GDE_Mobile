@@ -35,10 +35,7 @@ lateinit var viewModel: ConfigurationViewModel
             viewModel.setConfiguration()
             Config.saveConfiguration(requireActivity())
             requireActivity().finish()
-
         }
-
-
         return binding.root
     }
 
