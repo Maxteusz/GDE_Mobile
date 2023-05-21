@@ -27,10 +27,10 @@ class Config() {
 
     companion object : Serializable {
         var tokenApi: String? = null;
-        var ip: String? = null
-        var port: String? = null
-        var usernameERP: String? = null
-        var passwordERP: String? = null
+        var ip: String? = "192.168.1.168"
+        var port: String? = "2001"
+        var usernameERP: String? = "Administrator"
+        var passwordERP: String? = "12345"
         var aggregation: Boolean = false
 
         fun saveConfiguration(activity: Activity) {

@@ -1,6 +1,5 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewCargoBinding
 import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter.CargoViewHolder
+import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter.CargoViewHolder
 
-class CargoAdapter(private var cargos: List<Cargo>) : RecyclerView.Adapter<CargoViewHolder>() {
+class DocumentPositionAdapter(private var cargos: List<DocumentPosition>) : RecyclerView.Adapter<CargoViewHolder>() {
 
-    private val tempCargos: List<Cargo> = cargos
+    private val tempCargos: List<DocumentPosition> = cargos
     inner class CargoViewHolder(
         val recyclerviewCargoHolder: RecyclerviewCargoBinding
     ) : RecyclerView.ViewHolder(recyclerviewCargoHolder.root)

@@ -1,14 +1,11 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.EmojiCompatConfigurationView
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,29 +14,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
-import com.example.gdemobile.databinding.FragmentCargoListBinding
+import com.example.gdemobile.config.Config
+import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
-import com.example.gdemobile.ui.cargoList.adapters.CargoAdapter
+import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CargoListFragment : Fragment(), StateResponse {
+class DocumentPositionListFragment : Fragment(), StateResponse {
 
-    private lateinit var cargoAdapter: CargoAdapter
-    private lateinit var binding: FragmentCargoListBinding
+    private lateinit var documentPositionAdapter: DocumentPositionAdapter
+    private lateinit var binding: FragmentDocumentpositionListBinding
     private val thisFragment = this
 
-    companion object {
-        fun newInstance() = CargoListFragment()
-    }
 
     init {
-        lifecycleScope.launch(Dispatchers.Main) {
+       /* lifecycleScope.launch(Dispatchers.Main) {
             Utils.getToken(thisFragment)
-        }
+        }*/
     }
 
 
@@ -50,9 +45,9 @@ class CargoListFragment : Fragment(), StateResponse {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentCargoListBinding.inflate(layoutInflater);
+        binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
-        cargoAdapter = CargoAdapter(viewModel.cargos.value!!)
+        documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!)
 
         return binding.root
     }
@@ -60,12 +55,13 @@ class CargoListFragment : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.cargos.observe(viewLifecycleOwner, Observer {
+        viewModel.scannedCargo.observe(viewLifecycleOwner, Observer {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                cargoAdapter = CargoAdapter(viewModel.cargos.value!!)
-                binding.cargosRecyclerview.adapter = cargoAdapter
+                val documentPositions = viewModel.scannedCargo.value!!
+                documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!)
+                binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
             }
         })
@@ -87,7 +83,7 @@ class CargoListFragment : Fragment(), StateResponse {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                cargoAdapter.filtrElements(s.toString())
+                documentPositionAdapter.filtrElements(s.toString())
                 if (s?.contains("<Agata>")!!)
                     binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
                /* if(s?.contains("<Ikea>")!!)

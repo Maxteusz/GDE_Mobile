@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cargoListFragment"
-        android:name="com.example.gdemobile.ui.cargoList.fragments.CargoListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment"
         android:label="CargoListFragment" >
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
