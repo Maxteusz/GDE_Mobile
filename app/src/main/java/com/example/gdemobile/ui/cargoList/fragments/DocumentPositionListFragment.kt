@@ -47,7 +47,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
-        documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!)
+        documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!.toMutableList())
 
         return binding.root
     }
@@ -55,12 +55,11 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.scannedCargo.observe(viewLifecycleOwner, Observer {
+        viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                val documentPositions = viewModel.scannedCargo.value!!
-                documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!)
+                documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!.toMutableList())
                 binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
             }
@@ -86,13 +85,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
                 documentPositionAdapter.filtrElements(s.toString())
                 if (s?.contains("<Agata>")!!)
                     binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
-               /* if(s?.contains("<Ikea>")!!)
-                {
-                    val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.")
-                    startActivity(mapIntent)
-                }*/
+
             }
 
 

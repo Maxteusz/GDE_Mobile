@@ -5,6 +5,7 @@
         <variable
             name="cargo"
             type="com.example.gdemobile.models.DocumentPosition" />
+
     </data>
 
     <LinearLayout
@@ -50,7 +51,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="25dp"
             android:gravity="end"
-            android:orientation="vertical">
+            android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -58,7 +59,13 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:text= '@{cargo.amount + ""}' />
+            android:text= '@{cargo.amount + " " + cargo.unit}' />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/erase_button"
+                android:layout_width="40dp"
+                android:onClick="@{}"
+                android:layout_height="40dp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
 

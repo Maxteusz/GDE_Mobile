@@ -45,6 +45,7 @@ class CargoListViewModel : ViewModel() {
             cargo?.add(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
+                    unit = "szt.",
                     barcode = barcode,
                     code = "dsd",
                     amount = 1
@@ -56,14 +57,14 @@ class CargoListViewModel : ViewModel() {
                     DocumentPosition(
                         it.value.first().code,
                         it.key,
+                        it.value.first().unit,
                         it.value.first().barcode,
                         it.value.sumOf { it.amount })
                 })
             else
                 _scannedCargo.postValue(cargo)
         }
-
-
+        Log.i("SizeeeeeView", _scannedCargo.value?.count().toString())
 
     }
 
