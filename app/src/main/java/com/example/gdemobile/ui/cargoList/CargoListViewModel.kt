@@ -22,6 +22,9 @@ class CargoListViewModel : ViewModel() {
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
+
+
+
     val document: MutableLiveData<Document>
         get() = _document
 
@@ -36,8 +39,11 @@ class CargoListViewModel : ViewModel() {
         get() = _contractors
 
 
-    fun addCargo(barcode: String) {
+
+
+    fun addCargo(barcode: String, amount : Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
+
             val cargo = _scannedCargo.value?.toMutableList()
             cargo?.add(
                 DocumentPosition(
@@ -45,7 +51,7 @@ class CargoListViewModel : ViewModel() {
                     unit = "szt.",
                     barcode = barcode,
                     code = "dsd",
-                    amount = 1
+                    amount = amount
                 )
             )
             if (Config.aggregation)
@@ -62,7 +68,7 @@ class CargoListViewModel : ViewModel() {
                 _scannedCargo.postValue(cargo)
 
         }
-        Log.i("SizeeeeeView", _scannedCargo.value?.count().toString())
+
 
     }
 

@@ -26,6 +26,9 @@
             android:id="@+id/action_scanBarcodeFragment_to_cargoListFragment"
             app:destination="@id/cargoListFragment"
             app:popEnterAnim="@animator/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_scanBarcodeFragment_to_amountCargoDialog"
+            app:destination="@id/amountCargoDialog" />
     </fragment>
     <fragment
         android:id="@+id/documentDetailsFragment"
@@ -55,4 +58,12 @@
             android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/amountCargoDialog"
+        android:name="com.example.gdemobile.ui.cargoList.dialogs.AmountCargoDialog"
+        android:label="AmountCargoDialog" >
+        <action
+            android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
+            app:destination="@id/scanBarcodeFragment" />
+    </dialog>
 </navigation>

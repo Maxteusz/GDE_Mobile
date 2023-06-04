@@ -4,4 +4,5 @@ open class Cargo(val code:  String, val name: String, val barcode: String, val u
     constructor(id : String, code: String, name: String, barcode : String, unit : String) : this(code,name,barcode,unit)
 
 
+
 }

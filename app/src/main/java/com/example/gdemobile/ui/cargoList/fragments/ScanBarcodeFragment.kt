@@ -18,8 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
+import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.utils.Utils
 import com.google.android.gms.tasks.OnSuccessListener
@@ -84,7 +86,8 @@ class ScanBarcodeFragment : Fragment() {
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
-                                sharedViewModel.addCargo(barcodes.first().rawValue.toString())
+                                findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
+                               // sharedViewModel.addCargo(barcodes.first().rawValue.toString())
                                 lockScanning()
                             }
 
