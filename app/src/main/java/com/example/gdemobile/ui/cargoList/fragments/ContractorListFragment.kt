@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ class ContractorListFragment : Fragment(), StateResponse {
     private lateinit var binding: FragmentContractorListBinding
     private lateinit var viewModel: CargoListViewModel
     private lateinit var contractorAdapter : ContractorAdapter
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -32,6 +32,7 @@ class Config() {
         var usernameERP: String? = "Administrator"
         var passwordERP: String? = "12345"
         var aggregation: Boolean = false
+        var insertAmountCargo : Boolean = false;
 
         fun saveConfiguration(activity: Activity) {
             val sharedPref = activity?.getSharedPreferences(
@@ -44,6 +45,7 @@ class Config() {
                 putString(activity.getString(R.string.username_conf), usernameERP)
                 putString(activity.getString(R.string.password_conf), passwordERP)
                 putBoolean(activity.getString(R.string.aggreagtion), aggregation)
+                putBoolean(activity.getString(R.string.insert_amount_cargo), insertAmountCargo)
 
                 apply()
                 commit()
@@ -60,6 +62,7 @@ class Config() {
             usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")
             passwordERP = sharedPref.getString(activity.getString(R.string.password_conf), "")
             aggregation = sharedPref.getBoolean(activity.getString(R.string.aggreagtion), true)
+            insertAmountCargo = sharedPref.getBoolean(activity.getString(R.string.insert_amount_cargo), false)
         }
 
 

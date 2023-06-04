@@ -121,6 +121,13 @@
                 android:checked="@{config.Companion.aggregation}"
                 android:text="Agregacja pozycji"
                 android:textSize="16sp"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/scanmode_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{config.Companion.insertAmountCargo}"
+                android:text="Wprowadzanie ilości"
+                android:textSize="16sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -131,8 +138,7 @@
                 android:id="@+id/save_button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="Zapisz"
-                 />
+                android:text="Zapisz"/>
             </LinearLayout>
         </LinearLayout>
 

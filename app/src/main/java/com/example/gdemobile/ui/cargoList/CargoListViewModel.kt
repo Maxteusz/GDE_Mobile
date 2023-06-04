@@ -22,7 +22,7 @@ class CargoListViewModel : ViewModel() {
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
-
+     val scannedBarcode : MutableLiveData<String> = MutableLiveData("")
 
 
     val document: MutableLiveData<Document>
@@ -55,8 +55,7 @@ class CargoListViewModel : ViewModel() {
                 )
             )
             if (Config.aggregation)
-                _scannedCargo.postValue(cargo?.groupBy { it.barcode }
-                    ?.map {
+                _scannedCargo.postValue(cargo?.groupBy { it.barcode }?.map {
                         DocumentPosition(
                             it.value.first().code,
                             it.key,

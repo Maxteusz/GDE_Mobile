@@ -13,6 +13,7 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.core.impl.CaptureConfig
+import androidx.camera.core.impl.Config
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -86,11 +87,13 @@ class ScanBarcodeFragment : Fragment() {
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
+                                sharedViewModel.scannedBarcode.value = barcodes.first().rawValue.toString()
+                                if(com.example.gdemobile.config.Config.insertAmountCargo)
                                 findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
-                               // sharedViewModel.addCargo(barcodes.first().rawValue.toString())
+                                else
+                               sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!)
                                 lockScanning()
                             }
-
                         }
                     imageProxy.close()
 

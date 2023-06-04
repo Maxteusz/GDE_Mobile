@@ -34,8 +34,11 @@ class AmountCargoDialog : DialogFragment() {
         sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
         binding = FragmentAmountCargoDialogBinding.inflate(inflater,container,false)
 
-        binding.okButton.setOnClickListener { sharedViewModel.addCargo("fdfd",binding.amountEdittext.text.toString().toDouble())
+        binding.okButton.setOnClickListener {
+
+            sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!,binding.amountEdittext.text.toString().toDouble())
         this.dismiss()}
+
         return binding.root
     }
 

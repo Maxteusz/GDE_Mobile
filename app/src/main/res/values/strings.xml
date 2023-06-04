@@ -15,7 +15,7 @@
     <string name="password_conf">password_conf</string>
     <string name="configuration_file">configuration</string>
     <string name="aggreagtion">aggregation</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="insert_amount_cargo">insert_amount_cargo</string>
+
 
 </resources>
