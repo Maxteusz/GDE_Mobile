@@ -29,18 +29,15 @@ class CargoListViewModel : ViewModel() {
         get() = _documentDefinitions
 
     val scannedCargo: MutableLiveData<List<DocumentPosition>?>
-        get() {
+        get() = _scannedCargo
 
-            return _scannedCargo
 
-        }
     val contractors: MutableLiveData<List<Contractor>?>
         get() = _contractors
 
 
     fun addCargo(barcode: String) {
         if (!barcode.isNullOrEmpty()) {
-
             val cargo = _scannedCargo.value?.toMutableList()
             cargo?.add(
                 DocumentPosition(
@@ -52,65 +49,77 @@ class CargoListViewModel : ViewModel() {
                 )
             )
             if (Config.aggregation)
-            _scannedCargo.postValue(cargo?.groupBy { it.barcode }
-                ?.map {
-                    DocumentPosition(
-                        it.value.first().code,
-                        it.key,
-                        it.value.first().unit,
-                        it.value.first().barcode,
-                        it.value.sumOf { it.amount })
-                })
+                _scannedCargo.postValue(cargo?.groupBy { it.barcode }
+                    ?.map {
+                        DocumentPosition(
+                            it.value.first().code,
+                            it.key,
+                            it.value.first().unit,
+                            it.value.first().barcode,
+                            it.value.sumOf { it.amount })
+                        })
             else
                 _scannedCargo.postValue(cargo)
+
         }
         Log.i("SizeeeeeView", _scannedCargo.value?.count().toString())
 
     }
 
-        fun getContractors() {
-            stateResponse?.OnLoading()
-            viewModelScope.launch {
-                try {
-                    val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
-                    val result = quotesApi.getContractors(Config.tokenApi!!)
-                    if (result.code() == 200) {
-                        stateResponse?.OnSucces()
-                        _contractors.value = result.body()?.toMutableList()
-                    }
-
-                } catch (timeout: SocketTimeoutException) {
-                    stateResponse?.OnError()
-                    Log.e("SocketTimeoutException", timeout.message.toString())
-                } catch (exception: ConnectException) {
-                    stateResponse?.OnError()
-                    Log.e("ConnectException", exception.message.toString())
-                }
-            }
-        }
-
-        fun getDocumentDefinitions() {
-            stateResponse?.OnLoading()
-            viewModelScope.launch {
-                try {
-                    val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
-                    val result = quotesApi.getAllDocumentDefinitions(Config.tokenApi!!)
-                    if (result.code() == 200) {
-                        stateResponse?.OnSucces()
-                        _documentDefinitions.value = result.body()?.toMutableList()
-                    }
-                } catch (timeout: SocketTimeoutException) {
-                    stateResponse?.OnError()
-                    Log.e("SocketTimeoutException", timeout.message.toString())
-                } catch (exception: ConnectException) {
-                    stateResponse?.OnError()
-                    Log.e("ConnectException", exception.message.toString())
-                }
-            }
-        }
-
+    fun removeCargo (documentPosition: DocumentPosition, deleteAll : Boolean)
+    {
+        val updated = _scannedCargo.value?.toMutableList()
+        if(deleteAll || documentPosition.amount <= 1)
+            updated?.remove(documentPosition)
+        else
+            documentPosition.amount -= 1
+        _scannedCargo.postValue(updated)
 
     }
+
+    fun getContractors() {
+        stateResponse?.OnLoading()
+        viewModelScope.launch {
+            try {
+                val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+                val result = quotesApi.getContractors(Config.tokenApi!!)
+                if (result.code() == 200) {
+                    stateResponse?.OnSucces()
+                    _contractors.value = result.body()?.toMutableList()
+                }
+
+            } catch (timeout: SocketTimeoutException) {
+                stateResponse?.OnError()
+                Log.e("SocketTimeoutException", timeout.message.toString())
+            } catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e("ConnectException", exception.message.toString())
+            }
+        }
+    }
+
+    fun getDocumentDefinitions() {
+        stateResponse?.OnLoading()
+        viewModelScope.launch {
+            try {
+                val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+                val result = quotesApi.getAllDocumentDefinitions(Config.tokenApi!!)
+                if (result.code() == 200) {
+                    stateResponse?.OnSucces()
+                    _documentDefinitions.value = result.body()?.toMutableList()
+                }
+            } catch (timeout: SocketTimeoutException) {
+                stateResponse?.OnError()
+                Log.e("SocketTimeoutException", timeout.message.toString())
+            } catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e("ConnectException", exception.message.toString())
+            }
+        }
+    }
+
+
+}
 
 
 

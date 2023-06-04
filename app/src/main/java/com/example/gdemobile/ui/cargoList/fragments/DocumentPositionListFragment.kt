@@ -3,6 +3,7 @@ package com.example.gdemobile.ui.cargoList.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,23 +48,25 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
-        documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!.toMutableList())
+
+        viewModel.scannedCargo.observe(viewLifecycleOwner, {
+            binding.cargosRecyclerview.also {
+                it.layoutManager = LinearLayoutManager(context)
+                it.setHasFixedSize(true)
+                documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!.toMutableList(),viewModel)
+                binding.cargosRecyclerview.adapter = documentPositionAdapter
+                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
+                Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
+            }
+        })
 
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
 
-        viewModel.scannedCargo.observe(viewLifecycleOwner, {
-            binding.cargosRecyclerview.also {
-                it.layoutManager = LinearLayoutManager(context)
-                it.setHasFixedSize(true)
-                documentPositionAdapter = DocumentPositionAdapter(viewModel.scannedCargo.value!!.toMutableList())
-                binding.cargosRecyclerview.adapter = documentPositionAdapter
-                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
-            }
-        })
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
 
