@@ -1,9 +1,11 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,16 +22,18 @@ import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
+import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
 import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DocumentPositionListFragment : Fragment(), StateResponse {
+class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
     private val thisFragment = this
+    private var scannedbarcode = ""
 
 
     init {
@@ -48,7 +52,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
-
         viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
@@ -59,7 +62,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
                 Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
             }
         })
-
         return binding.root
     }
 
@@ -122,6 +124,22 @@ class DocumentPositionListFragment : Fragment(), StateResponse {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?) : Boolean {
+
+            if(keyCode == KeyEvent.KEYCODE_ENTER) {
+                viewModel.scannedBarcode.value = scannedbarcode
+                if(Config.insertAmountCargo)
+                    findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
+                else
+                    viewModel.addCargo(viewModel.scannedBarcode.value!!)
+
+            }
+        else
+            scannedbarcode += event?.keyCode
+        return true
     }
 
 
