@@ -22,7 +22,7 @@ class CargoListViewModel : ViewModel() {
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
-     val scannedBarcode : MutableLiveData<String> = MutableLiveData("")
+    val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
 
     val document: MutableLiveData<Document>
@@ -39,9 +39,7 @@ class CargoListViewModel : ViewModel() {
         get() = _contractors
 
 
-
-
-    fun addCargo(barcode: String, amount : Double = 1.0) {
+    fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
 
             val cargo = _scannedCargo.value?.toMutableList()
@@ -56,25 +54,26 @@ class CargoListViewModel : ViewModel() {
             )
             if (Config.aggregation)
                 _scannedCargo.postValue(cargo?.groupBy { it.barcode }?.map {
-                        DocumentPosition(
-                            it.value.first().code,
-                            it.key,
-                            it.value.first().unit,
-                            it.value.first().barcode,
-                            it.value.sumOf { it.amount })
-                        })
+                    DocumentPosition(
+                        it.value.first().code,
+                        it.key,
+                        it.value.first().unit,
+                        it.value.first().barcode,
+                        it.value.sumOf { it.amount })
+                })
             else
+
                 _scannedCargo.postValue(cargo)
+            scannedBarcode.value = ""
 
         }
 
 
     }
 
-    fun removeCargo (documentPosition: DocumentPosition, deleteAll : Boolean)
-    {
+    fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
         val updated = _scannedCargo.value?.toMutableList()
-        if(deleteAll || documentPosition.amount <= 1)
+        if (deleteAll || documentPosition.amount <= 1)
             updated?.remove(documentPosition)
         else
             documentPosition.amount -= 1
@@ -97,6 +96,9 @@ class CargoListViewModel : ViewModel() {
                 stateResponse?.OnError()
                 Log.e("SocketTimeoutException", timeout.message.toString())
             } catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e("ConnectException", exception.message.toString())
+            } catch (exception: Exception) {
                 stateResponse?.OnError()
                 Log.e("ConnectException", exception.message.toString())
             }

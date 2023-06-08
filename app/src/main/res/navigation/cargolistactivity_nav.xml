@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
+        <action
+            android:id="@+id/action_cargoListFragment_to_amountCargoDialog"
+            app:destination="@id/amountCargoDialog" />
     </fragment>
     <fragment
         android:id="@+id/scanBarcodeFragment"
@@ -65,5 +68,8 @@
         <action
             android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment" />
+        <action
+            android:id="@+id/action_amountCargoDialog_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" />
     </dialog>
 </navigation>
