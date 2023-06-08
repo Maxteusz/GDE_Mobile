@@ -36,13 +36,16 @@ class AmountCargoDialog : DialogFragment() {
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
 
         binding.okButton.setOnClickListener {
-            Log.i("{{Test}}", sharedViewModel.scannedBarcode.value!!)
-            sharedViewModel.addCargo(
-                sharedViewModel.scannedBarcode.value!!,
-                binding.amountEdittext.text.toString().toDouble()
-            )
-            Log.i("{{Test}}", sharedViewModel.scannedCargo.value?.size.toString())
-            this.dismiss()
+            if(binding.amountEdittext.text?.length!! < 1)
+                binding.amountEdittext.error = "Podaj ilość"
+            else {
+                sharedViewModel.addCargo(
+                    sharedViewModel.scannedBarcode.value!!,
+                    binding.amountEdittext.text.toString().toDouble()
+                )
+
+                this.dismiss()
+            }
         }
 
         return binding.root
