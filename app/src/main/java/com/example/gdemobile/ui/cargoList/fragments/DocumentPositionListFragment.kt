@@ -90,7 +90,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                documentPositionAdapter.filtrElements(s.toString())
+                viewModel.filtrCargo(s.toString())
                 if (s?.contains("<Agata>")!!)
                     binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
 
@@ -108,6 +108,10 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
             lifecycleScope.launch(Dispatchers.Main) {
                 Utils.getToken(thisFragment)
             }
+        }
+        binding.searchTextlayout.setEndIconOnClickListener {
+            binding.searchTextfield.setText("")
+            binding.searchTextfield.clearFocus()
         }
     }
 

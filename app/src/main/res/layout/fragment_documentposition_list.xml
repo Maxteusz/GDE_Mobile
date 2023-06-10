@@ -22,14 +22,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/searchcard"
                 android:layout_width="match_parent"
+                android:focusable="true"
                 android:layout_height="70dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/search_textlayout"
                         android:layout_width="match_parent"
@@ -39,8 +37,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:focusableInTouchMode="false"
-                        android:focusedByDefault="false"
-                        android:focusable="false"
                         app:endIconDrawable="@drawable/baseline_clear_24"
                         app:endIconMode="custom"
                         android:hint="Wyszukaj"
@@ -48,9 +44,6 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/search_textfield"
                             android:layout_width="match_parent"
-                            android:focusableInTouchMode="false"
-                            android:focusedByDefault="false"
-                            android:focusable="false"
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>

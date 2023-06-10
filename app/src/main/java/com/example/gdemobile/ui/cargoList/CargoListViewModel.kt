@@ -20,6 +20,7 @@ class CargoListViewModel : ViewModel() {
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
+    private val _cargoAfterFiltr get() = _scannedCargo
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
@@ -32,7 +33,7 @@ class CargoListViewModel : ViewModel() {
         get() = _documentDefinitions
 
     val scannedCargo: MutableLiveData<List<DocumentPosition>?>
-        get() = _scannedCargo
+        get() = _cargoAfterFiltr
 
 
     val contractors: MutableLiveData<List<Contractor>?>
@@ -123,6 +124,19 @@ class CargoListViewModel : ViewModel() {
                 Log.e("ConnectException", exception.message.toString())
             }
         }
+    }
+
+    fun filtrCargo(chars: String) {
+        _cargoAfterFiltr.value = _scannedCargo.value?.filter {
+            it.barcode.contains(chars) || it.name?.lowercase()?.contains(chars.lowercase()) == true
+        } as MutableList<DocumentPosition>
+
+        if(chars.isNullOrEmpty()) {
+
+           _cargoAfterFiltr.value = _scannedCargo.value
+            Log.i("Chars", _scannedCargo.value?.size.toString())
+        }
+
     }
 
 

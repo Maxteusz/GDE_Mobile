@@ -43,7 +43,6 @@ class AmountCargoDialog : DialogFragment() {
                     sharedViewModel.scannedBarcode.value!!,
                     binding.amountEdittext.text.toString().toDouble()
                 )
-
                 this.dismiss()
             }
         }
