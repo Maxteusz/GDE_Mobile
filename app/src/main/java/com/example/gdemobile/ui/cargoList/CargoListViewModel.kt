@@ -2,16 +2,17 @@ package com.example.gdemobile.ui.cargoList
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.gdemobile.ApiInterface
+import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.config.Config
-import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.utils.LogTag
 import kotlinx.coroutines.*
+import okhttp3.internal.notify
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -20,23 +21,23 @@ class CargoListViewModel : ViewModel() {
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
-    private val _cargoAfterFiltr get() = _scannedCargo
+
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
 
-    val document: MutableLiveData<Document>
+    val document: LiveData<Document>
         get() = _document
 
-    val documentDefinitions: MutableLiveData<List<DocumentDefinition>?>
+    val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
-    val scannedCargo: MutableLiveData<List<DocumentPosition>?>
-        get() = _cargoAfterFiltr
+    val scannedCargo: LiveData<List<DocumentPosition>?>
+        get() = _scannedCargo
 
 
-    val contractors: MutableLiveData<List<Contractor>?>
+    val contractors: LiveData<List<Contractor>?>
         get() = _contractors
 
 
@@ -64,7 +65,15 @@ class CargoListViewModel : ViewModel() {
                 })
             else
 
-                _scannedCargo.postValue(cargo)
+                _scannedCargo.value = _scannedCargo.value?.plus(
+                    DocumentPosition(
+                        name = "Przykładowa nazwa",
+                        unit = "szt.",
+                        barcode = barcode,
+                        code = "dsd",
+                        amount = amount
+                    )
+                )
             scannedBarcode.value = ""
 
         }
@@ -86,7 +95,7 @@ class CargoListViewModel : ViewModel() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
             try {
-                val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
                 val result = quotesApi.getContractors(Config.tokenApi!!)
                 if (result.code() == 200) {
                     stateResponse?.OnSucces()
@@ -95,13 +104,13 @@ class CargoListViewModel : ViewModel() {
 
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
-                Log.e("SocketTimeoutException", timeout.message.toString())
+                Log.e(LogTag.timeoutException, timeout.message.toString())
             } catch (exception: ConnectException) {
                 stateResponse?.OnError()
-                Log.e("ConnectException", exception.message.toString())
+                Log.e(LogTag.connectException, exception.message.toString())
             } catch (exception: Exception) {
                 stateResponse?.OnError()
-                Log.e("ConnectException", exception.message.toString())
+                Log.e(LogTag.basicException, exception.message.toString())
             }
         }
     }
@@ -110,7 +119,7 @@ class CargoListViewModel : ViewModel() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
             try {
-                val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
                 val result = quotesApi.getAllDocumentDefinitions(Config.tokenApi!!)
                 if (result.code() == 200) {
                     stateResponse?.OnSucces()
@@ -118,29 +127,29 @@ class CargoListViewModel : ViewModel() {
                 }
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
-                Log.e("SocketTimeoutException", timeout.message.toString())
+                Log.e(LogTag.timeoutException, timeout.message.toString())
             } catch (exception: ConnectException) {
                 stateResponse?.OnError()
-                Log.e("ConnectException", exception.message.toString())
+                Log.e(LogTag.connectException, exception.message.toString())
+
             }
         }
     }
 
-    fun filtrCargo(chars: String) {
-        _cargoAfterFiltr.value = _scannedCargo.value?.filter {
-            it.barcode.contains(chars) || it.name?.lowercase()?.contains(chars.lowercase()) == true
-        } as MutableList<DocumentPosition>
 
-        if(chars.isNullOrEmpty()) {
-
-           _cargoAfterFiltr.value = _scannedCargo.value
-            Log.i("Chars", _scannedCargo.value?.size.toString())
-        }
+    fun filtrDocumentPosition(chars: String): List<DocumentPosition> {
+        return _scannedCargo.value?.filter {
+            it.name.contains(chars, true)
+        } ?: emptyList()
 
     }
-
-
 }
+
+
+
+
+
+
 
 
 

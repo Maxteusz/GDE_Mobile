@@ -1,11 +1,9 @@
 package com.example.gdemobile.utils
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.example.gdemobile.ApiInterface
-import com.example.gdemobile.R
+import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.ui.StateResponse
@@ -21,7 +19,7 @@ class Utils {
         suspend fun getToken(stateResponse: StateResponse) {
             stateResponse.OnLoading()
             try {
-            val quotesApi = RetrofitClient().getInstance().create(ApiInterface::class.java)
+            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
             val map: HashMap<String, String> =
                 hashMapOf("login" to Config.usernameERP!!, "password" to Config.passwordERP!!)
             Log.i("Json", map.toString())

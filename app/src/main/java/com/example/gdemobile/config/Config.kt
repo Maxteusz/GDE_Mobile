@@ -2,28 +2,10 @@ package com.example.gdemobile.config
 
 import android.app.Activity
 import android.content.Context
-import android.os.Parcelable
-import android.util.Log
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.ViewModel
-import com.example.gdemobile.ApiInterface
 import com.example.gdemobile.R
-import com.example.gdemobile.RetrofitClient
-import com.example.gdemobile.ui.StateResponse
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.Serializable
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 
-class Config() {
+class Config {
 
     companion object : Serializable {
         var tokenApi: String? = null;

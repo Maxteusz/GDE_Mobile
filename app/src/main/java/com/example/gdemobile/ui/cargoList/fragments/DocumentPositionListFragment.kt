@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
+import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.CargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
+
 import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +35,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
     private val thisFragment = this
-    private var scannedbarcode = ""
+
 
 
     init {
@@ -51,7 +53,9 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
     ): View? {
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
+        binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+
         viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
@@ -60,6 +64,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
                     viewModel.scannedCargo.value!!.toMutableList(),
                     viewModel
                 )
+
                 binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
                 Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
@@ -90,9 +95,11 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.filtrCargo(s.toString())
-                if (s?.contains("<Agata>")!!)
-                    binding.searchTextfield.setText(s.toString().replace("<Agata>", "\uD83D\uDE43"))
+                viewModel.filtrDocumentPosition(s.toString())
+
+
+               /* if (s?.contains("")!!)
+                    binding.searchTextfield.setText(s.toString().replace("", "\uD83D\uDE43"))*/
 
             }
 
