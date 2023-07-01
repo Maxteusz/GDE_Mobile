@@ -20,6 +20,7 @@ class CargoListViewModel : ViewModel() {
 
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
+    private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
@@ -34,7 +35,7 @@ class CargoListViewModel : ViewModel() {
         get() = _documentDefinitions
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
-        get() = _scannedCargo
+        get() = _scannedCargoAfterFilter
 
 
     val contractors: LiveData<List<Contractor>?>
@@ -43,9 +44,7 @@ class CargoListViewModel : ViewModel() {
 
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
-
-            val cargo = _scannedCargo.value?.toMutableList()
-            cargo?.add(
+            _scannedCargo.value = _scannedCargo.value?.plus(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
                     unit = "szt.",
@@ -55,30 +54,23 @@ class CargoListViewModel : ViewModel() {
                 )
             )
             if (Config.aggregation)
-                _scannedCargo.postValue(cargo?.groupBy { it.barcode }?.map {
-                    DocumentPosition(
-                        it.value.first().code,
-                        it.key,
-                        it.value.first().unit,
-                        it.value.first().barcode,
-                        it.value.sumOf { it.amount })
-                })
-            else
-
-                _scannedCargo.value = _scannedCargo.value?.plus(
-                    DocumentPosition(
-                        name = "Przykładowa nazwa",
-                        unit = "szt.",
-                        barcode = barcode,
-                        code = "dsd",
-                        amount = amount
-                    )
-                )
+              aggregatePosition()
             scannedBarcode.value = ""
 
         }
 
 
+    }
+    private fun aggregatePosition()
+    {
+        _scannedCargo.value =  _scannedCargo.value?.groupBy { it.barcode }?.
+        map{ DocumentPosition(
+            it.value.first().code,
+            it.value.first().name,
+            it.value.first().unit,
+            it.value.first().barcode,
+            it.value.sumOf { it.amount })
+        }
     }
 
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
@@ -137,8 +129,8 @@ class CargoListViewModel : ViewModel() {
     }
 
 
-    fun filtrDocumentPosition(chars: String): List<DocumentPosition> {
-        return _scannedCargo.value?.filter {
+    fun filtrDocumentPosition(chars: String){
+        _scannedCargoAfterFilter.value =  _scannedCargo.value?.filter {
             it.name.contains(chars, true)
         } ?: emptyList()
 

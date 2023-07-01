@@ -67,7 +67,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
                 binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
-                Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
             }
         })
         return binding.root
@@ -75,7 +74,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.i("Size Cargos", viewModel.scannedCargo.value!!.size.toString())
 
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
@@ -96,6 +94,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.filtrDocumentPosition(s.toString())
+
 
 
                /* if (s?.contains("")!!)
