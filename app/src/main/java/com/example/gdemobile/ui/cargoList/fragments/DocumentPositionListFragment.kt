@@ -37,11 +37,10 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
     private val thisFragment = this
 
 
-
     init {
-        /* lifecycleScope.launch(Dispatchers.Main) {
-             Utils.getToken(thisFragment)
-         }*/
+        lifecycleScope.launch(Dispatchers.Main) {
+            Utils.getToken(thisFragment)
+        }
     }
 
 
@@ -55,7 +54,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
-
         viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
@@ -74,10 +72,8 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
-
         }
         binding.cameraButton.setOnClickListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)
@@ -94,18 +90,11 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.filtrDocumentPosition(s.toString())
-
-
-
-               /* if (s?.contains("")!!)
-                    binding.searchTextfield.setText(s.toString().replace("", "\uD83D\uDE43"))*/
-
+                /* if (s?.contains("")!!)
+                        binding.searchTextfield.setText(s.toString().replace("", "\uD83D\uDE43"))*/
             }
 
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
         binding.searchTextlayout.setEndIconOnClickListener({
             binding.searchTextfield.text?.clear()

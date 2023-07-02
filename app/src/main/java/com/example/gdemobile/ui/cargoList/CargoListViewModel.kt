@@ -44,6 +44,7 @@ class CargoListViewModel : ViewModel() {
 
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
+             getCargo()
             _scannedCargo.value = _scannedCargo.value?.plus(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
@@ -130,7 +131,6 @@ class CargoListViewModel : ViewModel() {
         }
     }
 
-
     fun filtrDocumentPosition(chars: String){
         _scannedCargoAfterFilter.value =  _scannedCargo.value?.filter {
             it.name.contains(chars, true) ||
@@ -138,6 +138,36 @@ class CargoListViewModel : ViewModel() {
         } ?: emptyList()
 
     }
+
+    fun getCargo (name : String = "bikini") : DocumentPosition? {
+        viewModelScope.async {
+            //try {
+            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+            val result = quotesApi.getCargoFromApi(Config.tokenApi!!, name)
+            Log.i(LogTag.cargoDownloadFromApi, result.code().toString())
+            if (result.code() == 200) {
+                Log.i(LogTag.cargoDownloadFromApi, result.body().toString())
+                // stateResponse?.OnSucces()
+                return@async result.body()
+            } else return@async null
+
+
+            /*  } catch (timeout: SocketTimeoutException) {
+                stateResponse?.OnError()
+                Log.e(LogTag.timeoutException, timeout.message.toString())
+            } catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e(LogTag.connectException, exception.message.toString())
+            } catch (exception: Exception) {
+                stateResponse?.OnError()
+                Log.e(LogTag.basicException, exception.message.toString())
+            }
+        }
+        return null*/
+        }
+        return null
+    }
+
 }
 
 

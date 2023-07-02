@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
+import androidx.lifecycle.withStarted
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
 import com.example.gdemobile.ui.StateResponse
@@ -39,7 +40,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
         viewModel.stateResponse = this
 
         viewLifecycleOwner.lifecycleScope.launch {
-            whenStarted {
+            withStarted {
                 if (viewModel.documentDefinitions.value?.isEmpty() == true)
                     viewModel.getDocumentDefinitions()
 
@@ -57,8 +58,6 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
                adapter = DocumentDefinitionAdapter(viewModel.documentDefinitions.value!!.sortedBy { n -> n.symbol }, viewModel, this)
                 binding.recyclerview.adapter = adapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
-
-
             }
         })
     }

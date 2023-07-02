@@ -41,7 +41,7 @@ class ContractorListFragment : Fragment(), StateResponse {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.contractors.observe(viewLifecycleOwner, Observer { cargos ->
+        viewModel.contractors.observe(viewLifecycleOwner, Observer {
             binding.contractorsRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
