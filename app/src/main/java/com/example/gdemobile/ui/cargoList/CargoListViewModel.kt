@@ -61,8 +61,7 @@ class CargoListViewModel : ViewModel() {
 
 
     }
-    private fun aggregatePosition()
-    {
+    private fun aggregatePosition() {
         _scannedCargo.value =  _scannedCargo.value?.groupBy { it.barcode }?.
         map{ DocumentPosition(
             it.value.first().code,
@@ -74,12 +73,15 @@ class CargoListViewModel : ViewModel() {
     }
 
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
-        val updated = _scannedCargo.value?.toMutableList()
+
         if (deleteAll || documentPosition.amount <= 1)
-            updated?.remove(documentPosition)
+           _scannedCargo.value =  _scannedCargo.value?.minus(documentPosition)
         else
             documentPosition.amount -= 1
-        _scannedCargo.postValue(updated)
+        _scannedCargoAfterFilter.postValue(_scannedCargo.value)
+
+        Log.i(LogTag.amountDocumentPosition, documentPosition.amount.toString())
+
 
     }
 
@@ -131,7 +133,8 @@ class CargoListViewModel : ViewModel() {
 
     fun filtrDocumentPosition(chars: String){
         _scannedCargoAfterFilter.value =  _scannedCargo.value?.filter {
-            it.name.contains(chars, true)
+            it.name.contains(chars, true) ||
+            it.barcode.contains(chars, true)
         } ?: emptyList()
 
     }

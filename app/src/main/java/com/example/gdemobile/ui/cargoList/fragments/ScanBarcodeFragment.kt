@@ -58,8 +58,8 @@ class ScanBarcodeFragment : Fragment() {
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             );
         binding.unlockButton.setOnClickListener {
-            if(lockedScan)
-            unlockScanning()
+            if (lockedScan)
+                unlockScanning()
             else
                 lockScanning()
         }
@@ -87,11 +87,12 @@ class ScanBarcodeFragment : Fragment() {
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
-                                sharedViewModel.scannedBarcode.value = barcodes.first().rawValue.toString()
-                                if(com.example.gdemobile.config.Config.insertAmountCargo)
-                                findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
+                                sharedViewModel.scannedBarcode.value =
+                                    barcodes.first().rawValue.toString()
+                                if (com.example.gdemobile.config.Config.insertAmountCargo)
+                                    findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
                                 else
-                               sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!)
+                                    sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!)
                                 lockScanning()
                             }
                         }
@@ -105,8 +106,7 @@ class ScanBarcodeFragment : Fragment() {
                     cameraProvider.bindToLifecycle(
                         this, cameraSelector, imageAnalysis, preview
                     )
-                }
-                catch (exc: Exception) {
+                } catch (exc: Exception) {
                 }
             },
             getMainExecutor(requireActivity())
