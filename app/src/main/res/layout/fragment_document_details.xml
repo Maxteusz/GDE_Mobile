@@ -69,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+
                 android:hint="Numer obcy">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,16 +77,22 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date_textlayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:endIconDrawable="@drawable/baseline_expand_more_24"
+                app:endIconMode="custom"
                 android:layout_marginTop="15dp"
                 android:hint="Data utworzenia">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:editable="false"
                     android:text="@{document.date}" />
             </com.google.android.material.textfield.TextInputLayout>
 
