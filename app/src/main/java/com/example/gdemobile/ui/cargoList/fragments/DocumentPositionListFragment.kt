@@ -38,9 +38,9 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
 
     init {
-        lifecycleScope.launch(Dispatchers.Main) {
+        /*lifecycleScope.launch(Dispatchers.Main) {
             Utils.getToken(thisFragment)
-        }
+        }*/
     }
 
 
@@ -142,6 +142,6 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
             viewModel.scannedBarcode.value += event?.unicodeChar?.toChar()
         return true
     }
-
-
 }
+
+

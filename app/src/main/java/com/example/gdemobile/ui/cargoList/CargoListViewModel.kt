@@ -139,20 +139,20 @@ class CargoListViewModel : ViewModel() {
 
     }
 
-    fun getCargo (name : String = "bikini") : DocumentPosition? {
-        viewModelScope.async {
-            //try {
-            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-            val result = quotesApi.getCargoFromApi(Config.tokenApi!!, name)
-            Log.i(LogTag.cargoDownloadFromApi, result.code().toString())
-            if (result.code() == 200) {
-                Log.i(LogTag.cargoDownloadFromApi, result.body().toString())
-                // stateResponse?.OnSucces()
-                return@async result.body()
-            } else return@async null
+     fun getCargo (name : String = "bikini") : DocumentPosition? {
+        viewModelScope.async(Dispatchers.IO) {
+           // try {
+                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+                val result = quotesApi.getCargoFromApi(Config.tokenApi!!, name)
+                Log.i(LogTag.cargoDownloadFromApi, result.code().toString())
+                if (result.code() == 200) {
+                    Log.i(LogTag.cargoDownloadFromApi, result.body().toString())
+                    // stateResponse?.OnSucces()
+                    return@async result.body()
+                } else async@ null
 
 
-            /*  } catch (timeout: SocketTimeoutException) {
+                /*  } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
                 Log.e(LogTag.timeoutException, timeout.message.toString())
             } catch (exception: ConnectException) {
@@ -164,9 +164,13 @@ class CargoListViewModel : ViewModel() {
             }
         }
         return null*/
-        }
-        return null
-    }
+            }
+         return  null
+     }
+
+
+
+
 
 }
 
