@@ -18,14 +18,14 @@ class CargoListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCargoListBinding
     private lateinit var navController: NavController
-    private lateinit var view: CargoListViewModel
+    private lateinit var view: InssuingCargoListViewModel
     private lateinit var currentFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
-        view = ViewModelProvider(this).get(CargoListViewModel::class.java)
+        view = ViewModelProvider(this).get(InssuingCargoListViewModel::class.java)
         binding.setLifecycleOwner(this)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment

@@ -1,7 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-import android.text.style.ImageSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,18 @@ import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
 import androidx.lifecycle.withStarted
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
 import kotlinx.coroutines.launch
 
 
 class DocumentDefinitionListFragment : Fragment(), StateResponse {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
-    private lateinit var viewModel: CargoListViewModel
+    private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var adapter: DocumentDefinitionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +34,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
     ): View? {
 
         binding = FragmentDocumentDefinitionListBinding.inflate(layoutInflater);
-        viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
 
         viewLifecycleOwner.lifecycleScope.launch {

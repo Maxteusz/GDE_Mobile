@@ -10,10 +10,9 @@ import java.util.Date
 
 open class ExtensionFunction {
     companion object {
-        fun DatePickerDialog.getDate() : String{
+        fun DatePickerDialog.getDate() : LocalDate{
             val da = LocalDate.of(datePicker.year,datePicker.month,datePicker.dayOfMonth)
-            val date = da.format(DateTimeFormatter.ofPattern(DateFormat.SIMPLE_DATE))
-            return date
+            return da
 
         }
 

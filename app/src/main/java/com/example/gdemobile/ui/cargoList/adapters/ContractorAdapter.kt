@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 
 
-class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: CargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
+class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: InssuingCargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
 
 
     inner class ContractorViewHolder (val recyclerviewContractorHolder : RecyclerviewContractorBinding

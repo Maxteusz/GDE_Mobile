@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gdemobile.R
-import com.example.gdemobile.databinding.ActivityCargoListBinding
 import com.example.gdemobile.databinding.ActivityConfigurationBinding
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
 
 class ConfigurationActivity : AppCompatActivity() {
 

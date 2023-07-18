@@ -1,9 +1,12 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.util.Log
-import androidx.lifecycle.*
-import com.example.gdemobile.RetrofitMethod
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.RetrofitClient
+import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
@@ -11,12 +14,13 @@ import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
-import kotlinx.coroutines.*
-import okhttp3.internal.notify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
-class CargoListViewModel : ViewModel() {
+open class BaseServiceCargoViewModel : ViewModel() {
 
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
@@ -44,7 +48,7 @@ class CargoListViewModel : ViewModel() {
 
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
-             getCargo()
+            getCargo()
             _scannedCargo.value = _scannedCargo.value?.plus(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
@@ -55,7 +59,7 @@ class CargoListViewModel : ViewModel() {
                 )
             )
             if (Config.aggregation)
-              aggregatePosition()
+                aggregatePosition()
             scannedBarcode.value = ""
 
         }
@@ -76,7 +80,7 @@ class CargoListViewModel : ViewModel() {
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
 
         if (deleteAll || documentPosition.amount <= 1)
-           _scannedCargo.value =  _scannedCargo.value?.minus(documentPosition)
+            _scannedCargo.value =  _scannedCargo.value?.minus(documentPosition)
         else
             documentPosition.amount -= 1
         _scannedCargoAfterFilter.postValue(_scannedCargo.value)
@@ -134,53 +138,38 @@ class CargoListViewModel : ViewModel() {
     fun filtrDocumentPosition(chars: String){
         _scannedCargoAfterFilter.value =  _scannedCargo.value?.filter {
             it.name.contains(chars, true) ||
-            it.barcode.contains(chars, true)
+                    it.barcode.contains(chars, true)
         } ?: emptyList()
 
     }
 
-     fun getCargo (name : String = "bikini") : DocumentPosition? {
+    fun getCargo (name : String = "bikini") : DocumentPosition? {
         viewModelScope.async(Dispatchers.IO) {
-           // try {
-                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-                val result = quotesApi.getCargoFromApi(Config.tokenApi!!, name)
-                Log.i(LogTag.cargoDownloadFromApi, result.code().toString())
-                if (result.code() == 200) {
-                    Log.i(LogTag.cargoDownloadFromApi, result.body().toString())
-                    // stateResponse?.OnSucces()
-                    return@async result.body()
-                } else async@ null
+            // try {
+            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+            val result = quotesApi.getCargoFromApi(Config.tokenApi!!, name)
+            Log.i(LogTag.cargoDownloadFromApi, result.code().toString())
+            if (result.code() == 200) {
+                Log.i(LogTag.cargoDownloadFromApi, result.body().toString())
+                // stateResponse?.OnSucces()
+                return@async result.body()
+            } else async@ null
 
 
-                /*  } catch (timeout: SocketTimeoutException) {
-                stateResponse?.OnError()
-                Log.e(LogTag.timeoutException, timeout.message.toString())
-            } catch (exception: ConnectException) {
-                stateResponse?.OnError()
-                Log.e(LogTag.connectException, exception.message.toString())
-            } catch (exception: Exception) {
-                stateResponse?.OnError()
-                Log.e(LogTag.basicException, exception.message.toString())
-            }
+            /*  } catch (timeout: SocketTimeoutException) {
+            stateResponse?.OnError()
+            Log.e(LogTag.timeoutException, timeout.message.toString())
+        } catch (exception: ConnectException) {
+            stateResponse?.OnError()
+            Log.e(LogTag.connectException, exception.message.toString())
+        } catch (exception: Exception) {
+            stateResponse?.OnError()
+            Log.e(LogTag.basicException, exception.message.toString())
         }
-        return null*/
-            }
-         return  null
-     }
-
-
-
-
+    }
+    return null*/
+        }
+        return  null
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-

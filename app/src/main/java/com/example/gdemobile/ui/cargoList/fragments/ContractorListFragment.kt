@@ -14,14 +14,14 @@ import androidx.lifecycle.whenStarted
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentContractorListBinding
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.ContractorAdapter
 import kotlinx.coroutines.launch
 
 class ContractorListFragment : Fragment(), StateResponse {
 
     private lateinit var binding: FragmentContractorListBinding
-    private lateinit var viewModel: CargoListViewModel
+    private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var contractorAdapter : ContractorAdapter
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -29,7 +29,7 @@ class ContractorListFragment : Fragment(), StateResponse {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentContractorListBinding.inflate(layoutInflater);
-        viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {

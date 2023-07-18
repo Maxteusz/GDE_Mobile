@@ -3,25 +3,19 @@ package com.example.gdemobile.ui.cargoList.dialogs
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 
 
 class AmountCargoDialog : DialogFragment() {
 
     private lateinit var binding: FragmentAmountCargoDialogBinding
-    private lateinit var sharedViewModel: CargoListViewModel
+    private lateinit var sharedViewModel: InssuingCargoListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +26,7 @@ class AmountCargoDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         getDialog()?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-        sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
 
         binding.okButton.setOnClickListener {

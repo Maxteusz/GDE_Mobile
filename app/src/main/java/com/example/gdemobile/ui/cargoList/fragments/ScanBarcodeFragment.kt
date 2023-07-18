@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.core.impl.CaptureConfig
-import androidx.camera.core.impl.Config
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,10 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
-import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
-import com.example.gdemobile.utils.Utils
-import com.google.android.gms.tasks.OnSuccessListener
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -33,7 +28,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 class ScanBarcodeFragment : Fragment() {
 
     private lateinit var binding: FragmentScanBarcodeBinding
-    private lateinit var sharedViewModel: CargoListViewModel
+    private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false
 
 
@@ -49,7 +44,7 @@ class ScanBarcodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-        sharedViewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )

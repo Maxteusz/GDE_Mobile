@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,9 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
-import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
 
@@ -44,7 +41,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
     }
 
 
-    private lateinit var viewModel: CargoListViewModel
+    private lateinit var viewModel: InssuingCargoListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +50,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
-        viewModel = ViewModelProvider(requireActivity()).get(CargoListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)

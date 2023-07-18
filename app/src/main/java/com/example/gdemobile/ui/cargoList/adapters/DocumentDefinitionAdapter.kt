@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewDocumentdefinitionBinding
 import com.example.gdemobile.models.DocumentDefinition
-import com.example.gdemobile.ui.cargoList.CargoListViewModel
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 
-class DocumentDefinitionAdapter (private val documentDefinitions : List<DocumentDefinition>, private val cargoListView: CargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<DocumentDefinitionAdapter.DocumentDefnitionViewHolder>() {
+class DocumentDefinitionAdapter (private val documentDefinitions : List<DocumentDefinition>, private val cargoListView: InssuingCargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<DocumentDefinitionAdapter.DocumentDefnitionViewHolder>() {
 
    inner class DocumentDefnitionViewHolder(val recyclerviewDocumentdefinitionBinding: RecyclerviewDocumentdefinitionBinding
    ) : RecyclerView.ViewHolder(recyclerviewDocumentdefinitionBinding.root){
