@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 
 
 class AmountCargoDialog : DialogFragment() {
@@ -37,6 +38,7 @@ class AmountCargoDialog : DialogFragment() {
                     sharedViewModel.scannedBarcode.value!!,
                     binding.amountEdittext.text.toString().toDouble()
                 )
+                this.showToast("Dodano towar")
                 this.dismiss()
             }
         }

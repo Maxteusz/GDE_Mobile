@@ -7,7 +7,6 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Mode
-import com.example.gdemobile.utils.Utils
 
 class MenuView : ViewModel() {
 

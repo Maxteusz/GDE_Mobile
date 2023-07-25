@@ -1,7 +1,10 @@
 package com.example.gdemobile.utils
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -15,6 +18,8 @@ open class ExtensionFunction {
             return da
 
         }
+
+        fun Fragment.showToast(message : String) =  Toast.makeText(activity?.baseContext,message, Toast.LENGTH_SHORT).show();
 
     }
 }

@@ -22,7 +22,6 @@ import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
 
-import com.example.gdemobile.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -98,7 +97,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
         })
         binding.refreshButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                Utils.getToken(thisFragment)
+
             }
         }
         binding.searchTextlayout.setEndIconOnClickListener {

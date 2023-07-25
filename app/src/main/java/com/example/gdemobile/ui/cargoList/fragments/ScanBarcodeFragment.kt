@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -21,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -82,13 +84,17 @@ class ScanBarcodeFragment : Fragment() {
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
+
                                 sharedViewModel.scannedBarcode.value =
                                     barcodes.first().rawValue.toString()
                                 if (com.example.gdemobile.config.Config.insertAmountCargo)
                                     findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
-                                else
+                                else {
                                     sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!)
+                                    this.showToast("Dodano towar")
+                                }
                                 lockScanning()
+
                             }
                         }
                     imageProxy.close()
