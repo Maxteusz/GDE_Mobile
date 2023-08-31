@@ -9,8 +9,8 @@ class Config {
 
     companion object : Serializable {
         var tokenApi: String? = null;
-        var ip: String? = "192.168.1.168"
-        var port: String? = "2001"
+        var ip: String? = "20.0.1.238"
+        var port: String? = "5000"
         var usernameERP: String? = "Administrator"
         var passwordERP: String? = "12345"
         var aggregation: Boolean = false

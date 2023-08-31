@@ -63,6 +63,7 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
             }
         })
+        viewModel.getDocumentInTemp()
         return binding.root
     }
 

@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.config.Config
+import com.example.gdemobile.enovaConnect.InternalAdmissionDocumentsConnectInformation
+import com.example.gdemobile.enovaConnect.PaginationDto
+import com.example.gdemobile.enovaConnect.RequestDto
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
@@ -170,6 +173,37 @@ open class BaseServiceCargoViewModel : ViewModel() {
     return null*/
         }
         return  null
+    }
+    fun getDocumentInTemp()
+    {
+        stateResponse?.OnLoading()
+        viewModelScope.launch {
+            try {
+                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+
+                val body = RequestDto<PaginationDto>()
+                body.databaseHanlde = "APIGDE"
+                body.methodName = InternalAdmissionDocumentsConnectInformation.getDocumentsInternalPartyInTemp
+                body.serviceName = InternalAdmissionDocumentsConnectInformation.serviceName
+                body.methodArgsDto = RequestDto.MethodArgs()
+                body.methodArgsDto?.dto = PaginationDto(0,3)
+                Log.i("Body", body.toJson())
+
+                val result = quotesApi.getDocumentInTemp(body.toJson())
+                if (result.code() == 200) {
+                    stateResponse?.OnSucces()
+                    Log.i("Result",result.body().toString())
+
+                }
+            } catch (timeout: SocketTimeoutException) {
+                stateResponse?.OnError()
+                Log.e(LogTag.timeoutException, timeout.message.toString())
+            } catch (exception: ConnectException) {
+                stateResponse?.OnError()
+                Log.e(LogTag.connectException, exception.message.toString())
+
+            }
+        }
     }
 
 }
