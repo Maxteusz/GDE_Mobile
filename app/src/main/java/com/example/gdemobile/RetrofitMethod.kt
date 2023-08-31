@@ -2,6 +2,7 @@ package com.example.gdemobile
 
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
+import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import retrofit2.Response
@@ -30,6 +31,12 @@ interface RetrofitMethod {
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("contractors")
     suspend fun getCargoFromApi(@Header("AuthToken") apiKey : String, @Query("name") cargoName : String): Response<DocumentPosition>
+
+
+    @Headers("Content-Type: application/json","Accept: application/json")
+    @POST("/api/MethodInvoker/InvokeServiceMethod")
+    suspend fun getDocumentInTemp(@Body body : String): Response<String>
+
 
 
 }
