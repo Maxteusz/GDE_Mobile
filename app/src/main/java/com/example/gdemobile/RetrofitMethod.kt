@@ -33,7 +33,6 @@ interface RetrofitMethod {
     suspend fun getCargoFromApi(@Header("AuthToken") apiKey : String, @Query("name") cargoName : String): Response<DocumentPosition>
 
 
-    @Headers("Content-Type: application/json","Accept: application/json")
     @POST("/api/MethodInvoker/InvokeServiceMethod")
     suspend fun getDocumentInTemp(@Body body : String): Response<String>
 

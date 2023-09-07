@@ -186,16 +186,16 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 body.methodName = InternalAdmissionDocumentsConnectInformation.getDocumentsInternalPartyInTemp
                 body.serviceName = InternalAdmissionDocumentsConnectInformation.serviceName
                 body.methodArgsDto = RequestDto.MethodArgs()
-                body.methodArgsDto?.dto = PaginationDto(0,3)
+                body.methodArgsDto?.dto?.pagination = PaginationDto(0,3)
                 Log.i("Bodyyy", body.toJson())
                // Log.i("Request", )
 
                 val result = quotesApi.getDocumentInTemp(body.toJson())
-                if (result.code() == 200) {
-                    stateResponse?.OnSucces()
-                    Log.i("Result",result.body().toString())
 
-                }
+                    stateResponse?.OnSucces()
+
+
+
             } catch (timeout: SocketTimeoutException) {
                 stateResponse?.OnError()
                 Log.e(LogTag.timeoutException, timeout.message.toString())

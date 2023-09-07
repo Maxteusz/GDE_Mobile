@@ -24,7 +24,11 @@ class RequestDto <T : Any> {
 
     class MethodArgs<T> {
         @SerializedName("dto")
-        var  dto: T? = null
+        var  dto: Dto<T> = Dto<T>()
+    }
+    class Dto<T>
+    {  @SerializedName("Paginacja")
+    var pagination : T? = null
     }
 
     fun toJson(): String {
