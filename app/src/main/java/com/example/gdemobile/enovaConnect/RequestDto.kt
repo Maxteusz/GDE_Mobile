@@ -1,27 +1,24 @@
 package com.example.gdemobile.enovaConnect
 
 import com.example.gdemobile.config.Config
+import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
-class RequestDto <T : Any> {
+class RequestDto <T : Any> (connectionMethod : IConnectEnovaMethod) {
     @SerializedName("DatabaseHandle")
     var databaseHanlde: String = "APIGDE"
-
     @SerializedName("Operator")
     private val _operator = Config.usernameERP
-
     @SerializedName("Password")
-   private val _password = Config.passwordERP
+    private val _password = Config.passwordERP
     @SerializedName("ServiceName")
-    var serviceName = ""
-
+    private var _serviceName =connectionMethod.methodService
     @SerializedName("MethodName")
-    var methodName: String = ""
-
+    private var _methodName: String = connectionMethod.methodName
     @SerializedName("MethodArgs")
     var methodArgsDto: MethodArgs<T>? = MethodArgs()
-
     class MethodArgs<T> {
         @SerializedName("dto")
         var  dto: Dto<T> = Dto<T>()
@@ -30,12 +27,5 @@ class RequestDto <T : Any> {
     {  @SerializedName("Paginacja")
     var pagination : T? = null
     }
-
-    fun toJson(): String {
-        val gson = Gson()
-        return gson.toJson(this)
-    }
-
-
 }
 

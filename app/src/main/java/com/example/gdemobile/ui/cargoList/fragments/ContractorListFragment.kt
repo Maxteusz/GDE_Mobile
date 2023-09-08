@@ -33,8 +33,8 @@ class ContractorListFragment : Fragment(), StateResponse {
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                if(viewModel.contractors.value?.isEmpty() == true)
-                viewModel.getContractors()
+                //if(viewModel.contractors.value?.isEmpty() == true)
+               // viewModel.getContractors()
             }
         }
         return binding.root

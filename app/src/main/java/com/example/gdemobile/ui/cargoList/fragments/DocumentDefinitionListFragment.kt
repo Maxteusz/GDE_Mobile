@@ -39,8 +39,8 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
 
         viewLifecycleOwner.lifecycleScope.launch {
             withStarted {
-                if (viewModel.documentDefinitions.value?.isEmpty() == true)
-                    viewModel.getDocumentDefinitions()
+                //if (viewModel.documentDefinitions.value?.isEmpty() == true)
+                  //  viewModel.getDocumentDefinitions()
 
             }
         }

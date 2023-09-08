@@ -1,13 +1,10 @@
 package com.example.gdemobile
 
-import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.models.Document
-import com.example.gdemobile.models.DocumentDefinition
-import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.enovaConnect.PaginationDto
+import com.example.gdemobile.enovaConnect.ReceiveDto
+import com.example.gdemobile.enovaConnect.RequestDto
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -15,7 +12,7 @@ import retrofit2.http.Query
 
 interface RetrofitMethod {
 
-    @Headers("Content-Type: application/json","Accept: application/json")
+ /*   @Headers("Content-Type: application/json","Accept: application/json")
     @GET("contractors")
     suspend fun getContractors(@Header("AuthToken") apiKey : String): Response<ArrayList<Contractor>>
 
@@ -31,10 +28,11 @@ interface RetrofitMethod {
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("contractors")
     suspend fun getCargoFromApi(@Header("AuthToken") apiKey : String, @Query("name") cargoName : String): Response<DocumentPosition>
-
+*/
 
     @POST("/api/MethodInvoker/InvokeServiceMethod")
-    suspend fun getDocumentInTemp(@Body body : String): Response<String>
+    @Headers("Content-Type: application/json","Accept: application/json")
+    suspend fun <T> getData(@Body body: RequestDto<PaginationDto>): Response<ReceiveDto<T>>
 
 
 

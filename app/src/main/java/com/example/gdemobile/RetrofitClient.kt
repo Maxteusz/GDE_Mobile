@@ -60,6 +60,7 @@ class RetrofitClient {
             // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
             val builder = OkHttpClient.Builder()
+
             builder.sslSocketFactory(
                 sslSocketFactory,
                 trustAllCerts[0] as X509TrustManager
