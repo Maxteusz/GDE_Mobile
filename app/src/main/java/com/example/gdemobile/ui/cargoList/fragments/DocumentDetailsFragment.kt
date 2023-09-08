@@ -52,7 +52,7 @@ class DocumentDetailsFragment : Fragment() {
             dataPicker.show()
             dataPicker.setOnDateSetListener({ view, year, month, dayOfMonth ->
 
-                viewModel.document.value?.date = dataPicker.getDate()
+                //viewModel.document.value?.date = dataPicker.getDate()
                 binding.dateEdittext.setText(dataPicker.getDate().format(DateTimeFormatter.ofPattern(DateFormat.SIMPLE_DATE)))
 
 

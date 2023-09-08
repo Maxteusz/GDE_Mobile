@@ -5,23 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gdemobile.RetrofitClient
-import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.config.Config
-import com.example.gdemobile.enovaConnect.InternalAdmissionDocumentsConnectInformation
-import com.example.gdemobile.enovaConnect.PaginationDto
-import com.example.gdemobile.enovaConnect.RequestDto
+import com.example.gdemobile.enovaConnect.ConnectService
+import com.example.gdemobile.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
@@ -51,7 +44,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
-            getCargo()
+            //getCargo()
             _scannedCargo.value = _scannedCargo.value?.plus(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
@@ -69,21 +62,22 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
 
     }
+
     private fun aggregatePosition() {
-        _scannedCargo.value =  _scannedCargo.value?.groupBy { it.barcode }?.
-        map{ DocumentPosition(
-            it.value.first().code,
-            it.value.first().name,
-            it.value.first().unit,
-            it.value.first().barcode,
-            it.value.sumOf { it.amount })
+        _scannedCargo.value = _scannedCargo.value?.groupBy { it.barcode }?.map {
+            DocumentPosition(
+                it.value.first().code,
+                it.value.first().name,
+                it.value.first().unit,
+                it.value.first().barcode,
+                it.value.sumOf { it.amount })
         }
     }
 
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
 
         if (deleteAll || documentPosition.amount <= 1)
-            _scannedCargo.value =  _scannedCargo.value?.minus(documentPosition)
+            _scannedCargo.value = _scannedCargo.value?.minus(documentPosition)
         else
             documentPosition.amount -= 1
         _scannedCargoAfterFilter.postValue(_scannedCargo.value)
@@ -93,7 +87,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    fun getContractors() {
+    /*fun getContractors() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
             try {
@@ -115,9 +109,9 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 Log.e(LogTag.basicException, exception.message.toString())
             }
         }
-    }
+    }*/
 
-    fun getDocumentDefinitions() {
+    /*fun getDocumentDefinitions() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
             try {
@@ -136,17 +130,17 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
             }
         }
-    }
+    }*/
 
-    fun filtrDocumentPosition(chars: String){
-        _scannedCargoAfterFilter.value =  _scannedCargo.value?.filter {
+    fun filtrDocumentPosition(chars: String) {
+        _scannedCargoAfterFilter.value = _scannedCargo.value?.filter {
             it.name.contains(chars, true) ||
                     it.barcode.contains(chars, true)
         } ?: emptyList()
 
     }
 
-    fun getCargo (name : String = "bikini") : DocumentPosition? {
+   /* fun getCargo(name: String = "bikini"): DocumentPosition? {
         viewModelScope.async(Dispatchers.IO) {
             // try {
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
@@ -159,7 +153,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
             } else async@ null
 
 
-            /*  } catch (timeout: SocketTimeoutException) {
+            *//*  } catch (timeout: SocketTimeoutException) {
             stateResponse?.OnError()
             Log.e(LogTag.timeoutException, timeout.message.toString())
         } catch (exception: ConnectException) {
@@ -170,41 +164,48 @@ open class BaseServiceCargoViewModel : ViewModel() {
             Log.e(LogTag.basicException, exception.message.toString())
         }
     }
-    return null*/
+    return null*//*
         }
-        return  null
-    }
-    fun getDocumentInTemp()
-    {
+        return null
+    }*/
+
+    /*   fun <T : Any> getDocumentInTemp(method : RetrofitMethod) : ReceiveDto<T> {
+           stateResponse?.OnLoading()
+           viewModelScope.launch {
+               try {
+                   val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+
+                   val body = RequestDto<PaginationDto>()
+                   body.databaseHanlde = "APIGDE"
+                   body.methodName =
+                       InternalAdmissionDocumentsConnectInformation.getDocumentsExternalPartyInTemp
+                   body.serviceName = InternalAdmissionDocumentsConnectInformation.serviceName
+                   body.methodArgsDto = RequestDto.MethodArgs()
+                   body.methodArgsDto?.dto?.pagination = PaginationDto(0, 3)
+                   val result =
+                   if (result.code() == 200) {
+                       Log.i("Resluttt", )
+                       stateResponse?.OnSucces()
+                   }
+               } catch (timeout: SocketTimeoutException) {
+                   stateResponse?.OnError()
+                   Log.e(LogTag.timeoutException, timeout.message.toString())
+               } catch (exception: ConnectException) {
+                   stateResponse?.OnError()
+                   Log.e(LogTag.connectException, exception.message.toString())
+               } catch (exception: java.lang.Exception) {
+                   stateResponse?.OnError()
+                   Log.e(LogTag.unknownException, exception.message.toString())
+               }
+
+
+           }
+       }*/
+    fun getDocumentInTemp() {
         stateResponse?.OnLoading()
         viewModelScope.launch {
-            try {
-                val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-
-                val body = RequestDto<PaginationDto>()
-                body.databaseHanlde = "APIGDE"
-                body.methodName = InternalAdmissionDocumentsConnectInformation.getDocumentsInternalPartyInTemp
-                body.serviceName = InternalAdmissionDocumentsConnectInformation.serviceName
-                body.methodArgsDto = RequestDto.MethodArgs()
-                body.methodArgsDto?.dto?.pagination = PaginationDto(0,3)
-                Log.i("Bodyyy", body.toJson())
-               // Log.i("Request", )
-
-                val result = quotesApi.getDocumentInTemp(body.toJson())
-
-                    stateResponse?.OnSucces()
-
-
-
-            } catch (timeout: SocketTimeoutException) {
-                stateResponse?.OnError()
-                Log.e(LogTag.timeoutException, timeout.message.toString())
-            } catch (exception: ConnectException) {
-                stateResponse?.OnError()
-                Log.e(LogTag.connectException, exception.message.toString())
-
-            }
+            val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
+            connection.makeConnection<Document>()
         }
     }
-
 }
