@@ -14,11 +14,11 @@ class ConnectService(
     val connectionParameters: IConnectEnovaMethod
 ) {
 
-    suspend fun <T : Any> makeConnection(): List<T>? {
+    suspend fun <T : Any> makeConnectionForListData(): List<T>? {
         try {
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
 
-            var result = quotesApi.getData<T>(getBody(connectionParameters))
+            var result = quotesApi.getListData<T>(getBody(connectionParameters))
             if (result.code() == 200) {
                 stateResponse?.OnSucces()
                 return result.body()?.resultInstance?.toList()

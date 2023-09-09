@@ -5,10 +5,8 @@ import com.example.gdemobile.enovaConnect.ReceiveDto
 import com.example.gdemobile.enovaConnect.RequestDto
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface RetrofitMethod {
 
@@ -32,7 +30,7 @@ interface RetrofitMethod {
 
     @POST("/api/MethodInvoker/InvokeServiceMethod")
     @Headers("Content-Type: application/json","Accept: application/json")
-    suspend fun <T> getData(@Body body: RequestDto<PaginationDto>): Response<ReceiveDto<T>>
+    suspend fun <T> getListData(@Body body: RequestDto<PaginationDto>): Response<ReceiveDto<T>>
 
 
 

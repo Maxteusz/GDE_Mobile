@@ -34,7 +34,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.cargoList.CargoListActivity"
+            android:name=".ui.cargoList.activities.CargoListActivity"
             android:exported="false"
             android:screenOrientation="portrait">
             <meta-data

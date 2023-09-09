@@ -1,4 +1,4 @@
-package com.example.gdemobile.ui.cargoList
+package com.example.gdemobile.ui.cargoList.activities
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ActivityCargoListBinding
+import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment
 import com.google.firebase.FirebaseApp
 

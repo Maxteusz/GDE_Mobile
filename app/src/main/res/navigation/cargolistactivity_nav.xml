@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cargolistactivity_nav"
-    app:startDestination="@id/cargoListFragment">
+    app:startDestination="@id/documentListFragment">
 
     <fragment
         android:id="@+id/cargoListFragment"
@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_cargoListFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
+        <action
+            android:id="@+id/action_cargoListFragment_to_documentListFragment"
+            app:destination="@id/documentListFragment" />
     </fragment>
     <fragment
         android:id="@+id/scanBarcodeFragment"
@@ -72,4 +75,12 @@
             android:id="@+id/action_amountCargoDialog_to_cargoListFragment"
             app:destination="@id/cargoListFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/documentListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentListFragment"
+        android:label="DocumentListFragment" >
+        <action
+            android:id="@+id/action_documentListFragment_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" />
+    </fragment>
 </navigation>

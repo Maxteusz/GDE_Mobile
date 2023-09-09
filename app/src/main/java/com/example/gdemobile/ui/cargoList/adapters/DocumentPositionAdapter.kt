@@ -10,7 +10,8 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter.CargoViewHolder
 
-class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>, private var viewModel: InssuingCargoListViewModel) : RecyclerView.Adapter<CargoViewHolder>() {
+class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>, private var viewModel: InssuingCargoListViewModel)
+    : RecyclerView.Adapter<CargoViewHolder>() {
 
     private val tempCargos: MutableList<DocumentPosition> = cargos
     inner class CargoViewHolder(

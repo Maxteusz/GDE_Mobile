@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.ActivityMenuBinding
-import com.example.gdemobile.ui.cargoList.CargoListActivity
+import com.example.gdemobile.ui.cargoList.activities.CargoListActivity
 import com.example.gdemobile.ui.configuration.ConfigurationActivity
 
 

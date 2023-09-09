@@ -14,7 +14,8 @@ import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 
 
-class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: InssuingCargoListViewModel, private val fragment: Fragment) : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
+class ContractorAdapter (private val contractors : List<Contractor>, private val cargoListView: InssuingCargoListViewModel, private val fragment: Fragment)
+    : RecyclerView.Adapter<ContractorAdapter.ContractorViewHolder>() {
 
 
     inner class ContractorViewHolder (val recyclerviewContractorHolder : RecyclerviewContractorBinding
