@@ -8,7 +8,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewDocumentBinding
 import com.example.gdemobile.models.Document
 
-class DocumentsAdapter(private val documents : MutableList<Document>)
+class DocumentsAdapter(private val documents : List<Document>)
     :  RecyclerView.Adapter<DocumentsAdapter.DocumentsViewHolder>() {
 
     inner class DocumentsViewHolder(

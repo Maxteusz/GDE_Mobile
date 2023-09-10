@@ -13,8 +13,11 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.utils.LogTag
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
+
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
@@ -85,7 +88,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
             documentPosition.amount -= 1
         _scannedCargoAfterFilter.postValue(_scannedCargo.value)
 
-        Log.i(LogTag.amountDocumentPosition, documentPosition.amount.toString())
     }
 
 
@@ -107,8 +109,24 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun getDocumentsInTemp()  {
         viewModelScope.launch {
+            val gson = Gson()
             val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-            _documentListInTemp = connection.makeConnectionForListData<Document>() as MutableLiveData<List<Document>?>
+           var receiveList   = gson.fromJson(connection.makeConnectionForListData()!!,
+               Array<Document>::class.java
+           )
+      //   Log.i("fdfd", receiveList.get(0).id )
+           //  _documentListInTemp.postValue(receiveList)
+
+
+
         }
     }
+    /*inline fun <reified T> fromJson(json: String?): T {
+        val gs = Gson()
+        val js = gs.toJson(model)
+        categoriesModel = gs.fromJson<Any>(js, CategoriesModel::class.java)
+    }*/
+
+   /* internal inline fun <reified T> Gson.fromJson(json: String) =
+        fromJson<T>(json, object : TypeToken<T>() {}.type)*/
 }

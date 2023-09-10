@@ -11,7 +11,7 @@ class ReceiveDto <T> {
     @SerializedName("IsEmpty")
     val isEmpty : Boolean = false
     @SerializedName("ResultInstance")
-    val resultInstance : ArrayList<T> = ArrayList<T>()
+    val resultInstance : List<T> = emptyList()
 }
 
 
