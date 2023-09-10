@@ -51,9 +51,9 @@ class DocumentListFragment : Fragment() {
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                //recyclerViewAdapter = DocumentsAdapter()
-                //binding.recyclerview.adapter = recyclerViewAdapter
-                //(it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
+                recyclerViewAdapter = DocumentsAdapter(viewModel.documentListInTemp.value!!)
+                binding.recyclerview.adapter = recyclerViewAdapter
+                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }
         })
     }

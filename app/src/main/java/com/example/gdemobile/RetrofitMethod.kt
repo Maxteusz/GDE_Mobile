@@ -3,6 +3,7 @@ package com.example.gdemobile
 import com.example.gdemobile.enovaConnect.PaginationDto
 import com.example.gdemobile.enovaConnect.ReceiveDto
 import com.example.gdemobile.enovaConnect.RequestDto
+import com.example.gdemobile.models.Document
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers

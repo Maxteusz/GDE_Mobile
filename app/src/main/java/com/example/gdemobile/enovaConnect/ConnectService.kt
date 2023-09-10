@@ -7,6 +7,8 @@ import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import kotlin.reflect.typeOf
@@ -18,30 +20,27 @@ class ConnectService(
 
    suspend fun <T> makeConnectionForListData(): List<T> {
         try {
-
+            val gson = Gson()
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-
-            var result = quotesApi.getListData<String>(getBody(connectionParameters))
+            var result = quotesApi.getListData<T>(getBody(connectionParameters))
             if (result.code() == 200) {
-
                 stateResponse?.OnSucces()
-                Log.i("fffff",result.body()?.resultInstance?.toString()!!)
-                return result.body()?.resultInstance
+                return result.body()?.resultInstance!!
             }
             return emptyList()
 
         } catch (timeout: SocketTimeoutException) {
             stateResponse?.OnError()
-            return null
+            return emptyList()
             Log.e(LogTag.timeoutException, timeout.message.toString())
         } catch (exception: ConnectException) {
             stateResponse?.OnError()
-            return null
+            return emptyList()
             Log.e(LogTag.connectException, exception.message.toString())
-        } catch (exception: java.lang.Exception) {
+        } catch (exception: Exception) {
             stateResponse?.OnError()
             Log.e(LogTag.unknownException, exception.message.toString())
-            return null
+            return emptyList()
         }
     }
 
@@ -55,6 +54,9 @@ class ConnectService(
         body.methodArgsDto?.dto?.pagination = paginationDto
         return body;
     }
+
+    internal inline fun <reified T> Gson.fromJson(json: String) =
+        fromJson<T>(json, object : TypeToken<T>() {}.type)
 }
 
 

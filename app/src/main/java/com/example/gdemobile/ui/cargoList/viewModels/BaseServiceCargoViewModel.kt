@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
+import kotlin.reflect.typeOf
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
@@ -107,26 +108,17 @@ open class BaseServiceCargoViewModel : ViewModel() {
            }*/
     }
 
-    fun getDocumentsInTemp()  {
+    fun getDocumentsInTemp() {
         viewModelScope.launch {
             val gson = Gson()
             val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-           var receiveList   = gson.fromJson(connection.makeConnectionForListData()!!,
-               Array<Document>::class.java
-           )
-      //   Log.i("fdfd", receiveList.get(0).id )
-           //  _documentListInTemp.postValue(receiveList)
-
-
+            var receiveList = connection.makeConnectionForListData<Document>()!!
+            val x  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+            _documentListInTemp.postValue((x))
 
         }
     }
-    /*inline fun <reified T> fromJson(json: String?): T {
-        val gs = Gson()
-        val js = gs.toJson(model)
-        categoriesModel = gs.fromJson<Any>(js, CategoriesModel::class.java)
-    }*/
 
-   /* internal inline fun <reified T> Gson.fromJson(json: String) =
-        fromJson<T>(json, object : TypeToken<T>() {}.type)*/
+    internal inline fun <reified T> Gson.fromJson(json: String) =
+        fromJson<T>(json, object : TypeToken<T>() {}.type)
 }
