@@ -18,29 +18,28 @@ class ConnectService(
     val connectionParameters: IConnectEnovaMethod
 ) {
 
-   suspend fun <T> makeConnectionForListData(): List<T> {
+   suspend fun <T> makeConnectionForListData(): T? {
         try {
-            val gson = Gson()
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
             var result = quotesApi.getListData<T>(getBody(connectionParameters))
             if (result.code() == 200) {
                 stateResponse?.OnSucces()
                 return result.body()?.resultInstance!!
             }
-            return emptyList()
+            return null
 
         } catch (timeout: SocketTimeoutException) {
             stateResponse?.OnError()
-            return emptyList()
+            return null
             Log.e(LogTag.timeoutException, timeout.message.toString())
         } catch (exception: ConnectException) {
             stateResponse?.OnError()
-            return emptyList()
+            return null
             Log.e(LogTag.connectException, exception.message.toString())
         } catch (exception: Exception) {
             stateResponse?.OnError()
             Log.e(LogTag.unknownException, exception.message.toString())
-            return emptyList()
+            return null
         }
     }
 

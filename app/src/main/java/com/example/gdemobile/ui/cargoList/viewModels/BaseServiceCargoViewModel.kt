@@ -112,13 +112,14 @@ open class BaseServiceCargoViewModel : ViewModel() {
         viewModelScope.launch {
             val gson = Gson()
             val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-            var receiveList = connection.makeConnectionForListData<Document>()!!
-            val x  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
-            _documentListInTemp.postValue((x))
+            var receiveList = connection.makeConnectionForListData<List<Document>>()!!
+            val convetedList  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+            _documentListInTemp.postValue((convetedList))
 
         }
     }
-
     internal inline fun <reified T> Gson.fromJson(json: String) =
         fromJson<T>(json, object : TypeToken<T>() {}.type)
+
+
 }
