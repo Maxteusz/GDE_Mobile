@@ -1,8 +1,6 @@
 package com.example.gdemobile.enovaConnect
 
-import com.example.gdemobile.models.Document
 import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
 
 class ReceiveDto <T> {
     @SerializedName("IsException")
@@ -12,7 +10,7 @@ class ReceiveDto <T> {
     @SerializedName("IsEmpty")
     val isEmpty : Boolean = false
     @SerializedName("ResultInstance")
-    var  resultInstance : T? = null
+    val  resultInstance : T? = null
 }
 
 

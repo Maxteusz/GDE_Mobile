@@ -7,4 +7,5 @@ object LogTag {
     const val amountDocumentPosition = "DocumentPosition amount"
     const val cargoDownloadFromApi = "Cargo download from API"
     const val unknownException = "Unknown Exception"
+    const val nullPointerException = "NullPointerException"
 }

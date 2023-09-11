@@ -13,10 +13,12 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.utils.LogTag
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
+import kotlin.NullPointerException
 import kotlin.reflect.typeOf
 
 
@@ -76,7 +78,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 it.value.first().name,
                 it.value.first().unit,
                 it.value.first().barcode,
-
                 it.value.sumOf { it.amount })
         }
     }
@@ -110,11 +111,19 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun getDocumentsInTemp() {
         viewModelScope.launch {
-            val gson = Gson()
-            val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-            var receiveList = connection.makeConnectionForListData<List<Document>>()!!
-            val convetedList  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
-            _documentListInTemp.postValue((convetedList))
+            try {
+                val gson = Gson()
+                val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
+                var receiveList = connection.makeConnectionForListData<List<Document>>()!!
+                val convetedList  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+                _documentListInTemp.postValue((convetedList))
+            }
+            catch (exception : NullPointerException)
+            {
+                Log.e(LogTag.nullPointerException, exception.message.toString())
+                stateResponse?.OnError()
+            }
+
 
         }
     }

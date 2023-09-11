@@ -19,29 +19,35 @@ class ConnectService(
 ) {
 
    suspend fun <T> makeConnectionForListData(): T? {
-        try {
-            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-            var result = quotesApi.getListData<T>(getBody(connectionParameters))
-            if (result.code() == 200) {
-                stateResponse?.OnSucces()
-                return result.body()?.resultInstance!!
-            }
-            return null
+       try {
+           val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+           var result = quotesApi.getListData<T?>(getBody(connectionParameters))
+           if (result.code() == 200) {
 
-        } catch (timeout: SocketTimeoutException) {
-            stateResponse?.OnError()
-            return null
-            Log.e(LogTag.timeoutException, timeout.message.toString())
-        } catch (exception: ConnectException) {
-            stateResponse?.OnError()
-            return null
-            Log.e(LogTag.connectException, exception.message.toString())
-        } catch (exception: Exception) {
-            stateResponse?.OnError()
-            Log.e(LogTag.unknownException, exception.message.toString())
-            return null
-        }
-    }
+               stateResponse?.OnSucces()
+               return result.body()?.resultInstance
+           }
+           return null
+
+
+       } catch (timeout: SocketTimeoutException) {
+           stateResponse?.OnError()
+           Log.e(LogTag.timeoutException, timeout.message.toString())
+           return null
+
+       } catch (exception: ConnectException) {
+           stateResponse?.OnError()
+           Log.e(LogTag.connectException, exception.message.toString())
+           return null
+
+       } catch (exception: Exception) {
+           stateResponse?.OnError()
+           Log.e(LogTag.unknownException, exception.message.toString())
+           return null
+       }
+
+
+   }
 
 
     private fun getBody(
@@ -54,8 +60,6 @@ class ConnectService(
         return body;
     }
 
-    internal inline fun <reified T> Gson.fromJson(json: String) =
-        fromJson<T>(json, object : TypeToken<T>() {}.type)
 }
 
 
