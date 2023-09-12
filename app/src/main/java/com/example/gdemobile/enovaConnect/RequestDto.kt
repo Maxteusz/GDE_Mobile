@@ -23,16 +23,17 @@ class RequestDto<T : Any>(connectionMethod: IConnectEnovaMethod) {
     private var _methodName: String = connectionMethod.methodName
 
     @SerializedName("MethodArgs")
-    var methodArgsDto: MethodArgs<T>? = MethodArgs()
+    private var methodArgsDto: MethodArgs<T>? = MethodArgs()
 
-    class MethodArgs<T> {
+   private  class MethodArgs<T> {
         @SerializedName("dto")
         var dto: Dto<T> = Dto<T>()
     }
 
-    class Dto<T> {
+   private class Dto<T> {
         @SerializedName("Paginacja")
-        var pagination: T? = null
+        var pagination  = PaginationDto(0,3);
+
     }
 
     class PaginationDto (@SerializedName("Pomin")val skip: Int,  @SerializedName("Pobierz")val take: Int ){

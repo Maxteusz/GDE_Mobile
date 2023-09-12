@@ -29,7 +29,7 @@ interface RetrofitMethod {
 
     @POST("/api/MethodInvoker/InvokeServiceMethod")
     @Headers("Content-Type: application/json","Accept: application/json")
-    suspend fun <T> getListData(@Body body: RequestDto<RequestDto.PaginationDto>): Response<ReceiveDto<T>>
+    suspend fun <T : Any> getListData(@Body body: RequestDto<RequestDto.PaginationDto>): Response<ReceiveDto<T>>
 
 
 

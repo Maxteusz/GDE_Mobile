@@ -4,24 +4,20 @@ import android.util.Log
 import com.example.gdemobile.RetrofitClient
 import com.example.gdemobile.RetrofitMethod
 import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-import kotlin.reflect.typeOf
 
 class ConnectService(
     val stateResponse: StateResponse?,
 ) {
 
-    suspend fun <T> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): T? {
+    suspend fun <T : Any> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): T? {
         try {
             stateResponse?.OnLoading()
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-            var result = quotesApi.getListData<T?>(connectionParameters.getBody())
+            var result = quotesApi.getListData<T>(connectionParameters.getBody())
             if (result.code() == 200) {
                 if(result.body()?.isException == false) {
                     stateResponse?.OnSucces()

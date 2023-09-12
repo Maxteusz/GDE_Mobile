@@ -8,8 +8,6 @@ class GetDocumentsExternalPartyInTemp : IConnectEnovaMethod {
     override val methodService: String  = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
     override fun getBody(): RequestDto<RequestDto.PaginationDto> {
         val body = RequestDto<RequestDto.PaginationDto>(this)
-        body.methodArgsDto = RequestDto.MethodArgs()
-        body.methodArgsDto?.dto?.pagination = RequestDto.PaginationDto(0,3)
         return body;
 
     }
