@@ -15,42 +15,43 @@ import kotlin.reflect.typeOf
 
 class ConnectService(
     val stateResponse: StateResponse?,
-    val connectionParameters: IConnectEnovaMethod
 ) {
 
-   suspend fun <T> makeConnectionForListData(): T? {
-       try {
-           val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-           var result = quotesApi.getListData<T?>(getBody(connectionParameters))
-           if (result.code() == 200) {
+    suspend fun <T> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): T? {
+        try {
+            stateResponse?.OnLoading()
+            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+            var result = quotesApi.getListData<T?>(connectionParameters.getBody())
+            if (result.code() == 200) {
+                if(result.body()?.isException == false) {
+                    stateResponse?.OnSucces()
+                    return result.body()?.resultInstance
+                }
+            }
+            stateResponse?.OnError()
+            return null
 
-               stateResponse?.OnSucces()
-               return result.body()?.resultInstance
-           }
-           return null
-
-
-       } catch (timeout: SocketTimeoutException) {
+        } catch (timeout: SocketTimeoutException) {
            stateResponse?.OnError()
-           Log.e(LogTag.timeoutException, timeout.message.toString())
-           return null
+            Log.e(LogTag.timeoutException, timeout.message.toString())
+            return null
 
-       } catch (exception: ConnectException) {
-           stateResponse?.OnError()
-           Log.e(LogTag.connectException, exception.message.toString())
-           return null
+        } catch (exception: ConnectException) {
+            stateResponse?.OnError()
+            Log.e(LogTag.connectException, exception.message.toString())
+            return null
 
-       } catch (exception: Exception) {
-           stateResponse?.OnError()
-           Log.e(LogTag.unknownException, exception.message.toString())
-           return null
-       }
-
-
-   }
+        } catch (exception: Exception) {
+            stateResponse?.OnError()
+            Log.e(LogTag.unknownException, exception.message.toString())
+            return null
+        }
 
 
-    private fun getBody(
+    }
+
+
+   /* private fun getBody(
         connectionParameters: IConnectEnovaMethod,
         paginationDto: PaginationDto = PaginationDto(0, 3)
     ): RequestDto<PaginationDto> {
@@ -58,7 +59,7 @@ class ConnectService(
         body.methodArgsDto = RequestDto.MethodArgs()
         body.methodArgsDto?.dto?.pagination = paginationDto
         return body;
-    }
+    }*/
 
 }
 

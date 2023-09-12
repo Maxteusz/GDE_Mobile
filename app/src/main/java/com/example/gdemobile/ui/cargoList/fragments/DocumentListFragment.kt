@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
+import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.ContractorAdapter
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
 import kotlinx.coroutines.launch
 
 
-class DocumentListFragment : Fragment() {
+class DocumentListFragment : Fragment(), StateResponse {
 
     private lateinit var  binding : FragmentDocumentListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -36,6 +37,7 @@ class DocumentListFragment : Fragment() {
     ): View? {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
                 if(viewModel.documentListInTemp.value?.isEmpty() == true)
@@ -56,5 +58,21 @@ class DocumentListFragment : Fragment() {
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }
         })
+    }
+
+    override fun OnLoading() {
+        binding.loadinglayout.visibility = View.VISIBLE
+        binding.succeslayout.visibility = View.GONE
+    }
+
+    override fun OnError() {
+        binding.loadinglayout.visibility = View.GONE
+        binding.succeslayout.visibility = View.GONE
+        binding.errorlayout.visibility = View.VISIBLE
+    }
+
+    override fun OnSucces() {
+        binding.loadinglayout.visibility = View.GONE
+        binding.succeslayout.visibility = View.VISIBLE
     }
 }

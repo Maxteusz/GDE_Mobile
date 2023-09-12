@@ -1,6 +1,5 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,13 +12,9 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.utils.LogTag
 import com.google.gson.Gson
-import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
-import kotlin.NullPointerException
-import kotlin.reflect.typeOf
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
@@ -53,7 +48,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
             //getCargo()
-            _scannedCargo.value = _scannedCargo.value?.plus(
+           /* _scannedCargo.value = _scannedCargo.value?.plus(
                 DocumentPosition(
                     name = "Przykładowa nazwa",
                     unit = "szt.",
@@ -61,8 +56,8 @@ open class BaseServiceCargoViewModel : ViewModel() {
                     code = "dsd",
                     amount = amount,
                     id = "ddd"
-                )
-            )
+                )*/
+            //)
             if (Config.aggregation)
                 aggregatePosition()
             scannedBarcode.value = ""
@@ -78,7 +73,8 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 it.value.first().name,
                 it.value.first().unit,
                 it.value.first().barcode,
-                it.value.sumOf { it.amount })
+                it.value.sumOf { it.amount },
+                it.value.sumOf { it.value })
         }
     }
 
@@ -111,10 +107,9 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun getDocumentsInTemp() {
         viewModelScope.launch {
-
             val gson = Gson()
-            val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-            var receiveList = connection.makeConnectionForListData<List<Document>>()
+            val connection = ConnectService(stateResponse)
+            var receiveList = connection.makeConnectionForListData<List<Document>>(GetDocumentsExternalPartyInTemp())
             if (receiveList != null) {
                 val convetedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
                 _documentListInTemp.postValue((convetedList))

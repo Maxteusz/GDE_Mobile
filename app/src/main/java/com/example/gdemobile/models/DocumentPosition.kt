@@ -1,21 +1,26 @@
 package com.example.gdemobile.models
 
-class DocumentPosition (id : String, code :  String,  name : String,unit: String,   barcode: String, var amount : Double)
-    : Cargo(id,code,name,barcode,unit) {
+import com.google.gson.annotations.SerializedName
+
+class DocumentPosition(
+    id: String,
+    code: String,
+    name: String,
+    unit: String,
+    barcode: String,
+    @SerializedName("Ilosc")
+    var amount: Double,
+    @SerializedName("CenaJednostkowa")
+    var value: Double
+) : Cargo(id, code, name, barcode, unit) {
+
+    val fullName: String
+        get() {
+            if (name.isNullOrEmpty())
+                return "$code"
+            else
+                return "$code - $name"
+        }
 
 
-    class DocumentDefinition() {
-        var id: String = ""
-        var name: String = ""
-        var symbol: String = ""
-
-        val fullName: String
-            get() {
-                if (name.isNullOrEmpty())
-                    return "$symbol"
-                else
-                    return "$symbol - $name"
-            }
-
-    }
 }
