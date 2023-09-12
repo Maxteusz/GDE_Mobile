@@ -12,8 +12,9 @@ class Document {
 
     @SerializedName("Id")
     var id : String = "";
-    @SerializedName("IdKontrahenta")
-    var contractorId: String = ""
+    @SerializedName("NumerDokumentu")
+    var number : String = ""
+    @SerializedName("Kontrahent")
     var contractor: Contractor? = null
     @SerializedName("DefinicjaDokumentu")
     var definition: DocumentDefinition? = null

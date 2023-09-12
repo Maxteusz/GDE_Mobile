@@ -28,7 +28,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
-    private var _documentListInTemp = MutableLiveData<List<Document>?>(emptyList())
+    private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
@@ -43,7 +43,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
         get() = _scannedCargoAfterFilter
-    val documentListInTemp: LiveData<List<Document>?>
+    val documentListInTemp: LiveData<List<Document>>
         get() = _documentListInTemp
 
     val contractors: LiveData<List<Contractor>?>
@@ -111,22 +111,17 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun getDocumentsInTemp() {
         viewModelScope.launch {
-            try {
-                val gson = Gson()
-                val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-                var receiveList = connection.makeConnectionForListData<List<Document>>()!!
-                val convetedList  = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+
+            val gson = Gson()
+            val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
+            var receiveList = connection.makeConnectionForListData<List<Document>>()
+            if (receiveList != null) {
+                val convetedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
                 _documentListInTemp.postValue((convetedList))
             }
-            catch (exception : NullPointerException)
-            {
-                Log.e(LogTag.nullPointerException, exception.message.toString())
-                stateResponse?.OnError()
-            }
-
-
         }
     }
+
     internal inline fun <reified T> Gson.fromJson(json: String) =
         fromJson<T>(json, object : TypeToken<T>() {}.type)
 
