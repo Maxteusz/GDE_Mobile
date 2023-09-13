@@ -9,13 +9,9 @@ class GetDocumentsExternalPartyInTemp : IConnectEnovaMethod {
 
     override val methodName: String = "PobierzDokumentyPrzyjeciaZewnetrznegoMagazynowegoWBuforze"
     override val methodService: String = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
-    override fun  getBody(): RequestDto {
-        val body = RequestDto(this,Dto())
+    override val dto: IDto
+        get() = Dto()
 
-        Log.i("Bodyy", body.toString())
-        return body;
-
-    }
      private class Dto : IDto {
 
         val paginationDto = PaginationDto(0,4)

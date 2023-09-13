@@ -4,7 +4,7 @@ import com.example.gdemobile.config.Config
 import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
 import com.google.gson.annotations.SerializedName
 
-class RequestDto(connectionMethod: IConnectEnovaMethod, dto : IDto) {
+class RequestDto(connectionMethod: IConnectEnovaMethod) {
     @SerializedName("DatabaseHandle")
     var databaseHanlde: String = "APIGDE"
 
@@ -21,7 +21,7 @@ class RequestDto(connectionMethod: IConnectEnovaMethod, dto : IDto) {
     private var _methodName: String = connectionMethod.methodName
 
     @SerializedName("MethodArgs")
-    private var methodArgsDto: MethodArgs = MethodArgs(dto)
+    private var methodArgsDto: MethodArgs = MethodArgs(connectionMethod.dto)
 
     private class MethodArgs (@SerializedName("dto")val dto : IDto) {
 

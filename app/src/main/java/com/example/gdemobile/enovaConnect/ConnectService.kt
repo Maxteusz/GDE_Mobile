@@ -18,7 +18,7 @@ class ConnectService(
             stateResponse?.OnLoading()
 
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-            var result = quotesApi.getListData<X>(connectionParameters.getBody())
+            var result = quotesApi.getListData<X>(RequestDto(connectionParameters))
             if (result.code() == 200) {
                 Log.i("dsds",result.body()!!.exceptionMessage)
                 if(result.body()?.isException == false) {

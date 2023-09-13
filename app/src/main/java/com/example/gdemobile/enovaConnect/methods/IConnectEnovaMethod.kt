@@ -5,9 +5,9 @@ import com.example.gdemobile.enovaConnect.RequestDto
 
 interface IConnectEnovaMethod {
 
-    fun  getBody() : RequestDto
     val methodName : String
     val methodService : String
+    val dto : IDto
 
 
 }
