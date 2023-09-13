@@ -13,14 +13,17 @@ class ConnectService(
     val stateResponse: StateResponse?,
 ) {
 
-    suspend fun <T : Any> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): T? {
+    suspend fun <X : Any> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): X? {
         try {
             stateResponse?.OnLoading()
+
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
-            var result = quotesApi.getListData<T>(connectionParameters.getBody())
+            var result = quotesApi.getListData<X>(connectionParameters.getBody())
             if (result.code() == 200) {
+                Log.i("dsds",result.body()!!.exceptionMessage)
                 if(result.body()?.isException == false) {
                     stateResponse?.OnSucces()
+
                     return result.body()?.resultInstance
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.gdemobile
 
+import com.example.gdemobile.enovaConnect.IDto
 import com.example.gdemobile.enovaConnect.ReceiveDto
 import com.example.gdemobile.enovaConnect.RequestDto
 import retrofit2.Response
@@ -29,7 +30,8 @@ interface RetrofitMethod {
 
     @POST("/api/MethodInvoker/InvokeServiceMethod")
     @Headers("Content-Type: application/json","Accept: application/json")
-    suspend fun <T : Any> getListData(@Body body: RequestDto<RequestDto.PaginationDto>): Response<ReceiveDto<T>>
+    @JvmSuppressWildcards
+    suspend fun <X> getListData(@Body body: RequestDto): Response<ReceiveDto<X>>
 
 
 
