@@ -1,8 +1,6 @@
-package com.example.gdemobile.enovaConnect.methods
+package com.example.gdemobile.apiConnect.enovaConnect.methods
 
-import android.util.Log
-import com.example.gdemobile.enovaConnect.IDto
-import com.example.gdemobile.enovaConnect.RequestDto
+import com.example.gdemobile.apiConnect.enovaConnect.IDto
 import com.google.gson.annotations.SerializedName
 
 class GetDocumentsExternalPartyInTemp : IConnectEnovaMethod {
@@ -13,7 +11,7 @@ class GetDocumentsExternalPartyInTemp : IConnectEnovaMethod {
         get() = Dto()
 
      private class Dto : IDto {
-
+         @SerializedName("Paginacja")
         val paginationDto = PaginationDto(0,4)
         class PaginationDto(
             @SerializedName("Pomin") val skip: Int,

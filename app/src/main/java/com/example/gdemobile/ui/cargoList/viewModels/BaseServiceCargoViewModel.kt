@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.config.Config
-import com.example.gdemobile.enovaConnect.ConnectService
-import com.example.gdemobile.enovaConnect.methods.GetDocumentsExternalPartyInTemp
+import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
@@ -109,7 +109,9 @@ open class BaseServiceCargoViewModel : ViewModel() {
         viewModelScope.launch {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnectionForListData<List<Document>>(GetDocumentsExternalPartyInTemp())
+            var receiveList = connection.makeConnectionForListData<List<Document>>(
+                GetDocumentsExternalPartyInTemp()
+            )
             if (receiveList != null) {
                 val convetedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
                 _documentListInTemp.postValue((convetedList))

@@ -1,7 +1,7 @@
-package com.example.gdemobile.enovaConnect
+package com.example.gdemobile.apiConnect.enovaConnect
 
 import com.example.gdemobile.config.Config
-import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.google.gson.annotations.SerializedName
 
 class RequestDto(connectionMethod: IConnectEnovaMethod) {

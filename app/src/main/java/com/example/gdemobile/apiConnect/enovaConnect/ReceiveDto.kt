@@ -1,4 +1,4 @@
-package com.example.gdemobile.enovaConnect
+package com.example.gdemobile.apiConnect.enovaConnect
 
 import com.google.gson.annotations.SerializedName
 

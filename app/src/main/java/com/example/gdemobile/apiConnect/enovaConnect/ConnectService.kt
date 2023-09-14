@@ -1,9 +1,7 @@
-package com.example.gdemobile.enovaConnect
+package com.example.gdemobile.apiConnect.enovaConnect
 
 import android.util.Log
-import com.example.gdemobile.RetrofitClient
-import com.example.gdemobile.RetrofitMethod
-import com.example.gdemobile.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
 import java.net.ConnectException

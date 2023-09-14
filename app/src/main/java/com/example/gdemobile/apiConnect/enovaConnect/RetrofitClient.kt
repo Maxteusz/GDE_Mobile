@@ -1,10 +1,8 @@
-package com.example.gdemobile
+package com.example.gdemobile.apiConnect.enovaConnect
 
 import com.example.gdemobile.config.Config
 import com.google.gson.GsonBuilder
-import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
