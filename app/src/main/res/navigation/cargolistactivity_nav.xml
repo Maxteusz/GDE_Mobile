@@ -9,6 +9,10 @@
         android:id="@+id/cargoListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment"
         android:label="CargoListFragment" >
+        <argument
+            android:name="idDocument"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
@@ -80,10 +84,18 @@
         android:id="@+id/documentListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentListFragment"
         android:label="DocumentListFragment">
+        <argument
+            android:name="idDocument"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_documentListFragment_to_cargoListFragment"
-            app:destination="@id/cargoListFragment" />
+            app:destination="@id/cargoListFragment" >
+
+
+        </action>
+
 
     </fragment>
 

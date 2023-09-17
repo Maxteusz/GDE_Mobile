@@ -128,16 +128,16 @@ open class BaseServiceCargoViewModel : ViewModel() {
         }
     }
 
-    fun getDocumentPosition()  {
+    fun getDocumentPositions(idDocument : String)  {
         viewModelScope.launch {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
             var receiveList = connection.makeConnectionForListData<List<DocumentPosition>>(
-                GetDocumentPositionsOnDocument()
+                GetDocumentPositionsOnDocument(idDocument)
             )
             if (receiveList != null) {
                 val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
-                Log.i("test pos", convertedList.get(0).id)
+                //Log.i("test pos", convertedList.get(0).id)
                 _documentPositions.postValue(convertedList)
 
             }

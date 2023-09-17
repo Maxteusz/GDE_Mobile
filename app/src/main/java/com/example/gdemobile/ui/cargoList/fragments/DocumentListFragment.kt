@@ -26,9 +26,9 @@ import kotlinx.coroutines.launch
 
 class DocumentListFragment : Fragment(), StateResponse {
 
-    private lateinit var  binding : FragmentDocumentListBinding
+    private lateinit var binding: FragmentDocumentListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
-    private lateinit var recyclerViewAdapter : DocumentsAdapter
+    private lateinit var recyclerViewAdapter: DocumentsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +36,11 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     }
 
-    val listener = object: DocumentsAdapter.CustomViewHolderListener {
+    val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(x: Document) {
-
-
-          findNavController().navigate(R.id.action_documentListFragment_to_cargoListFragment)
+            val action =
+                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(x.id)
+            findNavController().navigate(action)
         }
 
     }
@@ -54,8 +54,8 @@ class DocumentListFragment : Fragment(), StateResponse {
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                if(viewModel.documentListInTemp.value?.isEmpty() == true)
-                 viewModel.getDocumentsInTemp()
+                if (viewModel.documentListInTemp.value?.isEmpty() == true)
+                    viewModel.getDocumentsInTemp()
             }
         }
         return binding.root
@@ -67,7 +67,8 @@ class DocumentListFragment : Fragment(), StateResponse {
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                recyclerViewAdapter = DocumentsAdapter(viewModel.documentListInTemp.value!!,listener)
+                recyclerViewAdapter =
+                    DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
                 binding.recyclerview.adapter = recyclerViewAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }

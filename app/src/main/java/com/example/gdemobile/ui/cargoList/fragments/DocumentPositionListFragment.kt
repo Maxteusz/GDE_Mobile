@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
@@ -31,6 +33,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
+    private val arg : DocumentPositionListFragmentArgs by navArgs()
 
 
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -39,13 +42,17 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+    val args = arg.idDocument
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                viewModel.getDocumentPosition()
+
+                if(args != null) {
+                    Log.i("Get Parametr", args)
+                    viewModel.getDocumentPositions(args)
+                }
             }
         }
         viewModel.documentPositions.observe(viewLifecycleOwner, {
