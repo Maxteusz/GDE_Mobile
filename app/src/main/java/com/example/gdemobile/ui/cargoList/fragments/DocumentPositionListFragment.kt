@@ -52,6 +52,8 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
                     Log.i("Get Parametr", args)
                     viewModel.getDocumentPositions(args)
                 }
+                else
+                    OnError()
             }
         }
         viewModel.documentPositions.observe(viewLifecycleOwner, {
