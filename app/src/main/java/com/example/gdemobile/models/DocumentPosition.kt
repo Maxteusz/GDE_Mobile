@@ -10,8 +10,8 @@ class DocumentPosition(
     barcode: String,
     @SerializedName("Ilosc")
     var amount: Double,
-    @SerializedName("CenaJednostkowa")
-    var value: Double
+    @SerializedName("Cena jednostkowa")
+    var value: Currency
 ) : Cargo(id, code, name, barcode, unit) {
 
     val fullName: String

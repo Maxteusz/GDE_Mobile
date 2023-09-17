@@ -17,7 +17,7 @@ class Config {
         var insertAmountCargo : Boolean = false;
 
         fun saveConfiguration(activity: Activity) {
-            val sharedPref = activity?.getSharedPreferences(
+            val sharedPref = activity.getSharedPreferences(
                 activity.getString(R.string.configuration_file),
                 Context.MODE_PRIVATE
             ) ?: return
@@ -35,7 +35,7 @@ class Config {
         }
 
         fun loadConfiguration(activity: Activity) {
-            val sharedPref = activity?.getSharedPreferences(
+            val sharedPref = activity.getSharedPreferences(
                 activity.getString(R.string.configuration_file),
                 Context.MODE_PRIVATE
             ) ?: return

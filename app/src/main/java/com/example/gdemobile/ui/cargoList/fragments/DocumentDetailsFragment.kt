@@ -50,7 +50,7 @@ class DocumentDetailsFragment : Fragment() {
         binding.dateEdittext.setOnClickListener {
             val dataPicker = DatePickerDialog(requireContext())
             dataPicker.show()
-            dataPicker.setOnDateSetListener({ view, year, month, dayOfMonth ->
+            dataPicker.setOnDateSetListener({ _, _, _, _ ->
 
                 //viewModel.document.value?.date = dataPicker.getDate()
                 binding.dateEdittext.setText(dataPicker.getDate().format(DateTimeFormatter.ofPattern(DateFormat.SIMPLE_DATE)))

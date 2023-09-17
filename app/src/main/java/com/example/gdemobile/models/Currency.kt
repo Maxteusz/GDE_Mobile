@@ -2,9 +2,13 @@ package com.example.gdemobile.models
 
 import com.google.gson.annotations.SerializedName
 
-class Currency {
+class Currency(
     @SerializedName("Wartosc")
-    val value : Double = 0.0
+    val value : Double = 0.0,
     @SerializedName("Symbol")
     val symbol : String = ""
+
+) {
 }
+
+

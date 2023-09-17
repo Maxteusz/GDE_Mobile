@@ -18,10 +18,14 @@ class ConnectService(
             val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
             var result = quotesApi.getListData<X>(RequestDto(connectionParameters))
             if (result.code() == 200) {
-                Log.i("dsds",result.body()!!.exceptionMessage)
+                Log.i(LogTag.enovaApiNameMethod,connectionParameters.methodName)
+                Log.i(LogTag.enovaApiMessage,result.body()!!.exceptionMessage)
+                Log.i(LogTag.enovaApiIsExcpetion,result.body()!!.isException.toString())
+                Log.i(LogTag.enovaApiIsEmpty,result.body()!!.isEmpty.toString())
+                Log.i(LogTag.enovaApiResultInstance,result.body()!!.resultInstance.toString())
+
                 if(result.body()?.isException == false) {
                     stateResponse?.OnSucces()
-
                     return result.body()?.resultInstance
                 }
             }
@@ -46,17 +50,6 @@ class ConnectService(
 
 
     }
-
-
-   /* private fun getBody(
-        connectionParameters: IConnectEnovaMethod,
-        paginationDto: PaginationDto = PaginationDto(0, 3)
-    ): RequestDto<PaginationDto> {
-        val body = RequestDto<PaginationDto>(connectionParameters)
-        body.methodArgsDto = RequestDto.MethodArgs()
-        body.methodArgsDto?.dto?.pagination = paginationDto
-        return body;
-    }*/
 
 }
 

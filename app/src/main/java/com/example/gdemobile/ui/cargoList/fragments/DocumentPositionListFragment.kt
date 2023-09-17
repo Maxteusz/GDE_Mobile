@@ -12,6 +12,7 @@ import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.R
@@ -26,18 +27,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
+class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
-    private val thisFragment = this
-
-
-    init {
-        /*lifecycleScope.launch(Dispatchers.Main) {
-            Utils.getToken(thisFragment)
-        }*/
-    }
 
 
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -50,12 +43,17 @@ class DocumentPositionListFragment : Fragment(), StateResponse, KeyListener {
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.scannedCargo.observe(viewLifecycleOwner, {
+        viewLifecycleOwner.lifecycleScope.launch {
+            whenStarted {
+                viewModel.getDocumentPosition()
+            }
+        }
+        viewModel.documentPositions.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
-                    viewModel.scannedCargo.value!!.toMutableList(),
+                    viewModel.documentPositions.value!!.toMutableList(),
                     viewModel
                 )
 

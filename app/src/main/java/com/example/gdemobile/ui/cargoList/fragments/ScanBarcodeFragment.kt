@@ -80,7 +80,7 @@ class ScanBarcodeFragment : Fragment() {
 
                 imageAnalysis.setAnalyzer(getMainExecutor(requireActivity()), { imageProxy ->
                     val mediaImage = imageProxy.toBitmap()
-                    val image = FirebaseVisionImage.fromBitmap(mediaImage!!)
+                    val image = FirebaseVisionImage.fromBitmap(mediaImage)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {

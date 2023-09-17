@@ -1,19 +1,23 @@
 package com.example.gdemobile.ui.cargoList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Contractor
+import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -24,6 +28,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
+    private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
     private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
@@ -35,6 +40,9 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
+
+    val documentPositions : LiveData<List<DocumentPosition>?>
+        get() = _documentPositions
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
         get() = _scannedCargoAfterFilter
@@ -74,7 +82,8 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 it.value.first().unit,
                 it.value.first().barcode,
                 it.value.sumOf { it.amount },
-                it.value.sumOf { it.value })
+               Currency(2.0,"zł")
+            )
         }
     }
 
@@ -113,11 +122,29 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 GetDocumentsExternalPartyInTemp()
             )
             if (receiveList != null) {
-                val convetedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
-                _documentListInTemp.postValue((convetedList))
+                val convertedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+                _documentListInTemp.postValue((convertedList))
             }
         }
     }
+
+    fun getDocumentPosition()  {
+        viewModelScope.launch {
+            val gson = Gson()
+            val connection = ConnectService(stateResponse)
+            var receiveList = connection.makeConnectionForListData<List<DocumentPosition>>(
+                GetDocumentPositionsOnDocument()
+            )
+            if (receiveList != null) {
+                val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
+                Log.i("test pos", convertedList.get(0).id)
+                _documentPositions.postValue(convertedList)
+
+            }
+        }
+    }
+
+
 
     internal inline fun <reified T> Gson.fromJson(json: String) =
         fromJson<T>(json, object : TypeToken<T>() {}.type)

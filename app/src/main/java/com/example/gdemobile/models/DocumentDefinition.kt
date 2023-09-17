@@ -8,6 +8,8 @@ class DocumentDefinition() {
      var name : String = ""
      @SerializedName("Symbol")
      var symbol : String = ""
+     @SerializedName("Ilosc")
+     val amount : Double = 0.0
 
      val fullName : String get() {
           if (name.isNullOrEmpty())

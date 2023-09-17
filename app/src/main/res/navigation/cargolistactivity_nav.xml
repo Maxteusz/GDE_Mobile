@@ -12,7 +12,7 @@
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
-            app:enterAnim="@animator/nav_default_enter_anim"/>
+            app:enterAnim="@anim/nav_default_enter_anim" />
         <action
             android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
@@ -40,6 +40,7 @@
         android:id="@+id/documentDetailsFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDetailsFragment"
         android:label="DocumentDetailsFragment" >
+
         <action
             android:id="@+id/action_documentDetailsFragment_to_contractorListFragment"
             app:destination="@id/contractorListFragment"
@@ -78,9 +79,12 @@
     <fragment
         android:id="@+id/documentListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentListFragment"
-        android:label="DocumentListFragment" >
+        android:label="DocumentListFragment">
+
         <action
             android:id="@+id/action_documentListFragment_to_cargoListFragment"
             app:destination="@id/cargoListFragment" />
+
     </fragment>
+
 </navigation>
