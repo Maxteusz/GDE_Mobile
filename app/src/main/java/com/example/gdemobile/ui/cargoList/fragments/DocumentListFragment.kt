@@ -1,7 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
-import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.ui.cargoList.adapters.ContractorAdapter
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
 import kotlinx.coroutines.launch
 
@@ -38,6 +34,7 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(x: Document) {
+            viewModel.currentDocument.value?.id = x.id
             val action =
                 DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(x.id)
             findNavController().navigate(action)

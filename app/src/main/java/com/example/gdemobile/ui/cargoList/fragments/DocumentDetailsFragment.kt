@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.ui.cargoList.ReceivingCargoListViewModel
 import com.example.gdemobile.utils.DateFormat
 import com.example.gdemobile.utils.ExtensionFunction.Companion.getDate
 import java.time.format.DateTimeFormatter
@@ -33,7 +32,7 @@ class DocumentDetailsFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
-        binding.document = viewModel.document.value
+        binding.document = viewModel.currentDocument.value
 
         binding.contractorTextfield.setEndIconOnClickListener({
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)

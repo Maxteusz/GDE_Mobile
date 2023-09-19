@@ -22,7 +22,13 @@
             app:destination="@id/documentDetailsFragment" />
         <action
             android:id="@+id/action_cargoListFragment_to_amountCargoDialog"
-            app:destination="@id/amountCargoDialog" />
+            app:destination="@id/amountCargoDialog" >
+            <argument
+                android:name="codeCargo"
+                app:argType="string"
+                app:nullable="false"/>
+        </action>
+
         <action
             android:id="@+id/action_cargoListFragment_to_documentListFragment"
             app:destination="@id/documentListFragment" />
@@ -73,6 +79,11 @@
         android:id="@+id/amountCargoDialog"
         android:name="com.example.gdemobile.ui.cargoList.dialogs.AmountCargoDialog"
         android:label="AmountCargoDialog" >
+        <argument
+            android:name="codeCargo"
+            app:argType="string"
+            app:nullable="false"
+            />
         <action
             android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment" />

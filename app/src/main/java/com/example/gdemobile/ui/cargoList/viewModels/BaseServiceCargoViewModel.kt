@@ -1,12 +1,12 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
+import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Contractor
@@ -31,12 +31,12 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
-    private val _document: MutableLiveData<Document> = MutableLiveData<Document>(Document());
+    private val _currentDocument: MutableLiveData<Document> = MutableLiveData<Document>(Document());
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
 
-    val document: LiveData<Document>
-        get() = _document
+    val currentDocument: LiveData<Document>
+        get() = _currentDocument
 
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
@@ -71,6 +71,24 @@ open class BaseServiceCargoViewModel : ViewModel() {
             scannedBarcode.value = ""
 
         }
+    }
+
+    fun addCargoOnDocument(cargoCode : String, amount : Double, pricePerUnit : Double)
+    {
+        viewModelScope.launch {
+            val gson = Gson()
+            val connection = ConnectService(stateResponse)
+              connection.makeConnectionForListData<String>(
+                AddNewCargoToDocument(
+                    _currentDocument.value?.id!!,
+                    cargoCode,
+                    "",
+                    amount,
+                    Currency(pricePerUnit, "PLN")
+                )
+            )
+        }
+
     }
 
     private fun aggregatePosition() {

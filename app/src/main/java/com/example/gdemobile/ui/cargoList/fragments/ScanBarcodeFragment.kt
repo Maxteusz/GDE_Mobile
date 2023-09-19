@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
+import com.example.gdemobile.utils.LogTag
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -84,16 +86,12 @@ class ScanBarcodeFragment : Fragment() {
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
-
-                                sharedViewModel.scannedBarcode.value =
-                                    barcodes.first().rawValue.toString()
-                                if (com.example.gdemobile.config.Config.insertAmountCargo)
-                                    findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
-                                else {
-                                    sharedViewModel.addCargo(sharedViewModel.scannedBarcode.value!!)
-                                    this.showToast("Dodano towar")
-                                }
+                                var scannedCode = barcodes.first().rawValue.toString()
+                                Log.i(LogTag.scannedCargo, scannedCode)
                                 lockScanning()
+                                val action =
+                                  ScanBarcodeFragmentDirections.actionScanBarcodeFragmentToAmountCargoDialog("fa0ec7f5-3ec8-4182-aecb-fc3938c9dbb0")
+                                findNavController().navigate(action)
 
                             }
                         }
