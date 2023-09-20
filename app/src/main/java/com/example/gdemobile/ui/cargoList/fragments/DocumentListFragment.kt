@@ -84,10 +84,11 @@ class DocumentListFragment : Fragment(), StateResponse {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         errorLayoutBinding.errorTextview.text = message
-        binding.errorlayout.errorlayout.visibility = View.VISIBLE
+        binding.errorlayout.root.visibility = View.VISIBLE
     }
 
     override fun OnSucces() {
+        binding.errorlayout.root.visibility = View.GONE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
     }
