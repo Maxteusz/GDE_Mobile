@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gdemobile.databinding.ErrorLayoutBinding
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
@@ -25,6 +26,7 @@ class DocumentListFragment : Fragment(), StateResponse {
     private lateinit var binding: FragmentDocumentListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var recyclerViewAdapter: DocumentsAdapter
+    private lateinit var errorLayoutBinding: ErrorLayoutBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,7 @@ class DocumentListFragment : Fragment(), StateResponse {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
+        errorLayoutBinding = binding.errorlayout
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
@@ -77,10 +80,11 @@ class DocumentListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun OnError() {
+    override fun OnError(message: String?) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
-        binding.errorlayout.visibility = View.VISIBLE
+        errorLayoutBinding.errorTextview.text = message
+        binding.errorlayout.errorlayout.visibility = View.VISIBLE
     }
 
     override fun OnSucces() {

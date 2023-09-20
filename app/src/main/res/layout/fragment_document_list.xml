@@ -29,56 +29,12 @@
                 android:layout_height="50dp" />
         </LinearLayout>
         <!--OnErrorLayout-->
-        <LinearLayout
-            android:id="@+id/errorlayout"
+
+        <include android:id="@+id/errorlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:gravity="center">
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                app:cardElevation="10dp"
-                app:cardCornerRadius="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/baseline_signal_wifi_bad_24">
-                    </ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Sprawdź połączenie"
-                        android:layout_gravity="center"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/refresh_button"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_gravity="end"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Odśwież"
-                        android:textSize="11sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
 
-
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+            layout="@layout/error_layout"/>
         <!--OnSuccesLayout-->
         <LinearLayout
             android:id="@+id/succeslayout"

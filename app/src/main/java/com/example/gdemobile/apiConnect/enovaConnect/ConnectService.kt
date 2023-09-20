@@ -2,6 +2,7 @@ package com.example.gdemobile.apiConnect.enovaConnect
 
 import android.util.Log
 import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
 import java.net.ConnectException
@@ -28,22 +29,23 @@ class ConnectService(
                     stateResponse?.OnSucces()
                     return result.body()?.resultInstance
                 }
+                stateResponse?.OnError(result.body()?.exceptionMessage)
             }
-            stateResponse?.OnError()
+
             return null
 
         } catch (timeout: SocketTimeoutException) {
-           stateResponse?.OnError()
+           stateResponse?.OnError("Serwer nie odpowiada")
             Log.e(LogTag.timeoutException, timeout.message.toString())
             return null
 
         } catch (exception: ConnectException) {
-            stateResponse?.OnError()
+            stateResponse?.OnError("Sprawdź wpisane dane do połączenia")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 
         } catch (exception: Exception) {
-            stateResponse?.OnError()
+            stateResponse?.OnError("Skontaktuj się z producentem")
             Log.e(LogTag.unknownException, exception.message.toString())
             return null
         }

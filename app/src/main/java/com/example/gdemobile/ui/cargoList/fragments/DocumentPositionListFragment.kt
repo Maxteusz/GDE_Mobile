@@ -119,7 +119,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         binding.loadinglayout.visibility = View.VISIBLE
     }
 
-    override fun OnError() {
+    override fun OnError(message: String?) {
         binding.errorlayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
