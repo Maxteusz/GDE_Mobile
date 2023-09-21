@@ -3,6 +3,7 @@ package com.example.gdemobile.ui.cargoList.dialogs
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,15 +31,19 @@ class AmountCargoDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         var scannedCargoCode = arg.codeCargo
+
+
+
         getDialog()?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         sharedViewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        sharedViewModel.stateResponse = null
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
 
         binding.okButton.setOnClickListener {
             if(binding.amountEdittext.text?.length!! < 1)
                 binding.amountEdittext.error = "Podaj ilość"
             else {
-                sharedViewModel.addCargoOnDocument(scannedCargoCode,binding.amountEdittext.text.toString().toDouble(), 21.0)
+                sharedViewModel.addCargoOnDocument(arg.idDocument,scannedCargoCode,binding.amountEdittext.text.toString().toDouble(), 21.0)
                 this.showToast("Dodano towar")
                 this.dismiss()
             }

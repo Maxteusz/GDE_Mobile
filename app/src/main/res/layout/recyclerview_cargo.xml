@@ -60,7 +60,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:text= '@{cargo.amount + " " + cargo.unit}' />
+            android:text= "" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/erase_button"
                 android:layout_width="38dp"

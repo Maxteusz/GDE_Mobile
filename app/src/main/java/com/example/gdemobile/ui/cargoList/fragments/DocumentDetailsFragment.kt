@@ -32,7 +32,7 @@ class DocumentDetailsFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
-        binding.document = viewModel.currentDocument.value
+
 
         binding.contractorTextfield.setEndIconOnClickListener({
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)

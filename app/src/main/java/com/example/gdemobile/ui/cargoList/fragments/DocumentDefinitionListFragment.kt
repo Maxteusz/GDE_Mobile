@@ -64,7 +64,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
     }
-    override fun OnError(message: String?) {
+    override fun OnError(message: String) {
         //binding.loadinglayout.visibility = View.VISIBLE
     }
     override fun OnSucces() {

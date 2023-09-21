@@ -33,7 +33,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
-    private val arg : DocumentPositionListFragmentArgs by navArgs()
+    private val arg: DocumentPositionListFragmentArgs by navArgs()
 
 
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -42,18 +42,17 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-    val args = arg.idDocument
+        val args = arg.idDocument
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                if(args != null) {
-                    Log.i("Get Parametr", args)
+                if (args != null) {
                     viewModel.getDocumentPositions(args)
-                }
-                else
-                    OnError()
+                } else
+                    OnError("Błąd pobrania dokumentu")
             }
         }
         viewModel.documentPositions.observe(viewLifecycleOwner, {
@@ -79,6 +78,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
         }
         binding.cameraButton.setOnClickListener {
+            val action = DocumentPositionListFragmentDirections.actionCargoListFragmentToScanBarcodeFragment(arg.idDocument)
             findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)
         }
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
@@ -119,7 +119,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         binding.loadinglayout.visibility = View.VISIBLE
     }
 
-    override fun OnError(message: String?) {
+    override fun OnError(message: String) {
         binding.errorlayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE

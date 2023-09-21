@@ -2,7 +2,6 @@ package com.example.gdemobile.apiConnect.enovaConnect
 
 import android.util.Log
 import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.LogTag
 import java.net.ConnectException
@@ -12,7 +11,7 @@ class ConnectService(
     val stateResponse: StateResponse?,
 ) {
 
-    suspend fun <X : Any> makeConnectionForListData(connectionParameters: IConnectEnovaMethod): X? {
+    suspend fun <X : Any> makeConnection(connectionParameters: IConnectEnovaMethod): X? {
         try {
             stateResponse?.OnLoading()
 
@@ -29,7 +28,7 @@ class ConnectService(
                     stateResponse?.OnSucces()
                     return result.body()?.resultInstance
                 }
-                stateResponse?.OnError(result.body()?.exceptionMessage)
+                result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }
             }
 
             return null

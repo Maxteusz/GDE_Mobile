@@ -34,16 +34,6 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     }
 
-    val listener = object : DocumentsAdapter.CustomViewHolderListener {
-        override fun onCustomItemClicked(x: Document) {
-            viewModel.currentDocument.value?.id = x.id
-            val action =
-                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(x.id)
-            findNavController().navigate(action)
-        }
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,6 +49,16 @@ class DocumentListFragment : Fragment(), StateResponse {
             }
         }
         return binding.root
+    }
+
+    val listener = object : DocumentsAdapter.CustomViewHolderListener {
+        override fun onCustomItemClicked(document: Document) {
+
+            val action =
+                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(document.id)
+            findNavController().navigate(action)
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class DocumentListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun OnError(message: String?) {
+    override fun OnError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         errorLayoutBinding.errorTextview.text = message

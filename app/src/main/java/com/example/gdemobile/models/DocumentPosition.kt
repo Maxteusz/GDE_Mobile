@@ -12,7 +12,7 @@ class DocumentPosition(
     var amount: Double,
     @SerializedName("Cena jednostkowa")
     var value: Currency
-) : Cargo(id, code, name, barcode, unit) {
+) : Cargo(id, code, name, barcode) {
 
     val fullName: String
         get() {

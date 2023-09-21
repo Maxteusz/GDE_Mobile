@@ -16,7 +16,13 @@
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim" >
+            <argument
+                android:name="idDocument"
+                app:argType="string"
+                app:nullable="true"/>
+
+        </action>
         <action
             android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
@@ -27,6 +33,7 @@
                 android:name="codeCargo"
                 app:argType="string"
                 app:nullable="false"/>
+
         </action>
 
         <action
@@ -45,6 +52,10 @@
         <action
             android:id="@+id/action_scanBarcodeFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
+        <argument
+            android:name="idDocument"
+            app:argType="string"
+            app:nullable="false"/>
     </fragment>
     <fragment
         android:id="@+id/documentDetailsFragment"
@@ -84,6 +95,10 @@
             app:argType="string"
             app:nullable="false"
             />
+        <argument
+            android:name="idDocument"
+            app:argType="string"
+            app:nullable="false"/>
         <action
             android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment" />

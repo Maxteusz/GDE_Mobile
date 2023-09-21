@@ -4,15 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 open class Cargo(
     @SerializedName("IdTowaru")
-    val id : String,
-
+    val id: String,
+    @SerializedName("KodTowaru")
     val code: String,
-
+    @SerializedName("Nazwa")
     val name: String,
-
-    val barcode: String,
-
-    val unit : String){
+    @SerializedName("KodEan")
+    val barcode: String
+) {
 
 
 }

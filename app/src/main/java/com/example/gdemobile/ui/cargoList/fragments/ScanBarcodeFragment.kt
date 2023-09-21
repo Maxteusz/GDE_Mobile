@@ -19,28 +19,35 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
+import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.ui.cargoList.dialogs.AmountCargoDialogArgs
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.LogTag
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import kotlinx.coroutines.launch
 
-class ScanBarcodeFragment : Fragment() {
+class ScanBarcodeFragment : Fragment(), StateResponse {
 
+     var ID_CARGO = "65336878-70cf-4e64-bd72-b742cd26a657"
     private lateinit var binding: FragmentScanBarcodeBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false
+    private val arg : ScanBarcodeFragmentArgs by navArgs()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        Log.i("dsdsdsds", ID_CARGO + "   ");
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }
@@ -48,7 +55,10 @@ class ScanBarcodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-        sharedViewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        sharedViewModel =
+            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        sharedViewModel.stateResponse = this
+
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
@@ -87,12 +97,10 @@ class ScanBarcodeFragment : Fragment() {
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 var scannedCode = barcodes.first().rawValue.toString()
-                                Log.i(LogTag.scannedCargo, scannedCode)
+                                viewLifecycleOwner.lifecycleScope.launch {
+                                sharedViewModel.getCargoInformation(ID_CARGO)
+                                }
                                 lockScanning()
-                                val action =
-                                  ScanBarcodeFragmentDirections.actionScanBarcodeFragmentToAmountCargoDialog("fa0ec7f5-3ec8-4182-aecb-fc3938c9dbb0")
-                                findNavController().navigate(action)
-
                             }
                         }
                     imageProxy.close()
@@ -139,6 +147,24 @@ class ScanBarcodeFragment : Fragment() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
         binding.unlockButton.setText("Skanowanie")
         lockedScan = false;
+
+    }
+
+    override fun OnLoading() {
+        binding.loadinglayout.root.visibility = View.VISIBLE
+    }
+
+    override fun OnError(message: String) {
+        this.showToast(message)
+        binding.loadinglayout.root.visibility = View.GONE
+    }
+
+    override fun OnSucces() {
+        binding.loadinglayout.root.visibility = View.GONE
+
+        //val action =
+          //  ScanBarcodeFragmentDirections.actionScanBarcodeFragmentToAmountCargoDialog(ID_CARGO,arg.idDocument)
+      //  findNavController().navigate(action)
 
     }
 

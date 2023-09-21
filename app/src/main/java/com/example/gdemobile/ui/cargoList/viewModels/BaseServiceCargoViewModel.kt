@@ -1,14 +1,16 @@
 package com.example.gdemobile.ui.cargoList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gdemobile.config.Config
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoInformation
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
+import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Document
@@ -17,7 +19,6 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -31,17 +32,14 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
-    private val _currentDocument: MutableLiveData<Document> = MutableLiveData<Document>(Document());
+
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
-
-    val currentDocument: LiveData<Document>
-        get() = _currentDocument
 
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
-    val documentPositions : LiveData<List<DocumentPosition>?>
+    val documentPositions: LiveData<List<DocumentPosition>?>
         get() = _documentPositions
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
@@ -56,31 +54,33 @@ open class BaseServiceCargoViewModel : ViewModel() {
     fun addCargo(barcode: String, amount: Double = 1.0) {
         if (!barcode.isNullOrEmpty()) {
             //getCargo()
-           /* _scannedCargo.value = _scannedCargo.value?.plus(
-                DocumentPosition(
-                    name = "Przykładowa nazwa",
-                    unit = "szt.",
-                    barcode = barcode,
-                    code = "dsd",
-                    amount = amount,
-                    id = "ddd"
-                )*/
+            /* _scannedCargo.value = _scannedCargo.value?.plus(
+                 DocumentPosition(
+                     name = "Przykładowa nazwa",
+                     unit = "szt.",
+                     barcode = barcode,
+                     code = "dsd",
+                     amount = amount,
+                     id = "ddd"
+                 )*/
             //)
-            if (Config.aggregation)
-                aggregatePosition()
-            scannedBarcode.value = ""
+
 
         }
     }
 
-    fun addCargoOnDocument(cargoCode : String, amount : Double, pricePerUnit : Double)
-    {
+    fun addCargoOnDocument(
+        idDocument: String,
+        cargoCode: String,
+        amount: Double,
+        pricePerUnit: Double
+    ) {
         viewModelScope.launch {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
-              connection.makeConnectionForListData<String>(
+            connection.makeConnection<String>(
                 AddNewCargoToDocument(
-                    _currentDocument.value?.id!!,
+                    idDocument,
                     cargoCode,
                     "",
                     amount,
@@ -91,19 +91,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    private fun aggregatePosition() {
-        _scannedCargo.value = _scannedCargo.value?.groupBy { it.barcode }?.map {
-            DocumentPosition(
-                it.value.first().id,
-                it.value.first().code,
-                it.value.first().name,
-                it.value.first().unit,
-                it.value.first().barcode,
-                it.value.sumOf { it.amount },
-               Currency(2.0,"zł")
-            )
-        }
-    }
 
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
 
@@ -132,11 +119,11 @@ open class BaseServiceCargoViewModel : ViewModel() {
            }*/
     }
 
-    fun getDocumentsInTemp() {
-        viewModelScope.launch {
+    suspend fun getDocumentsInTemp() {
+        viewModelScope.run {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnectionForListData<List<Document>>(
+            var receiveList = connection.makeConnection<List<Document>>(
                 GetDocumentsExternalPartyInTemp()
             )
             if (receiveList != null) {
@@ -146,27 +133,43 @@ open class BaseServiceCargoViewModel : ViewModel() {
         }
     }
 
-    fun getDocumentPositions(idDocument : String)  {
+    suspend fun getDocumentPositions(idDocument: String) {
         _documentPositions.postValue(emptyList())
-        viewModelScope.launch {
+        viewModelScope.run {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnectionForListData<List<DocumentPosition>>(
+            var receiveList = connection.makeConnection<List<DocumentPosition>>(
                 GetDocumentPositionsOnDocument(idDocument)
             )
             if (receiveList != null) {
                 val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
-                //Log.i("test pos", convertedList.get(0).id)
                 _documentPositions.postValue(convertedList)
 
             }
         }
     }
 
+    suspend fun getCargoInformation(idCargo: String) :Cargo? {
+        viewModelScope.run {
+            val gson = Gson()
+            val connection = ConnectService(stateResponse)
+            var receiveList = connection.makeConnection<Any>(
+                GetCargoInformation(idCargo)
+            )
+            if (receiveList != null) {
+                val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
+                Log.i("GetCargo", cargo.name)
+                return  cargo
+            }
+            return null
+        }
+        return null
+
+    }
 
 
     internal inline fun <reified T> Gson.fromJson(json: String) =
         fromJson<T>(json, object : TypeToken<T>() {}.type)
-
-
 }
+
+

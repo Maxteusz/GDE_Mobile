@@ -32,7 +32,7 @@ class DocumentDefinitionAdapter (private val documentDefinitions : List<Document
     override fun onBindViewHolder(holder: DocumentDefnitionViewHolder, position: Int) {
         holder.recyclerviewDocumentdefinitionBinding.documentDefinition = documentDefinitions[position]
         holder.recyclerviewDocumentdefinitionBinding.maincard.setOnClickListener {
-            cargoListView.currentDocument.value?.definition = documentDefinitions[position]
+
             fragment.findNavController().popBackStack()
 
 
