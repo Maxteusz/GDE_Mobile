@@ -78,6 +78,8 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
             findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
         }
         binding.cameraButton.setOnClickListener {
+            var x = arg.idDocument;
+            Log.i("dddddddd", x.toString())
             val action = DocumentPositionListFragmentDirections.actionCargoListFragmentToScanBarcodeFragment(arg.idDocument)
             findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)
         }

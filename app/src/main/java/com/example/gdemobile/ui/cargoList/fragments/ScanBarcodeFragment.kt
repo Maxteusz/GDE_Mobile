@@ -47,7 +47,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("dsdsdsds", ID_CARGO + "   ");
+        Log.i("dsdsdsds", ID_CARGO + "   " + arg.idDoc!!);
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }

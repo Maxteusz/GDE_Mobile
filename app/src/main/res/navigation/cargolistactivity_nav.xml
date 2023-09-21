@@ -13,15 +13,11 @@
             android:name="idDocument"
             app:argType="string"
             app:nullable="true" />
+
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
             app:enterAnim="@anim/nav_default_enter_anim" >
-            <argument
-                android:name="idDocument"
-                app:argType="string"
-                app:nullable="true"/>
-
         </action>
         <action
             android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
@@ -53,9 +49,9 @@
             android:id="@+id/action_scanBarcodeFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
         <argument
-            android:name="idDocument"
+            android:name="idDoc"
             app:argType="string"
-            app:nullable="false"/>
+            app:nullable="true"/>
     </fragment>
     <fragment
         android:id="@+id/documentDetailsFragment"
