@@ -12,6 +12,12 @@ open class Cargo(
     @SerializedName("KodEan")
     val barcode: String
 ) {
+    val unit = Unit()
 
 
+    class Unit()
+    {
+        val id : String = ""
+        val symbol = ""
+    }
 }

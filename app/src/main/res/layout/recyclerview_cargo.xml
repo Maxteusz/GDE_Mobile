@@ -42,7 +42,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif"
-                android:text= "@{cargo.barcode}"
+                android:text= "@{cargo.name}"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -60,7 +60,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:text= "" />
+            android:text= "@{cargo.amount}" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/erase_button"
                 android:layout_width="38dp"

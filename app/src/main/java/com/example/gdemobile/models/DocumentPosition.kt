@@ -14,6 +14,7 @@ class DocumentPosition(
     var value: Currency
 ) : Cargo(id, code, name, barcode) {
 
+
     val fullName: String
         get() {
             if (name.isNullOrEmpty())
@@ -21,6 +22,7 @@ class DocumentPosition(
             else
                 return "$code - $name"
         }
+    fun getAmount () = amount.toString()
 
 
 }
