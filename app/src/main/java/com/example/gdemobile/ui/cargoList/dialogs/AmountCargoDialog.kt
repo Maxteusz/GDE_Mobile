@@ -20,7 +20,7 @@ class AmountCargoDialog : DialogFragment() {
 
     private lateinit var binding: FragmentAmountCargoDialogBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
-    private val arg : AmountCargoDialogArgs by navArgs()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +30,7 @@ class AmountCargoDialog : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var scannedCargoCode = arg.codeCargo
+        //var scannedCargoCode = arg.codeCargo
 
 
 
@@ -43,7 +43,7 @@ class AmountCargoDialog : DialogFragment() {
             if(binding.amountEdittext.text?.length!! < 1)
                 binding.amountEdittext.error = "Podaj ilość"
             else {
-                sharedViewModel.addCargoOnDocument(arg.idDocument,scannedCargoCode,binding.amountEdittext.text.toString().toDouble(), 21.0)
+               // sharedViewModel.addCargoOnDocument(arg.idDocument,scannedCargoCode,binding.amountEdittext.text.toString().toDouble(), 21.0)
                 this.showToast("Dodano towar")
                 this.dismiss()
             }

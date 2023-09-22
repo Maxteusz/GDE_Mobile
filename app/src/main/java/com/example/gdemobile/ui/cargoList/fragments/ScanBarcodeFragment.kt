@@ -4,12 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -18,17 +15,16 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.ui.cargoList.dialogs.AmountCargoDialogArgs
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
-import com.example.gdemobile.utils.LogTag
+import com.example.gdemobile.utils.NamesSharedVariable
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -40,14 +36,17 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     private lateinit var binding: FragmentScanBarcodeBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false
-    private val arg : ScanBarcodeFragmentArgs by navArgs()
+    private var idDocument = ""
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("dsdsdsds", ID_CARGO + "   " + arg.idDoc!!);
+
+        val data = arguments
+         idDocument = data!!.getString(NamesSharedVariable.idDocument, "")
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
         return binding.root
     }
@@ -161,10 +160,9 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
 
     override fun OnSucces() {
         binding.loadinglayout.root.visibility = View.GONE
-
-        //val action =
-          //  ScanBarcodeFragmentDirections.actionScanBarcodeFragmentToAmountCargoDialog(ID_CARGO,arg.idDocument)
-      //  findNavController().navigate(action)
+        val data = Bundle()
+        data.putString(NamesSharedVariable.idDocument, idDocument)
+        findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog,data)
 
     }
 

@@ -1,10 +1,10 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -14,17 +14,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.gdemobile.R
+
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
-
+import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -75,13 +76,12 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_cargoListFragment_to_documentDetailsFragment)
+            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_documentDetailsFragment)
         }
         binding.cameraButton.setOnClickListener {
-            var x = arg.idDocument;
-            Log.i("dddddddd", x.toString())
-            val action = DocumentPositionListFragmentDirections.actionCargoListFragmentToScanBarcodeFragment(arg.idDocument)
-            findNavController().navigate(R.id.action_cargoListFragment_to_scanBarcodeFragment)
+            val data = Bundle()
+            data.putString(NamesSharedVariable.idDocument, arg.idDocument)
+            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_scanBarcodeFragment,data)
         }
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
@@ -138,7 +138,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
 
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (Config.insertAmountCargo)
-                findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
+                findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_amountCargoDialog)
             else
                 viewModel.addCargo(viewModel.scannedBarcode.value!!)
 
