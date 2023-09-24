@@ -9,6 +9,11 @@ class Currency(
     val symbol : String = ""
 
 ) {
+    object Symbol
+    {
+        val pln = "PLN"
+        val eur = "EUR"
+    }
 }
 
 

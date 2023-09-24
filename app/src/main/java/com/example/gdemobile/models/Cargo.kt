@@ -12,7 +12,8 @@ open class Cargo(
     @SerializedName("KodEan")
     val barcode: String
 ) {
-    val unit = Unit()
+    val mainUnit = Unit()
+    val additionalUnits = listOf(Unit)
 
 
     class Unit()
