@@ -18,11 +18,11 @@ class DocumentPosition(
     val fullName: String
         get() {
             if (name.isNullOrEmpty())
-                return "$code"
+                return code
             else
                 return "$code - $name"
         }
-    fun getAmount () = amount.toString()
+    fun getAmountValue () = amount.toString()
 
 
 }

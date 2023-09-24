@@ -13,7 +13,7 @@ class DocumentDefinition() {
 
      val fullName : String get() {
           if (name.isNullOrEmpty())
-          return "$symbol"
+          return symbol
           else
                return "$symbol - $name"
      }
