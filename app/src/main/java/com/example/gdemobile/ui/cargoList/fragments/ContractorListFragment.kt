@@ -58,7 +58,7 @@ class ContractorListFragment : Fragment(), StateResponse {
     override fun OnError(message: String) {
         //binding.loadinglayout.visibility = View.GONE
     }
-    override fun OnSucces() {
+    override fun <T> OnSucces(result: T?) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
     }

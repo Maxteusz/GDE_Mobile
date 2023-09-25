@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoInformation
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
@@ -17,6 +18,8 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.utils.ExtensionFunction
+import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
@@ -70,21 +73,22 @@ open class BaseServiceCargoViewModel : ViewModel() {
     }
 
     fun addCargoOnDocument(
-        idDocument: String,
-        cargoCode: String,
-        amount: Double,
-        pricePerUnit: Double
+        idDocument: String?,
+        idCargo: String?,
+        idUnit: String?,
+        amount: Double?,
+        pricePerUnit: Currency?
     ) {
         viewModelScope.launch {
-            val gson = Gson()
+
             val connection = ConnectService(stateResponse)
             connection.makeConnection<String>(
                 AddNewCargoToDocument(
                     idDocument,
-                    cargoCode,
-                    "",
+                    idCargo,
+                    idUnit,
                     amount,
-                    Currency(pricePerUnit, "PLN")
+                    pricePerUnit
                 )
             )
         }
@@ -149,27 +153,21 @@ open class BaseServiceCargoViewModel : ViewModel() {
         }
     }
 
-    suspend fun getCargoInformation(idCargo: String) :Cargo? {
+    suspend fun getCargoInformationByEan(ean: String)  {
         viewModelScope.run {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
             var receiveList = connection.makeConnection<Any>(
-                GetCargoInformation(idCargo)
+                GetCargoByEAN(ean)
             )
-            if (receiveList != null) {
-                val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
-                Log.i("GetCargo", cargo.name)
-                return  cargo
-            }
-            return null
+
         }
-        return null
+
 
     }
 
 
-    internal inline fun <reified T> Gson.fromJson(json: String) =
-        fromJson<T>(json, object : TypeToken<T>() {}.type)
+
 }
 
 

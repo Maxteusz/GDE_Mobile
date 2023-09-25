@@ -1,9 +1,10 @@
 package com.example.gdemobile.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 open class Cargo(
-    @SerializedName("IdTowaru")
+    @SerializedName("Id")
     val id: String,
     @SerializedName("KodTowaru")
     val code: String,
@@ -11,14 +12,15 @@ open class Cargo(
     val name: String,
     @SerializedName("KodEan")
     val barcode: String
-) {
+) : Serializable{
     val mainUnit = Unit()
     val additionalUnits = listOf(Unit)
 
 
     class Unit()
     {
-        val id : String = ""
+        @SerializedName("IdJednostki")
+        val id : String = "00000000-0011-0007-0007-000000000000"
         val symbol = ""
     }
 }

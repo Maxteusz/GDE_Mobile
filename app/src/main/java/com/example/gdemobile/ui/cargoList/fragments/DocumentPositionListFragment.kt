@@ -127,7 +127,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun OnSucces() {
+    override fun <T> OnSucces(result: T?) {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE

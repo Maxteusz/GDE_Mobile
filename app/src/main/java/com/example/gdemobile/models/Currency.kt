@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 class Currency(
     @SerializedName("Wartosc")
     val value : Double = 0.0,
-    @SerializedName("Symbol")
-    val symbol : String = ""
+    @SerializedName("SymbolWaluty")
+    val symbol : String = "PLN"
 
 ) {
     object Symbol

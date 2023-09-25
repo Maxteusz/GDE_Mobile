@@ -20,6 +20,10 @@ object LogTag {
     //ScannedFragment Informations
     const val scannedCargo = "ScannedCargo"
 
+    //AmountCargoDialog
+    const val getCargoFromScannedFragment = "AmountCargoDialog: GetCargo"
+    const val getIdDocumentFromScannedFragment = "AmountCargoDialog: GetIdDocument"
+
 
 
 }

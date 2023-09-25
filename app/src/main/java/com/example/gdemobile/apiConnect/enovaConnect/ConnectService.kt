@@ -25,8 +25,9 @@ class ConnectService(
                 Log.i(LogTag.enovaApiResultInstance,result.body()!!.resultInstance.toString())
 
                 if(result.body()?.isException == false) {
-                    stateResponse?.OnSucces()
-                    return result.body()?.resultInstance
+                    var result = result.body()?.resultInstance
+                    stateResponse?.OnSucces(result)
+                    return result
                 }
                 result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }
             }
