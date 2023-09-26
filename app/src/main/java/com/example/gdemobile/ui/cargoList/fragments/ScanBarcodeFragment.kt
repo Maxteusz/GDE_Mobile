@@ -32,9 +32,11 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.internal.wait
 
 class ScanBarcodeFragment : Fragment(), StateResponse {
@@ -55,15 +57,18 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         val data = arguments
          idDocument = data!!.getString(NamesSharedVariable.idDocument, "")
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
+        sharedViewModel =
+            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        sharedViewModel.stateResponse = this
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-        sharedViewModel =
-            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        sharedViewModel.stateResponse = this
+
+
 
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
@@ -96,16 +101,19 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
                 val imageAnalysis = initImageAnalyzer()
 
 
-                imageAnalysis.setAnalyzer(getMainExecutor(requireActivity()), { imageProxy ->
+                imageAnalysis.setAnalyzer(getMainExecutor(requireActivity())) { imageProxy ->
                     val mediaImage = imageProxy.toBitmap()
                     val image = FirebaseVisionImage.fromBitmap(mediaImage)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
-                                var scannedCode = barcodes.first().rawValue.toString()
-                                viewLifecycleOwner.lifecycleScope.launch{
+                                val scannedCode = barcodes.first().rawValue.toString()
+                                viewLifecycleOwner.lifecycleScope.launch {
 
-                                         sharedViewModel.getCargoInformationByEan(scannedCode)
+
+                                            sharedViewModel.getCargoInformationByEan(scannedCode)
+
+
 
 
                                 }
@@ -114,7 +122,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
                         }
                     imageProxy.close()
 
-                })
+                }
 
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
                 try {
@@ -172,9 +180,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         binding.loadinglayout.root.visibility = View.GONE
         val data = Bundle()
         val gson = Gson()
-        Log.i("ddddd", idDocument)
         cargo = gson.fromJson<com.example.gdemobile.models.Cargo>(gson.toJson(result))
-        cargo?.name?.let { Log.i("cccc", it) }
         data.putString(NamesSharedVariable.idDocument, idDocument)
         data.putSerializable(NamesSharedVariable.cargo, cargo)
         findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog,data)

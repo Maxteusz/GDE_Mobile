@@ -20,9 +20,11 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.ExtensionFunction
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
+import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
+import retrofit2.Call
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
@@ -72,26 +74,26 @@ open class BaseServiceCargoViewModel : ViewModel() {
         }
     }
 
-    fun addCargoOnDocument(
+    suspend fun addCargoOnDocument(
         idDocument: String?,
         idCargo: String?,
         idUnit: String?,
         amount: Double?,
         pricePerUnit: Currency?
     ) {
-        viewModelScope.launch {
 
-            val connection = ConnectService(stateResponse)
-            connection.makeConnection<String>(
-                AddNewCargoToDocument(
-                    idDocument,
-                    idCargo,
-                    idUnit,
-                    amount,
-                    pricePerUnit
-                )
+
+        val connection = ConnectService(stateResponse)
+        connection.makeConnection<String>(
+            AddNewCargoToDocument(
+                idDocument,
+                idCargo,
+                idUnit,
+                amount,
+                pricePerUnit
             )
-        }
+        )
+
 
     }
 
@@ -124,48 +126,49 @@ open class BaseServiceCargoViewModel : ViewModel() {
     }
 
     suspend fun getDocumentsInTemp() {
-        viewModelScope.run {
-            val gson = Gson()
-            val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnection<List<Document>>(
-                GetDocumentsExternalPartyInTemp()
-            )
-            if (receiveList != null) {
-                val convertedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
-                _documentListInTemp.postValue((convertedList))
-            }
+
+        val gson = Gson()
+        val connection = ConnectService(stateResponse)
+        var receiveList = connection.makeConnection<List<Document>>(
+            GetDocumentsExternalPartyInTemp()
+        )
+        if (receiveList != null) {
+            val convertedList = gson.fromJson<List<Document>>(gson.toJson(receiveList))
+            _documentListInTemp.postValue((convertedList))
         }
+
     }
 
     suspend fun getDocumentPositions(idDocument: String) {
         _documentPositions.postValue(emptyList())
-        viewModelScope.run {
-            val gson = Gson()
-            val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnection<List<DocumentPosition>>(
-                GetDocumentPositionsOnDocument(idDocument)
-            )
-            if (receiveList != null) {
-                val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
-                _documentPositions.postValue(convertedList)
 
-            }
+        val gson = Gson()
+        val connection = ConnectService(stateResponse)
+        var receiveList = connection.makeConnection<List<DocumentPosition>>(
+            GetDocumentPositionsOnDocument(idDocument)
+        )
+        if (receiveList != null) {
+            val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
+            _documentPositions.postValue(convertedList)
+
         }
+
     }
 
-    suspend fun getCargoInformationByEan(ean: String)  {
-        viewModelScope.run {
+    suspend fun getCargoInformationByEan(ean: String): Cargo? {
+        if (ean != null) {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
             var receiveList = connection.makeConnection<Any>(
                 GetCargoByEAN(ean)
             )
-
+            val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
+            return cargo;
         }
+        return null
 
 
     }
-
 
 
 }
