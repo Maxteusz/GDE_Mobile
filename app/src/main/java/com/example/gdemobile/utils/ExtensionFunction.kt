@@ -14,7 +14,7 @@ open class ExtensionFunction {
             return da
         }
         fun Fragment.showToast(message: String) =
-            Toast.makeText(activity?.baseContext, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
          inline fun <reified T> Gson.fromJson(json: String) =
             fromJson<T>(json, object : TypeToken<T>() {}.type)

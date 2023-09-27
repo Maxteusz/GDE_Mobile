@@ -1,6 +1,5 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
-import android.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
@@ -14,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.ui.StateResponse
@@ -81,8 +80,33 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         binding.cameraButton.setOnClickListener {
             val data = Bundle()
             data.putString(NamesSharedVariable.idDocument, arg.idDocument)
-            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_scanBarcodeFragment,data)
+            findNavController().navigate(
+                com.example.gdemobile.R.id.action_cargoListFragment_to_scanBarcodeFragment,
+                data
+            )
         }
+        binding.cargosRecyclerview.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+
+                if (dy > 20) {
+                    binding.cameraButton.hide()
+                    binding.nextButton.hide()
+                }
+                if (dy < -20) {
+                    binding.cameraButton.show()
+                    binding.nextButton.show()
+                }
+
+            }
+        })
+
+
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -148,5 +172,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         return true
     }
 }
+
+
 
 

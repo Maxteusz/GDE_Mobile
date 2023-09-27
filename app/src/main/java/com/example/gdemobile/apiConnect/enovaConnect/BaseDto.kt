@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 abstract class BaseDto(
     @SerializedName("paginacja")
-    val paginationDto: PaginationDto = PaginationDto(0,10)
+    val paginationDto: PaginationDto = PaginationDto(0,10000)
 ) : IDto {
 
     class PaginationDto(

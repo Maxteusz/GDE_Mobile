@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Cargo
@@ -54,7 +56,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
             if (binding.amountEdittext.text?.length!! < 1)
                 binding.amountEdittext.error = "Podaj ilość"
             else {
-                viewLifecycleOwner.lifecycleScope.launch {
+               lifecycleScope.launch {
                     sharedViewModel.addCargoOnDocument(
                         idDocument = idDocument,
                         idCargo = cargo?.id,
@@ -65,7 +67,8 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
                             "PLN"
                         )
                     )}
-            }
+               }
+
         }
 
         return binding.root
@@ -76,15 +79,13 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     }
 
     override fun OnError(message: String) {
-
-//        showToast("Wystąpił błąd")
-        this.dismiss()
+        showToast("Wystąpił błąd")
+        dialog?.dismiss()
     }
 
     override fun <T> OnSucces(result: T?) {
-
         showToast("Dodano towar")
-        this.dismiss()
+        dialog?.dismiss()
     }
 
 

@@ -30,14 +30,7 @@ class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>,
 
     override fun onBindViewHolder(holder: CargoViewHolder, position: Int) {
         holder.recyclerviewCargoHolder.cargo = cargos.get(position)
-        holder.recyclerviewCargoHolder.eraseButton.setOnClickListener {
-            viewModel.removeCargo(cargos.get(position),false)
 
-        }
-        holder.recyclerviewCargoHolder.eraseButton.setOnLongClickListener {
-            viewModel.removeCargo(cargos.get(position),true)
-            true
-        }
 
     }
 

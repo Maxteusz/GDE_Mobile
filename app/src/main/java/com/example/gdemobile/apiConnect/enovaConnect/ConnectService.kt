@@ -30,10 +30,7 @@ class ConnectService(
 
                 if (result.body()?.isException == false) {
                     var result = result.body()?.resultInstance
-
                     stateResponse?.OnSucces(result)
-
-
                     return result
                 }
                 result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }

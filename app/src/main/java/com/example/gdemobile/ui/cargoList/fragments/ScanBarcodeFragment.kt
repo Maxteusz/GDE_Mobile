@@ -108,6 +108,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 val scannedCode = barcodes.first().rawValue.toString()
+                                sharedViewModel.stateResponse = this
                                 viewLifecycleOwner.lifecycleScope.launch {
 
 
