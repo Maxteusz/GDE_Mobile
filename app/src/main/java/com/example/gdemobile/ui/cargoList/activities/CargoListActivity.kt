@@ -20,7 +20,6 @@ class CargoListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCargoListBinding
     private lateinit var navController: NavController
     private lateinit var view: InssuingCargoListViewModel
-    private lateinit var currentFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCargoListBinding.inflate(layoutInflater);
@@ -37,14 +36,7 @@ class CargoListActivity : AppCompatActivity() {
     }
 
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        val navHostFragment = supportFragmentManager.primaryNavigationFragment
-        val fragment = navHostFragment!!.childFragmentManager.fragments[0]
-        if(fragment is DocumentPositionListFragment)
-            fragment.onKeyDown(keyCode, event)
 
-        return super.onKeyDown(keyCode, event)
-    }
 
 
 }

@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
+class DocumentPositionListFragment() : Fragment(), StateResponse {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
@@ -55,12 +55,12 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
                     OnError("Błąd pobrania dokumentu")
             }
         }
-        viewModel.documentPositions.observe(viewLifecycleOwner, {
+        viewModel.scannedCargo.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
-                    viewModel.documentPositions.value!!.toMutableList(),
+                    viewModel.scannedCargo.value!!.toMutableList(),
                     viewModel
                 )
 
@@ -119,8 +119,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.filtrDocumentPosition(s.toString())
-                /* if (s?.contains("")!!)
-                        binding.searchTextfield.setText(s.toString().replace("", "\uD83D\uDE43"))*/
+
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -156,11 +155,13 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
     }
+}
 
-    @SuppressLint("SuspiciousIndentation")
+
+    /*@SuppressLint("SuspiciousIndentation")
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+     *//*   if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (Config.insertAmountCargo)
                 findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_amountCargoDialog)
             else
@@ -170,8 +171,8 @@ class DocumentPositionListFragment() : Fragment(), StateResponse, KeyListener {
         } else
             viewModel.scannedBarcode.value += event?.unicodeChar?.toChar()
         return true
-    }
-}
+    }*//*
+}*/
 
 
 

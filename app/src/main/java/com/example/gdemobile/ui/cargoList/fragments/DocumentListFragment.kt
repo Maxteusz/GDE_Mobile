@@ -29,11 +29,6 @@ class DocumentListFragment : Fragment(), StateResponse {
     private lateinit var errorLayoutBinding: ErrorLayoutBinding
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -34,7 +34,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
-    private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
+    //private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
 
@@ -44,11 +44,11 @@ open class BaseServiceCargoViewModel : ViewModel() {
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
-    val documentPositions: LiveData<List<DocumentPosition>?>
-        get() = _documentPositions
+   // val documentPositions: LiveData<List<DocumentPosition>?>
+      //  get() = _documentPositions
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
-        get() = _scannedCargoAfterFilter
+        get() = _scannedCargo
     val documentListInTemp: LiveData<List<Document>>
         get() = _documentListInTemp
 
@@ -56,23 +56,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
         get() = _contractors
 
 
-    fun addCargo(barcode: String, amount: Double = 1.0) {
-        if (!barcode.isNullOrEmpty()) {
-            //getCargo()
-            /* _scannedCargo.value = _scannedCargo.value?.plus(
-                 DocumentPosition(
-                     name = "Przykładowa nazwa",
-                     unit = "szt.",
-                     barcode = barcode,
-                     code = "dsd",
-                     amount = amount,
-                     id = "ddd"
-                 )*/
-            //)
 
-
-        }
-    }
 
     suspend fun addCargoOnDocument(
         idDocument: String?,
@@ -117,13 +101,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    fun getCargo(name: String = "bikini") {
-        /*   viewModelScope.launch {
-               val connection = ConnectService(stateResponse, GetDocumentsExternalPartyInTemp())
-               connection.makeConnectionForListData<Document>()
-
-           }*/
-    }
 
     suspend fun getDocumentsInTemp() {
 
@@ -140,7 +117,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     }
 
     suspend fun getDocumentPositions(idDocument: String) {
-        _documentPositions.postValue(emptyList())
+        _scannedCargo.postValue(emptyList())
 
         val gson = Gson()
         val connection = ConnectService(stateResponse)
@@ -149,7 +126,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
         )
         if (receiveList != null) {
             val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
-            _documentPositions.postValue(convertedList)
+            _scannedCargo.postValue(convertedList)
 
         }
 

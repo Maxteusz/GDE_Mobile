@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,31 +31,26 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 
 class ScanBarcodeFragment : Fragment(), StateResponse {
 
-     var ID_CARGO = "65336878-70cf-4e64-bd72-b742cd26a657"
+    var ID_CARGO = "65336878-70cf-4e64-bd72-b742cd26a657"
     private lateinit var binding: FragmentScanBarcodeBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false
     private var idDocument = ""
-    private  var cargo : Cargo? = null
+    private var cargo: Cargo? = null
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val data = arguments
-         idDocument = data!!.getString(NamesSharedVariable.idDocument, "")
-        binding = FragmentScanBarcodeBinding.inflate(layoutInflater);
+        idDocument = data!!.getString(NamesSharedVariable.idDocument, "")
+        binding = FragmentScanBarcodeBinding.inflate(layoutInflater)
         sharedViewModel =
             ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         sharedViewModel.stateResponse = this
@@ -76,7 +70,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
-            );
+            )
         binding.unlockButton.setOnClickListener {
             if (lockedScan)
                 unlockScanning()
@@ -110,13 +104,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 sharedViewModel.stateResponse = this
                                 viewLifecycleOwner.lifecycleScope.launch {
-
-
-                                            sharedViewModel.getCargoInformationByEan(scannedCode)
-
-
-
-
+                                    sharedViewModel.getCargoInformationByEan(scannedCode)
                                 }
                                 lockScanning()
                             }
@@ -156,15 +144,15 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
 
     fun lockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
-        binding.unlockButton.setText("Zablokowane")
-        lockedScan = true;
+        binding.unlockButton.text = "Zablokowane"
+        lockedScan = true
 
     }
 
     fun unlockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
-        binding.unlockButton.setText("Skanowanie")
-        lockedScan = false;
+        binding.unlockButton.text = "Skanowanie"
+        lockedScan = false
 
     }
 
@@ -184,7 +172,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         cargo = gson.fromJson<com.example.gdemobile.models.Cargo>(gson.toJson(result))
         data.putString(NamesSharedVariable.idDocument, idDocument)
         data.putSerializable(NamesSharedVariable.cargo, cargo)
-        findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog,data)
+        findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog, data)
 
     }
 

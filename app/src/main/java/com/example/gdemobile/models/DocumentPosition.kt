@@ -6,7 +6,6 @@ class DocumentPosition(
     id: String,
     code: String,
     name: String,
-    unit: String,
     barcode: String,
     @SerializedName("Ilosc")
     var amount: Double,
@@ -14,7 +13,10 @@ class DocumentPosition(
     var value: Currency
 ) : Cargo(id, code, name, barcode) {
 
-
+    @SerializedName("Towar")
+    val cargo : Cargo? = null
+    @SerializedName("IdJednostki")
+    val idUnit : String? = null
     val fullName: String
         get() {
             if (name.isNullOrEmpty())
@@ -22,7 +24,8 @@ class DocumentPosition(
             else
                 return "$code - $name"
         }
-    fun getAmountValue () = amount.toString()
+    fun getAmountValue () = amount.toString()  + " " + getUnit()
+    fun getUnit () = cargo?.additionalUnits?.first { it.id == idUnit }?.symbol
 
 
 }

@@ -16,13 +16,14 @@ open class Cargo(
     @SerializedName("JednostkaPodstawowa")
     val mainUnit = Unit()
     @SerializedName("DozwoloneJednostki")
-    val additionalUnits = listOf(Unit)
+    val additionalUnits = listOf(com.example.gdemobile.models.Cargo.Unit())
 
 
     class Unit()
     {
         @SerializedName("IdJednostki")
         val id : String = "00000000-0011-0007-0007-000000000000"
+        @SerializedName("Nazwa")
         val symbol = ""
     }
 }

@@ -3,24 +3,19 @@ package com.example.gdemobile.ui.cargoList.dialogs
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
-import com.example.gdemobile.utils.LogTag
 import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.launch
 
@@ -32,42 +27,57 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     private var cargo: Cargo? = null
     private var idDocument: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         idDocument = arguments?.getString(NamesSharedVariable.idDocument)
+        binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
+        binding.unitSpinner.setText(cargo?.mainUnit?.symbol)
+        val unitAdapter = ArrayAdapter<String>(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            cargo?.additionalUnits!!.map { it -> it.symbol })
+        binding.unitSpinner.setAdapter(unitAdapter)
+
+        binding.currencysymbolSpinner.setText(Currency.symbols.first())
+        val currencySymbolAdapter = ArrayAdapter<String>(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            Currency.symbols
+        )
+        binding.currencysymbolSpinner.setAdapter(currencySymbolAdapter)
 
 
-        getDialog()?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         sharedViewModel =
             ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         sharedViewModel.stateResponse = this
-        binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
+
 
         binding.okButton.setOnClickListener {
             if (binding.amountEdittext.text?.length!! < 1)
                 binding.amountEdittext.error = "Podaj ilość"
             else {
-               lifecycleScope.launch {
+                lifecycleScope.launch {
                     sharedViewModel.addCargoOnDocument(
                         idDocument = idDocument,
                         idCargo = cargo?.id,
-                        idUnit = cargo?.mainUnit?.id,
+                        idUnit = cargo?.additionalUnits!!.first { it.symbol == binding.unitSpinner.text.toString() }.id,
                         amount = binding.amountEdittext.text.toString().toDouble(),
                         pricePerUnit = Currency(
                             binding.valueEdittext.text.toString().toDouble(),
-                            "PLN"
+                            binding.currencysymbolSpinner.text.toString()
+
                         )
-                    )}
-               }
+                    )
+
+                }
+                blockDialog()
+            }
 
         }
 
@@ -76,6 +86,18 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
 
     override fun OnLoading() {
 
+    }
+    fun blockDialog()
+    {
+        binding.amountEdittext.isClickable = false;
+        binding.amountEdittext.isFocusable = false ;
+        binding.currencysymbolSpinner.isClickable = false;
+        binding.currencysymbolSpinner.isFocusable= false;
+        binding.okButton.isClickable = false;
+        binding.okButton.isFocusable = false;
+        binding.unitSpinner.isClickable = false
+        binding.valueEdittext.isActivated = false
+        binding.valueEdittext.isFocusable = false;
     }
 
     override fun OnError(message: String) {

@@ -33,7 +33,6 @@ class DocumentDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
 
-
         binding.contractorTextfield.setEndIconOnClickListener({
             findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment)
         })
@@ -52,20 +51,13 @@ class DocumentDetailsFragment : Fragment() {
             dataPicker.setOnDateSetListener({ _, _, _, _ ->
 
                 //viewModel.document.value?.date = dataPicker.getDate()
-                binding.dateEdittext.setText(dataPicker.getDate().format(DateTimeFormatter.ofPattern(DateFormat.SIMPLE_DATE)))
-
+                binding.dateEdittext.setText(
+                    dataPicker.getDate().format(DateTimeFormatter.ofPattern(DateFormat.SIMPLE_DATE))
+                )
 
             })
 
-
         }
-
-
-
-
-
-
-
         return binding.root
     }
 
