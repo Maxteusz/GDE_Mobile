@@ -21,9 +21,9 @@ open class Cargo(
 
     class Unit()
     {
-        @SerializedName("IdJednostki")
-        val id : String = "00000000-0011-0007-0007-000000000000"
+        @SerializedName("Id")
+        val id : String = ""
         @SerializedName("Nazwa")
-        val symbol = ""
+        val name = ""
     }
 }

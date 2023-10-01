@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import retrofit2.Call
 
 
@@ -32,9 +33,9 @@ open class BaseServiceCargoViewModel : ViewModel() {
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
     private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
+        get() =  _scannedCargo
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
-    //private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
 
@@ -44,8 +45,8 @@ open class BaseServiceCargoViewModel : ViewModel() {
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
-   // val documentPositions: LiveData<List<DocumentPosition>?>
-      //  get() = _documentPositions
+
+
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
         get() = _scannedCargo
@@ -94,10 +95,12 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
 
     fun filtrDocumentPosition(chars: String) {
-        _scannedCargoAfterFilter.value = _scannedCargo.value?.filter {
-            it.name.contains(chars, true) ||
-                    it.barcode.contains(chars, true)
+
+        _scannedCargo.value?.filter {
+            it.cargo?.name?.contains(chars, true) == true
         } ?: emptyList()
+
+
 
     }
 

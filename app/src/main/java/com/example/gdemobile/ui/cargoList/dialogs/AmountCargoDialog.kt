@@ -36,11 +36,11 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         idDocument = arguments?.getString(NamesSharedVariable.idDocument)
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
-        binding.unitSpinner.setText(cargo?.mainUnit?.symbol)
+        binding.unitSpinner.setText(cargo?.mainUnit?.name)
         val unitAdapter = ArrayAdapter<String>(
             requireContext(),
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            cargo?.additionalUnits!!.map { it -> it.symbol })
+            cargo?.additionalUnits!!.map { it -> it.name })
         binding.unitSpinner.setAdapter(unitAdapter)
 
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
@@ -66,7 +66,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
                     sharedViewModel.addCargoOnDocument(
                         idDocument = idDocument,
                         idCargo = cargo?.id,
-                        idUnit = cargo?.additionalUnits!!.first { it.symbol == binding.unitSpinner.text.toString() }.id,
+                        idUnit = cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }.id,
                         amount = binding.amountEdittext.text.toString().toDouble(),
                         pricePerUnit = Currency(
                             binding.valueEdittext.text.toString().toDouble(),
@@ -101,7 +101,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     }
 
     override fun OnError(message: String) {
-        showToast("Wystąpił błąd")
+        showToast(message)
         dialog?.dismiss()
     }
 

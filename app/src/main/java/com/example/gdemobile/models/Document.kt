@@ -2,13 +2,14 @@ package com.example.gdemobile.models
 
 import com.example.gdemobile.utils.DateFormat
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
-class Document {
+class Document : Serializable {
 
     @SerializedName("Id")
     var id : String = "";

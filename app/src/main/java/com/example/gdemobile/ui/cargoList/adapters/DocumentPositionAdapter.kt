@@ -34,11 +34,7 @@ class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>,
 
     }
 
-    fun filtrElements(chars: String) {
-        cargos = tempCargos
-        cargos = cargos.filter { it.barcode.contains(chars) || it.name.lowercase().contains(chars.lowercase()) == true } as MutableList<DocumentPosition>
-        notifyDataSetChanged()
-    }
+
 
 
     override fun getItemCount(): Int {

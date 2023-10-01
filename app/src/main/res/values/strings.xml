@@ -18,6 +18,8 @@
     <string name="insert_amount_cargo">insert_amount_cargo</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="blocked">Zablokowane</string>
+    <string name="scanning">Skanowanie</string>
 
 
 </resources>

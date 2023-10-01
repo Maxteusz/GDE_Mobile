@@ -42,7 +42,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args = arg.idDocument
+        val args = arg.document?.id
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
@@ -79,21 +79,15 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         }
         binding.cameraButton.setOnClickListener {
             val data = Bundle()
-            data.putString(NamesSharedVariable.idDocument, arg.idDocument)
+            data.putString(NamesSharedVariable.idDocument, arg.document?.id)
             findNavController().navigate(
                 com.example.gdemobile.R.id.action_cargoListFragment_to_scanBarcodeFragment,
                 data
             )
         }
         binding.cargosRecyclerview.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
-
                 if (dy > 20) {
                     binding.cameraButton.hide()
                     binding.nextButton.hide()
@@ -118,7 +112,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.filtrDocumentPosition(s.toString())
+              //  viewModel.filtrDocumentPosition(s.toString())
 
             }
 

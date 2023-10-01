@@ -10,8 +10,8 @@
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment"
         android:label="CargoListFragment" >
         <argument
-            android:name="idDocument"
-            app:argType="string"
+            android:name="document"
+           app:argType="com.example.gdemobile.models.Document"
             app:nullable="true" />
 
         <action

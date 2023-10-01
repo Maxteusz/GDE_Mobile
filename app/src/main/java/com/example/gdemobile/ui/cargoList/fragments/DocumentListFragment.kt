@@ -50,7 +50,7 @@ class DocumentListFragment : Fragment(), StateResponse {
         override fun onCustomItemClicked(document: Document) {
 
             val action =
-                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(document.id)
+                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(document)
             findNavController().navigate(action)
         }
 

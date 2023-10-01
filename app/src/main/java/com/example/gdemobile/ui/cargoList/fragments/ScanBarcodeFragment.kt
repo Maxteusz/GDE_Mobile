@@ -144,14 +144,14 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
 
     fun lockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
-        binding.unlockButton.text = "Zablokowane"
+        binding.unlockButton.text = getString(R.string.blocked)
         lockedScan = true
 
     }
 
     fun unlockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
-        binding.unlockButton.text = "Skanowanie"
+        binding.unlockButton.text = getString(R.string.scanning)
         lockedScan = false
 
     }
