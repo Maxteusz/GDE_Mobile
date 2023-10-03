@@ -1,6 +1,5 @@
 package com.example.gdemobile.ui.cargoList
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,14 +17,14 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
-import okhttp3.internal.filterList
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
+
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
-    private var _scannedCargoBeforeFilter = _scannedCargo
+    private var _scannedCargoCopy = MutableLiveData<List<DocumentPosition>?>(emptyList())
 
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
@@ -39,8 +38,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
         get() = _documentDefinitions
 
 
-
-
     val scannedCargo: LiveData<List<DocumentPosition>?>
         get() = _scannedCargo
     val documentListInTemp: LiveData<List<Document>>
@@ -48,8 +45,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     val contractors: LiveData<List<Contractor>?>
         get() = _contractors
-
-
 
 
     suspend fun addCargoOnDocument(
@@ -86,8 +81,15 @@ open class BaseServiceCargoViewModel : ViewModel() {
     }
 
 
-    fun filtrDocumentPosition(chars: String) : LiveData<List<DocumentPosition>> {
-       _scannedCargoBeforeFilter.value.
+    fun filtrDocumentPosition(chars: String) {
+        //Important! : Function toList() make a copy od list
+        _scannedCargo.value = _scannedCargoCopy.value?.filter {
+            it.cargo?.name?.contains(
+                chars,
+                ignoreCase = true
+            )!!
+        }?.toList()
+       // _scannedCargo.postValue(filterList)
 
 
     }
@@ -105,6 +107,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
             _documentListInTemp.postValue((convertedList))
         }
 
+
     }
 
     suspend fun getDocumentPositions(idDocument: String) {
@@ -118,6 +121,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
         if (receiveList != null) {
             val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
             _scannedCargo.postValue(convertedList)
+            _scannedCargoCopy.postValue(convertedList)
 
         }
 
@@ -136,6 +140,10 @@ open class BaseServiceCargoViewModel : ViewModel() {
         return null
 
 
+    }
+
+    fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
+        return _scannedCargoCopy.value?.toList()
     }
 
 

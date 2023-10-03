@@ -112,11 +112,13 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.filtrDocumentPosition(s.toString())
+
 
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.filtrDocumentPosition(s.toString())
+            }
         })
         binding.searchTextlayout.setEndIconOnClickListener({
             binding.searchTextfield.text?.clear()

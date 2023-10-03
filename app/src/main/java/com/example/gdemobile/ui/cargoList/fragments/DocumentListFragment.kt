@@ -48,7 +48,6 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(document: Document) {
-
             val action =
                 DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(document)
             findNavController().navigate(action)
