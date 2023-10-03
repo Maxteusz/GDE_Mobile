@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.await
+import java.lang.Exception
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -50,6 +51,14 @@ class ConnectService(
 
 
         }
+        catch (exception: Exception) {
+            stateResponse?.OnError("Sprawdź wpisane dane do połączenia")
+            Log.e(LogTag.connectException, exception.message.toString())
+            return null
+
+
+        }
+
 
 
     }

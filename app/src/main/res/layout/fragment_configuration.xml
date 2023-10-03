@@ -48,7 +48,7 @@
                     android:id="@+id/ip_textedit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+
                     android:text="@{config.Companion.ip}"/>
             </com.google.android.material.textfield.TextInputLayout>
 

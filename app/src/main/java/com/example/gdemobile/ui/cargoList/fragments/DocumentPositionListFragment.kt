@@ -112,7 +112,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-              //  viewModel.filtrDocumentPosition(s.toString())
+                viewModel.filtrDocumentPosition(s.toString())
 
             }
 

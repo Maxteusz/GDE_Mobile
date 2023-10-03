@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
-import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoInformation
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Cargo
@@ -18,22 +16,17 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
-import com.example.gdemobile.utils.ExtensionFunction
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
-import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.launch
-import okhttp3.internal.notify
-import retrofit2.Call
+import okhttp3.internal.filterList
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
     var stateResponse: StateResponse? = null
     private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
-    private var _scannedCargoAfterFilter = MutableLiveData<List<DocumentPosition>?>(emptyList())
-        get() =  _scannedCargo
+    private var _scannedCargoBeforeFilter = _scannedCargo
+
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
 
@@ -67,7 +60,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
         pricePerUnit: Currency?
     ) {
 
-
         val connection = ConnectService(stateResponse)
         connection.makeConnection<String>(
             AddNewCargoToDocument(
@@ -85,21 +77,17 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
 
-        if (deleteAll || documentPosition.amount <= 1)
+        /*if (deleteAll || documentPosition.amount <= 1)
             _scannedCargo.value = _scannedCargo.value?.minus(documentPosition)
         else
             documentPosition.amount -= 1
-        _scannedCargoAfterFilter.postValue(_scannedCargo.value)
+        _scannedCargoBeforeFilter.postValue(_scannedCargo.value)*/
 
     }
 
 
-    fun filtrDocumentPosition(chars: String) {
-
-        _scannedCargo.value?.filter {
-            it.cargo?.name?.contains(chars, true) == true
-        } ?: emptyList()
-
+    fun filtrDocumentPosition(chars: String) : LiveData<List<DocumentPosition>> {
+       _scannedCargoBeforeFilter.value.
 
 
     }
