@@ -37,11 +37,12 @@ class DocumentListFragment : Fragment(), StateResponse {
         errorLayoutBinding = binding.errorlayout
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
+        binding.newdocumentButton.setOnClickListener {
+            findNavController().navigate(com.example.gdemobile.R.id.action_documentListFragment_to_documentDetailsFragment)
+        }
         viewLifecycleOwner.lifecycleScope.launch {
-            whenStarted {
-                if (viewModel.documentListInTemp.value?.isEmpty() == true)
                     viewModel.getDocumentsInTemp()
-            }
+
         }
         return binding.root
     }

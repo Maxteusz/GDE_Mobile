@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
             app:destination="@id/documentDefinitionListFragment" />
+        <action
+            android:id="@+id/action_documentDetailsFragment_to_documentListFragment"
+            app:destination="@id/documentListFragment" />
     </fragment>
     <fragment
         android:id="@+id/contractorListFragment"
@@ -112,6 +115,9 @@
 
 
         </action>
+        <action
+            android:id="@+id/action_documentListFragment_to_documentDetailsFragment"
+            app:destination="@id/documentDetailsFragment" />
 
 
     </fragment>
