@@ -49,10 +49,10 @@
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toTopOf="@+id/materialButton" />
+                app:layout_constraintBottom_toTopOf="@+id/newdocument_button" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/newdocument_button"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:text="Utwórz dokument"

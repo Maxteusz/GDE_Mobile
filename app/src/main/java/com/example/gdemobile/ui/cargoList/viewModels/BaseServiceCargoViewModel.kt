@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.CreateNewDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
@@ -141,6 +142,24 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
 
     }
+
+    suspend fun createNewDocument(): Document? {
+
+            val gson = Gson()
+            val connection = ConnectService(stateResponse)
+            var receiveList = connection.makeConnection<Any>(
+                CreateNewDocument()
+            )
+            val document = gson.fromJson<Document>(gson.toJson(receiveList))
+
+            return document;
+
+
+
+
+    }
+
+
 
     fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
         return _scannedCargoCopy.value?.toList()

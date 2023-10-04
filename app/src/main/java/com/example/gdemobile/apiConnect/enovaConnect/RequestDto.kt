@@ -21,7 +21,7 @@ class RequestDto(connectionMethod: IConnectEnovaMethod) {
     private var _methodName: String = connectionMethod.methodName
 
     @SerializedName("MethodArgs")
-    private var methodArgsDto: MethodArgs = MethodArgs(connectionMethod.dto)
+    private var methodArgsDto: MethodArgs = MethodArgs(connectionMethod.dto!!)
 
     private class MethodArgs (@SerializedName("dto")val dto : IDto)
 
