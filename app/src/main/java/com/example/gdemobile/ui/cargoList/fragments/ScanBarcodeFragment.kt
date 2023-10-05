@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class ScanBarcodeFragment : Fragment(), StateResponse {
 
-    var ID_CARGO = "65336878-70cf-4e64-bd72-b742cd26a657"
+
     private lateinit var binding: FragmentScanBarcodeBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false

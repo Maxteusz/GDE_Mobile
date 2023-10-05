@@ -40,7 +40,7 @@
             android:id="@+id/succeslayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -49,6 +49,7 @@
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toTopOf="@+id/newdocument_button" />
 
             <com.google.android.material.button.MaterialButton
@@ -58,7 +59,7 @@
                 android:text="Utwórz dokument"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
         </LinearLayout>
 
 

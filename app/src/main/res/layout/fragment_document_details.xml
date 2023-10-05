@@ -39,7 +39,7 @@
                     android:editable="false"
                     android:singleLine="true"
                     android:focusableInTouchMode="false"
-                    android:text="@{document.definition.fullName}"/>
+                    android:text="@{document.definition.symbol}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -7,6 +7,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.CreateNewDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
 import com.example.gdemobile.models.Cargo
@@ -31,6 +32,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
+    private var _document = MutableLiveData(Document())
 
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
@@ -38,6 +40,11 @@ open class BaseServiceCargoViewModel : ViewModel() {
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
+    var document: MutableLiveData<Document>
+        get() = _document
+        set(value) {
+            _document.value = value.value
+        }
 
     val scannedCargo: LiveData<List<DocumentPosition>?>
         get() = _scannedCargo
@@ -90,14 +97,26 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 ignoreCase = true
             )!!
         }?.toList()
-       // _scannedCargo.postValue(filterList)
+
+
+    }
+
+    suspend fun getDocumentDefinitions() {
+        val gson = Gson()
+        val connection = ConnectService(stateResponse)
+        var receiveList = connection.makeConnection<List<DocumentDefinition>>(
+            GetDocumentDefinitions()
+        )
+        if (receiveList != null) {
+            val convertedList = gson.fromJson<List<DocumentDefinition>>(gson.toJson(receiveList))
+            _documentDefinitions.postValue((convertedList))
+        }
 
 
     }
 
 
     suspend fun getDocumentsInTemp() {
-
         val gson = Gson()
         val connection = ConnectService(stateResponse)
         var receiveList = connection.makeConnection<List<Document>>(
@@ -108,12 +127,10 @@ open class BaseServiceCargoViewModel : ViewModel() {
             _documentListInTemp.postValue((convertedList))
         }
 
-
     }
 
     suspend fun getDocumentPositions(idDocument: String) {
         _scannedCargo.postValue(emptyList())
-
         val gson = Gson()
         val connection = ConnectService(stateResponse)
         var receiveList = connection.makeConnection<List<DocumentPosition>>(
@@ -145,20 +162,14 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     suspend fun createNewDocument(): Document? {
 
-            val gson = Gson()
-            val connection = ConnectService(stateResponse)
-            var receiveList = connection.makeConnection<Any>(
-                CreateNewDocument()
-            )
-            val document = gson.fromJson<Document>(gson.toJson(receiveList))
-
-            return document;
-
-
-
-
+        val gson = Gson()
+        val connection = ConnectService(stateResponse)
+        var receiveList = connection.makeConnection<Any>(
+            CreateNewDocument()
+        )
+        val document = gson.fromJson<Document>(gson.toJson(receiveList))
+        return document;
     }
-
 
 
     fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {

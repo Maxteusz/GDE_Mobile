@@ -1,5 +1,6 @@
 package com.example.gdemobile.apiConnect.enovaConnect.methods
 
+import com.example.gdemobile.apiConnect.enovaConnect.BaseDto
 import com.example.gdemobile.apiConnect.enovaConnect.IDto
 
 class CreateNewDocument : IConnectEnovaMethod{
@@ -9,9 +10,7 @@ class CreateNewDocument : IConnectEnovaMethod{
         get() = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
     override val dto: IDto = Dto()
 
-    private class Dto : IDto {
-
-    }
+    private class Dto : IDto
 
 }
 
