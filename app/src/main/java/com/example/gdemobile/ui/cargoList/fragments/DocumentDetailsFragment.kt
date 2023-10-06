@@ -62,16 +62,21 @@ class DocumentDetailsFragment : Fragment() {
 
 
         //Section Document Definition
-        binding.dokdefTextfield.setOnClickListener {
-            findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment)
-        }
-        binding.dokdefTextfield.setEndIconOnClickListener {
-            findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment)
-        }
-        binding.dokdefEdittext.setOnClickListener {
-            findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment)
-        }
+        binding.dokdefTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
+        binding.dokdefTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
+        binding.dokdefEdittext.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
 
+        //Section Contractor
+        binding.contractorEdittext.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
+        binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
+        binding.contractorTextfield.setEndIconOnClickListener{  findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
+
+        binding.nextButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.document.value?.describe = binding.descibeTextfield.text.toString()
+                viewModel.createNewDocument()
+
+            }}
 
 
         return binding.root

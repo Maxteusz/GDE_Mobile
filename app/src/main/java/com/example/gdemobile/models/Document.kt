@@ -11,10 +11,10 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
-class Document() : Serializable,Parcelable {
+class Document() : Serializable {
 
     @SerializedName("Id")
-    var id : String = "";
+    var id : String = ""
     @SerializedName("NumerDokumentu")
     var number : String = ""
     @SerializedName("Kontrahent")
@@ -22,33 +22,11 @@ class Document() : Serializable,Parcelable {
     @SerializedName("DefinicjaDokumentu")
     var definition: DocumentDefinition? = null
     @SerializedName("DataWystawienia")
-    var date : String = ""
+    var date : String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+    @SerializedName("Opis")
+    var describe : String =""
 
-    constructor(parcel: Parcel) : this() {
-        id = parcel.readString().toString()
-        number = parcel.readString().toString()
-        date = parcel.readString().toString()
-    }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(number)
-        parcel.writeString(date)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Document> {
-        override fun createFromParcel(parcel: Parcel): Document {
-            return Document(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Document?> {
-            return arrayOfNulls(size)
-        }
-    }
 
 
 }

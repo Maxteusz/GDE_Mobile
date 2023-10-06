@@ -7,6 +7,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.CreateNewDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
+import com.example.gdemobile.apiConnect.enovaConnect.methods.GetContractors
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
@@ -160,22 +161,36 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    suspend fun createNewDocument(): Document? {
-
+    suspend fun createNewDocument()  {
         val gson = Gson()
         val connection = ConnectService(stateResponse)
         var receiveList = connection.makeConnection<Any>(
-            CreateNewDocument()
+            CreateNewDocument(_document.value)
         )
-        val document = gson.fromJson<Document>(gson.toJson(receiveList))
-        return document;
+
     }
 
+    suspend fun getContractors() {
+        _contractors.postValue(emptyList())
+        val gson = Gson()
+        val connection = ConnectService(stateResponse)
+        var receiveList = connection.makeConnection<List<DocumentPosition>>(
+            GetContractors()
+        )
+        if (receiveList != null) {
+            val convertedList = gson.fromJson<List<Contractor>>(gson.toJson(receiveList))
+            _contractors.postValue(convertedList)
 
-    fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
-        return _scannedCargoCopy.value?.toList()
+
+        }
+
+
+
+
+        fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
+            return _scannedCargoCopy.value?.toList()
+        }
     }
-
 
 }
 

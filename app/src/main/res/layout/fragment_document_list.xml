@@ -11,8 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.DocumentListFragment"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".ui.cargoList.fragments.DocumentListFragment">
 
         <!--OnLoadingLayout-->
         <LinearLayout
@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/cicular_icon"
@@ -30,40 +30,39 @@
         </LinearLayout>
         <!--OnErrorLayout-->
 
-        <include android:id="@+id/errorlayout"
+        <include
+            android:id="@+id/errorlayout"
+            layout="@layout/error_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            layout="@layout/error_layout"/>
+            android:visibility="gone" />
         <!--OnSuccesLayout-->
         <LinearLayout
             android:id="@+id/succeslayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toTopOf="@+id/newdocument_button" />
+                android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/newdocument_button"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="Utwórz dokument"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@+id/newdocument_button" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/newdocument_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:text="Utwórz dokument"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
-
-
-
 
 
     </LinearLayout>
