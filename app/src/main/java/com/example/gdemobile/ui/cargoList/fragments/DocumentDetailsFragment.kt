@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.app.DatePickerDialog
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +31,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import java.time.format.DateTimeFormatter
 
 
-class DocumentDetailsFragment : Fragment() {
+class DocumentDetailsFragment : Fragment(), StateResponse{
 
     private lateinit var binding: FragmentDocumentDetailsBinding
     private lateinit var viewModel: BaseServiceCargoViewModel
@@ -52,6 +53,7 @@ class DocumentDetailsFragment : Fragment() {
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
 
         val document = viewModel.document.value
+        viewModel.stateResponse = this
 
         viewModel.document.observe(viewLifecycleOwner, Observer
         {
@@ -82,7 +84,23 @@ class DocumentDetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun OnLoading() {
 
+        binding.loadinglayout.visibility = View.VISIBLE
+        binding.succeslayout.visibility = View.GONE
+
+
+
+    }
+
+    override fun OnError(message: String) {
+        showToast(message)
+    }
+
+    override fun <T> OnSucces(result: T?) {
+
+        binding.loadinglayout.visibility = View.GONE
+    }
 
 
 }
