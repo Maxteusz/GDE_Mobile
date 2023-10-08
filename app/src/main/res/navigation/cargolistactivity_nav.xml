@@ -39,11 +39,9 @@
         android:label="fragment_scan_barcode"
         tools:layout="@layout/fragment_scan_barcode" >
         <argument
-            android:name="idDocument"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"
-            />
+            android:name="document"
+            app:argType="com.example.gdemobile.models.Document"
+            app:nullable="true" />
         <action
             android:id="@+id/action_scanBarcodeFragment_to_cargoListFragment"
             app:destination="@id/cargoListFragment"
@@ -57,6 +55,10 @@
         android:id="@+id/documentDetailsFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDetailsFragment"
         android:label="DocumentDetailsFragment" >
+        <argument
+            android:name="document"
+            app:argType="com.example.gdemobile.models.Document"
+            app:nullable="false" />
 
         <action
             android:id="@+id/action_documentDetailsFragment_to_contractorListFragment"
@@ -68,6 +70,14 @@
         <action
             android:id="@+id/action_documentDetailsFragment_to_documentListFragment"
             app:destination="@id/documentListFragment" />
+        <action
+            android:id="@+id/action_documentDetailsFragment_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" >
+            <argument
+                android:name="document"
+                app:argType="com.example.gdemobile.models.Document"
+                app:nullable="false" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/contractorListFragment"
@@ -102,11 +112,9 @@
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentListFragment"
         android:label="DocumentListFragment">
         <argument
-            android:name="idDocument"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue=""
-            />
+            android:name="document"
+            app:argType="com.example.gdemobile.models.Document"
+            app:nullable="true" />
 
 
         <action

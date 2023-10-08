@@ -97,9 +97,13 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
         showToast(message)
     }
 
-    override fun <T> OnSucces(result: T?) {
-
+    override fun <Document> OnSucces(result: Document?) {
         binding.loadinglayout.visibility = View.GONE
+        val gson = Gson()
+        val doc = gson.fromJson<com.example.gdemobile.models.Document>(gson.toJson(result))
+        val action =
+           DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(doc)
+        findNavController().navigate(action)
     }
 
 

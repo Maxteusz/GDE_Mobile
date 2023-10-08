@@ -88,11 +88,11 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding.cargosRecyclerview.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 20) {
+                if (dy > 10) {
                     binding.cameraButton.hide()
                     binding.nextButton.hide()
                 }
-                if (dy < -20) {
+                if (dy < -10) {
                     binding.cameraButton.show()
                     binding.nextButton.show()
                 }
