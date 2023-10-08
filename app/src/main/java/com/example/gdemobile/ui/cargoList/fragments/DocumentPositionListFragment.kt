@@ -1,10 +1,8 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +16,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
-import com.example.gdemobile.ui.cargoList.interfaces.KeyListener
 import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,15 +38,16 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args = arg.document?.id
+        val doc = arg.document
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                if (args != null) {
-                    viewModel.getDocumentPositions(args)
+                if (doc != null) {
+                    if(!doc.isNew)
+                    viewModel.getDocumentPositions(doc.id)
                 } else
                     OnError("Błąd pobrania dokumentu")
             }
@@ -75,7 +72,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_documentDetailsFragment)
+           //findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_documentDetailsFragment)
         }
         binding.cameraButton.setOnClickListener {
             val data = Bundle()

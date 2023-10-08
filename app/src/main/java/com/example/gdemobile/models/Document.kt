@@ -25,6 +25,7 @@ class Document() : Serializable {
     var date : String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     @SerializedName("Opis")
     var describe : String =""
+    var isNew  = false
 
 
 

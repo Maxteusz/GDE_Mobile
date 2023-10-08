@@ -101,8 +101,11 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
         binding.loadinglayout.visibility = View.GONE
         val gson = Gson()
         val doc = gson.fromJson<com.example.gdemobile.models.Document>(gson.toJson(result))
+        doc.isNew = true
+
         val action =
            DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(doc)
+
         findNavController().navigate(action)
     }
 

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/cargoListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment"
-        android:label="CargoListFragment" >
+        android:label="CargoListFragment">
         <argument
             android:name="document"
            app:argType="com.example.gdemobile.models.Document"
@@ -31,7 +31,10 @@
 
         <action
             android:id="@+id/action_cargoListFragment_to_documentListFragment"
-            app:destination="@id/documentListFragment" />
+            app:destination="@id/documentListFragment"
+            app:popUpTo="@id/documentListFragment"
+            app:popUpToInclusive="true"/>
+
     </fragment>
     <fragment
         android:id="@+id/scanBarcodeFragment"
@@ -72,7 +75,9 @@
             app:destination="@id/documentListFragment" />
         <action
             android:id="@+id/action_documentDetailsFragment_to_cargoListFragment"
-            app:destination="@id/cargoListFragment" >
+            app:destination="@id/cargoListFragment"
+            app:popUpTo="@id/documentDetailsFragment"
+            app:popUpToInclusive="true">
             <argument
                 android:name="document"
                 app:argType="com.example.gdemobile.models.Document"
