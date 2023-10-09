@@ -39,15 +39,19 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         savedInstanceState: Bundle?
     ): View? {
         val doc = arg.document
+
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel.document.value = doc
         viewModel.stateResponse = this
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
                 if (doc != null) {
                     if(!doc.isNew)
                     viewModel.getDocumentPositions(doc.id)
+                    else
+                        doc.isNew = false
                 } else
                     OnError("Błąd pobrania dokumentu")
             }
@@ -72,7 +76,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.nextButton.setOnClickListener {
-           //findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_documentDetailsFragment)
+           findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_configmDocumentDialog)
         }
         binding.cameraButton.setOnClickListener {
             val data = Bundle()

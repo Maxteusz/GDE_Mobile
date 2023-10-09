@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.cargoList.dialogs
 
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -27,11 +28,17 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     private var cargo: Cargo? = null
     private var idDocument: String? = null
 
-
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        return dialog
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
 
         cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         idDocument = arguments?.getString(NamesSharedVariable.idDocument)
@@ -84,9 +91,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         return binding.root
     }
 
-    override fun OnLoading() {
 
-    }
     fun blockDialog()
     {
         binding.amountEdittext.isClickable = false;
@@ -98,6 +103,10 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         binding.unitSpinner.isClickable = false
         binding.valueEdittext.isActivated = false
         binding.valueEdittext.isFocusable = false;
+    }
+
+    override fun OnLoading() {
+
     }
 
     override fun OnError(message: String) {

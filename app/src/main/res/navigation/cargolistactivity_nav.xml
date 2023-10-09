@@ -11,20 +11,21 @@
         android:label="CargoListFragment">
         <argument
             android:name="document"
-           app:argType="com.example.gdemobile.models.Document"
+            app:argType="com.example.gdemobile.models.Document"
             app:nullable="true" />
 
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim" >
+            app:enterAnim="@anim/nav_default_enter_anim">
+
         </action>
         <action
             android:id="@+id/action_cargoListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
         <action
             android:id="@+id/action_cargoListFragment_to_amountCargoDialog"
-            app:destination="@id/amountCargoDialog" >
+            app:destination="@id/amountCargoDialog">
 
 
         </action>
@@ -33,14 +34,17 @@
             android:id="@+id/action_cargoListFragment_to_documentListFragment"
             app:destination="@id/documentListFragment"
             app:popUpTo="@id/documentListFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_cargoListFragment_to_configmDocumentDialog"
+            app:destination="@id/configmDocumentDialog" />
 
     </fragment>
     <fragment
         android:id="@+id/scanBarcodeFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.ScanBarcodeFragment"
         android:label="fragment_scan_barcode"
-        tools:layout="@layout/fragment_scan_barcode" >
+        tools:layout="@layout/fragment_scan_barcode">
         <argument
             android:name="document"
             app:argType="com.example.gdemobile.models.Document"
@@ -48,7 +52,7 @@
         <action
             android:id="@+id/action_scanBarcodeFragment_to_cargoListFragment"
             app:destination="@id/cargoListFragment"
-            app:popEnterAnim="@animator/nav_default_enter_anim"/>
+            app:popEnterAnim="@animator/nav_default_enter_anim" />
         <action
             android:id="@+id/action_scanBarcodeFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
@@ -57,7 +61,7 @@
     <fragment
         android:id="@+id/documentDetailsFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDetailsFragment"
-        android:label="DocumentDetailsFragment" >
+        android:label="DocumentDetailsFragment">
         <argument
             android:name="document"
             app:argType="com.example.gdemobile.models.Document"
@@ -65,8 +69,7 @@
 
         <action
             android:id="@+id/action_documentDetailsFragment_to_contractorListFragment"
-            app:destination="@id/contractorListFragment"
-            />
+            app:destination="@id/contractorListFragment" />
         <action
             android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
             app:destination="@id/documentDefinitionListFragment" />
@@ -87,7 +90,7 @@
     <fragment
         android:id="@+id/contractorListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.ContractorListFragment"
-        android:label="ContractorListFragment" >
+        android:label="ContractorListFragment">
         <action
             android:id="@+id/action_contractorListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
@@ -95,7 +98,7 @@
     <fragment
         android:id="@+id/documentDefinitionListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDefinitionListFragment"
-        android:label="DocumentDefinitionListFragment" >
+        android:label="DocumentDefinitionListFragment">
         <action
             android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
@@ -103,7 +106,7 @@
     <dialog
         android:id="@+id/amountCargoDialog"
         android:name="com.example.gdemobile.ui.cargoList.dialogs.AmountCargoDialog"
-        android:label="AmountCargoDialog" >
+        android:label="AmountCargoDialog">
 
         <action
             android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
@@ -124,7 +127,7 @@
 
         <action
             android:id="@+id/action_documentListFragment_to_cargoListFragment"
-            app:destination="@id/cargoListFragment" >
+            app:destination="@id/cargoListFragment">
 
 
         </action>
@@ -134,5 +137,19 @@
 
 
     </fragment>
+    <dialog
+        android:id="@+id/configmDocumentDialog"
+        android:name="com.example.gdemobile.ui.cargoList.dialogs.ConfirmDocumentDialog"
+        android:label="configm_dialog"
+        tools:layout="@layout/confirm_dialog">
+        <action
+            android:id="@+id/action_configmDocumentDialog_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" />
+        <action
+            android:id="@+id/action_configmDocumentDialog_to_documentListFragment"
+            app:destination="@id/documentListFragment"
+            app:popUpTo="@id/documentDetailsFragment"
+            app:popUpToInclusive="true"/>
+    </dialog>
 
 </navigation>

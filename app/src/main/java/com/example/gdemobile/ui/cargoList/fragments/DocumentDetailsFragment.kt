@@ -94,6 +94,8 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
     }
 
     override fun OnError(message: String) {
+        binding.loadinglayout.visibility = View.GONE
+        binding.succeslayout.visibility = View.VISIBLE
         showToast(message)
     }
 

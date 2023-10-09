@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.ConfirmDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.CreateNewDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetContractors
@@ -161,7 +162,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    suspend fun createNewDocument()  {
+    suspend fun createNewDocument() {
         val gson = Gson()
         val connection = ConnectService(stateResponse)
         var receiveList = connection.makeConnection<Any>(
@@ -183,8 +184,15 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
 
         }
+    }
+
+        suspend fun confirmDocument(idDocument: String) {
+
+            val connection = ConnectService(stateResponse)
+            connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
 
 
+        }
 
 
         fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
@@ -192,6 +200,6 @@ open class BaseServiceCargoViewModel : ViewModel() {
         }
     }
 
-}
+
 
 
