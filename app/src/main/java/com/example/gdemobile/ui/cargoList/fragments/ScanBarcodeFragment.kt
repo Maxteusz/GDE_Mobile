@@ -24,14 +24,16 @@ import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.gson.Gson
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ScanBarcodeFragment : Fragment(), StateResponse {
 
@@ -41,6 +43,8 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     private var lockedScan: Boolean = false
     private var idDocument = ""
     private var cargo: Cargo? = null
+    private lateinit var deffered: Deferred<Cargo?>
+
 
 
     override fun onCreateView(
@@ -82,7 +86,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     }
 
 
-    private fun startCamera() {
+    private fun startCamera(): Cargo? {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         val detector = FirebaseVision.getInstance()
             .visionBarcodeDetector
@@ -103,8 +107,11 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 sharedViewModel.stateResponse = this
-                                viewLifecycleOwner.lifecycleScope.launch {
-                                    sharedViewModel.getCargoInformationByEan(scannedCode)
+                                deffered = viewLifecycleOwner.lifecycleScope.async {
+
+                                    return@async sharedViewModel.getCargoInformationByEan(
+                                        scannedCode
+                                    )
                                 }
                                 lockScanning()
                             }
@@ -124,6 +131,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
             },
             getMainExecutor(requireActivity())
         )
+        return null
     }
 
     @SuppressLint("RestrictedApi")
@@ -160,19 +168,27 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         binding.loadinglayout.root.visibility = View.VISIBLE
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         this.showToast(message)
         binding.loadinglayout.root.visibility = View.GONE
     }
 
-    override fun <Cargo> OnSucces(result: Cargo?) {
+
+    override fun OnSucces() {
         binding.loadinglayout.root.visibility = View.GONE
-        val data = Bundle()
-        val gson = Gson()
-        cargo = gson.fromJson<com.example.gdemobile.models.Cargo>(gson.toJson(result))
-        data.putString(NamesSharedVariable.idDocument, idDocument)
-        data.putSerializable(NamesSharedVariable.cargo, cargo)
-        findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog, data)
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(coroutineContext) {
+                cargo = deffered.await()
+                val data = Bundle()
+                data.putString(NamesSharedVariable.idDocument, idDocument)
+                data.putSerializable(NamesSharedVariable.cargo, cargo)
+                findNavController().navigate(
+                    R.id.action_scanBarcodeFragment_to_amountCargoDialog,
+                    data
+                )
+            }
+        }
+
 
     }
 

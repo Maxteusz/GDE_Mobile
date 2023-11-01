@@ -64,13 +64,13 @@ class ConfirmDocumentDialog : DialogFragment(), StateResponse {
 
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         showToast(message)
         dismiss()
 
     }
 
-    override fun <T> OnSucces(result: T?) {
+    override fun  OnSucces() {
         showToast("Dokument zatwierdzony")
         dismiss()
         findNavController().navigate(R.id.action_configmDocumentDialog_to_documentListFragment)

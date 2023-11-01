@@ -109,12 +109,12 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
 
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         showToast(message)
         dialog?.dismiss()
     }
 
-    override fun <T> OnSucces(result: T?) {
+    override fun OnSucces() {
         showToast("Dodano towar")
         dialog?.dismiss()
     }

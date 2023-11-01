@@ -141,13 +141,13 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding.loadinglayout.visibility = View.VISIBLE
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         binding.errorlayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun <T> OnSucces(result: T?) {
+    override fun  OnSucces() {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
@@ -155,21 +155,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 }
 
 
-    /*@SuppressLint("SuspiciousIndentation")
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
-     *//*   if (keyCode == KeyEvent.KEYCODE_ENTER) {
-            if (Config.insertAmountCargo)
-                findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_amountCargoDialog)
-            else
-                viewModel.addCargo(viewModel.scannedBarcode.value!!)
-
-
-        } else
-            viewModel.scannedBarcode.value += event?.unicodeChar?.toChar()
-        return true
-    }*//*
-}*/
 
 
 

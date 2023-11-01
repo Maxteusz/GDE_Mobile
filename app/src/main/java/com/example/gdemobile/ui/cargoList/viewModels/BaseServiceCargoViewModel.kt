@@ -155,19 +155,22 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 GetCargoByEAN(ean)
             )
             val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
-            return cargo;
+            return  cargo;
         }
-        return null
 
+return null
 
     }
 
-    suspend fun createNewDocument() {
+    suspend fun createNewDocument(): Document {
         val gson = Gson()
         val connection = ConnectService(stateResponse)
-        var receiveList = connection.makeConnection<Any>(
+        var result = connection.makeConnection<Any>(
             CreateNewDocument(_document.value)
         )
+        val document = gson.fromJson<Document>(gson.toJson(result))
+        return document
+
 
     }
 

@@ -1,15 +1,14 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.ErrorLayoutBinding
@@ -41,7 +40,8 @@ class DocumentListFragment : Fragment(), StateResponse {
             findNavController().navigate(com.example.gdemobile.R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.getDocumentsInTemp()
+            if(viewModel.documentListInTemp.value.isNullOrEmpty())
+            viewModel.getDocumentsInTemp()
 
         }
         return binding.root
@@ -50,7 +50,9 @@ class DocumentListFragment : Fragment(), StateResponse {
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(document: Document) {
             val action =
-                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(document)
+                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(
+                    document
+                )
             findNavController().navigate(action)
         }
 
@@ -75,14 +77,14 @@ class DocumentListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         errorLayoutBinding.errorTextview.text = message
         binding.errorlayout.root.visibility = View.VISIBLE
     }
 
-    override fun <T> OnSucces(result: T?) {
+    override fun OnSucces() {
         binding.errorlayout.root.visibility = View.GONE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE

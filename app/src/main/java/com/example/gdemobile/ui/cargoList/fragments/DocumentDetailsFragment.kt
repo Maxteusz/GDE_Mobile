@@ -1,9 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
-import android.app.DatePickerDialog
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,31 +12,28 @@ import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.models.Document
-import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
-import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
-import com.example.gdemobile.utils.DateFormat
-import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
-import com.example.gdemobile.utils.ExtensionFunction.Companion.getDate
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
-import com.google.gson.Gson
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.withContext
 
 
-class DocumentDetailsFragment : Fragment(), StateResponse{
+class DocumentDetailsFragment : Fragment(), StateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
     private lateinit var viewModel: BaseServiceCargoViewModel
+    private var document: Document = Document()
+
+    private lateinit var defferedCreateDocument: Deferred<Document?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-            viewModel.document.value = Document()
+        viewModel.document.value = Document()
 
 
     }
@@ -52,15 +46,13 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
 
         binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
 
-        val document = viewModel.document.value
+        var document = viewModel.document.value
         viewModel.stateResponse = this
 
         viewModel.document.observe(viewLifecycleOwner, Observer
         {
-
             binding.document = document
         })
-
 
 
         //Section Document Definition
@@ -71,14 +63,16 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
         //Section Contractor
         binding.contractorEdittext.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
         binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
-        binding.contractorTextfield.setEndIconOnClickListener{  findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
+        binding.contractorTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
 
         binding.nextButton.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
+            defferedCreateDocument = viewLifecycleOwner.lifecycleScope.async {
                 viewModel.document.value?.describe = binding.descibeTextfield.text.toString()
-                viewModel.createNewDocument()
+                document = viewModel.createNewDocument()
+                return@async document
 
-            }}
+            }
+        }
 
 
         return binding.root
@@ -90,25 +84,29 @@ class DocumentDetailsFragment : Fragment(), StateResponse{
         binding.succeslayout.visibility = View.GONE
 
 
-
     }
 
-    override fun OnError(message: String) {
+    override suspend fun OnError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         showToast(message)
     }
 
-    override fun <Document> OnSucces(result: Document?) {
+    override fun OnSucces() {
         binding.loadinglayout.visibility = View.GONE
-        val gson = Gson()
-        val doc = gson.fromJson<com.example.gdemobile.models.Document>(gson.toJson(result))
-        doc.isNew = true
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(coroutineContext) {
+                document = defferedCreateDocument.await()!!
 
-        val action =
-           DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(doc)
+                document.isNew = true
+                val action =
+                    DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(
+                        document
+                    )
 
-        findNavController().navigate(action)
+                findNavController().navigate(action)
+            }
+        }
     }
 
 
