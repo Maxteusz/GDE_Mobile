@@ -43,6 +43,7 @@ class DocumentDefinitionAdapter(
             listener.onItemClicked(documentDefinitions.get(position))
 
         }
+
     }
 
 

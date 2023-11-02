@@ -62,14 +62,6 @@
             android:textSize="16sp"
             android:textColor="@color/black"
             android:text= "@{cargo.amountValue}" />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/erase_button"
-                android:layout_width="38dp"
-                app:cornerRadius="30dp"
-                android:gravity="end"
-                android:layout_marginLeft="20dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"/>
         </LinearLayout>
 
 

@@ -81,6 +81,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
             }
         })
+
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -127,6 +128,9 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         viewModel.document.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
+                (it.layoutManager as LinearLayoutManager).isItemPrefetchEnabled = true
+                (it.layoutManager as LinearLayoutManager).isSmoothScrollbarEnabled = true
+                (it.layoutManager as LinearLayoutManager).initialPrefetchItemCount = 20
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
                     document?.documentPositions?.toMutableList()!!,

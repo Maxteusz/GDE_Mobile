@@ -57,7 +57,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cargos_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+               android:nestedScrollingEnabled="false"/>
+
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/camera_button"

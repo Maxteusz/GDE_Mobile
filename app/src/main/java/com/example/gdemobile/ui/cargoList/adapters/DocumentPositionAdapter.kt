@@ -30,7 +30,7 @@ class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>,
 
     override fun onBindViewHolder(holder: CargoViewHolder, position: Int) {
         holder.recyclerviewCargoHolder.cargo = cargos.get(position)
-
+        holder.itemView.animate().alpha(1.0f).setDuration(3000).start()
 
     }
 
