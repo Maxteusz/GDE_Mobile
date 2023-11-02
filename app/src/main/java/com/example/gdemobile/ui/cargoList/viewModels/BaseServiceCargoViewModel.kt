@@ -3,6 +3,7 @@ package com.example.gdemobile.ui.cargoList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.ConfirmDocument
@@ -21,20 +22,24 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.launch
 
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
-
+    private var lastQueryTime: Long = 0
     var stateResponse: StateResponse? = null
-    private var _scannedCargo = MutableLiveData<List<DocumentPosition>?>(emptyList())
-    private var _scannedCargoCopy = MutableLiveData<List<DocumentPosition>?>(emptyList())
+    private var _document = MutableLiveData(Document())
+
+    private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
+
 
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
 
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
-    private var _document = MutableLiveData(Document())
+
 
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
 
@@ -48,8 +53,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
             _document.value = value.value
         }
 
-    val scannedCargo: LiveData<List<DocumentPosition>?>
-        get() = _scannedCargo
+
     val documentListInTemp: LiveData<List<Document>>
         get() = _documentListInTemp
 
@@ -91,14 +95,19 @@ open class BaseServiceCargoViewModel : ViewModel() {
     }
 
 
-    fun filtrDocumentPosition(chars: String) {
+    @OptIn(FlowPreview::class)
+    suspend fun filtrDocumentPosition(chars: String): MutableList<DocumentPosition>? {
         //Important! : Function toList() make a copy od list
-        _scannedCargo.value = _scannedCargoCopy.value?.filter {
-            it.cargo?.name?.contains(
-                chars,
-                ignoreCase = true
-            )!!
-        }?.toList()
+
+        if (chars.isNotEmpty())
+            return (_scannedCargoCopy.filter {
+                it.cargo?.name?.contains(
+                    chars,
+                    ignoreCase = true
+                )!!
+            }).toMutableList()
+        else
+            return _scannedCargoCopy
 
 
     }
@@ -131,19 +140,19 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     }
 
-    suspend fun getDocumentPositions(idDocument: String) {
-        _scannedCargo.postValue(emptyList())
+    suspend fun getDocumentPositions(idDocument: String): MutableList<DocumentPosition> {
+        _scannedCargoCopy.clear()
         val gson = Gson()
         val connection = ConnectService(stateResponse)
+        var convertedList = mutableListOf<DocumentPosition>()
         var receiveList = connection.makeConnection<List<DocumentPosition>>(
             GetDocumentPositionsOnDocument(idDocument)
         )
         if (receiveList != null) {
-            val convertedList = gson.fromJson<List<DocumentPosition>>(gson.toJson(receiveList))
-            _scannedCargo.postValue(convertedList)
-            _scannedCargoCopy.postValue(convertedList)
-
+            convertedList = gson.fromJson<MutableList<DocumentPosition>>(gson.toJson(receiveList))
         }
+        _scannedCargoCopy.addAll(convertedList)
+        return convertedList
 
     }
 
@@ -155,10 +164,10 @@ open class BaseServiceCargoViewModel : ViewModel() {
                 GetCargoByEAN(ean)
             )
             val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
-            return  cargo;
+            return cargo;
         }
 
-return null
+        return null
 
     }
 
@@ -189,19 +198,23 @@ return null
         }
     }
 
-        suspend fun confirmDocument(idDocument: String) {
+    suspend fun confirmDocument(idDocument: String) {
 
-            val connection = ConnectService(stateResponse)
-            connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
-
-
-        }
+        val connection = ConnectService(stateResponse)
+        connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
 
 
-        fun getOriginalPositionDocumentListCopy(): List<DocumentPosition>? {
-            return _scannedCargoCopy.value?.toList()
+    }
+
+    fun updateDocument(document: Document) {
+        // Zaktualizuj wartość obiektu w wątku głównym
+        viewModelScope.launch {
+            _document.value = document
         }
     }
+
+
+}
 
 
 

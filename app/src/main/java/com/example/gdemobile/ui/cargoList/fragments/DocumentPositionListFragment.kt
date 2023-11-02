@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
+import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class DocumentPositionListFragment() : Fragment(), StateResponse {
@@ -30,6 +32,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
     private val arg: DocumentPositionListFragmentArgs by navArgs()
+    private  var document: Document? = null
 
 
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -38,37 +41,15 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val doc = arg.document
+
 
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.document.value = doc
-        viewModel.stateResponse = this
-        viewLifecycleOwner.lifecycleScope.launch {
-            whenStarted {
-                if (doc != null) {
-                    if(!doc.isNew)
-                    viewModel.getDocumentPositions(doc.id)
-                    else
-                        doc.isNew = false
-                } else
-                    OnError("Błąd pobrania dokumentu")
-            }
-        }
-        viewModel.scannedCargo.observe(viewLifecycleOwner, {
-            binding.cargosRecyclerview.also {
-                it.layoutManager = LinearLayoutManager(context)
-                it.setHasFixedSize(true)
-                documentPositionAdapter = DocumentPositionAdapter(
-                    viewModel.scannedCargo.value!!.toMutableList(),
-                    viewModel
-                )
 
-                binding.cargosRecyclerview.adapter = documentPositionAdapter
-                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
-            }
-        })
+
+
+
 
         return binding.root
     }
@@ -76,7 +57,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.nextButton.setOnClickListener {
-           findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_configmDocumentDialog)
+            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_configmDocumentDialog)
         }
         binding.cameraButton.setOnClickListener {
             val data = Bundle()
@@ -100,8 +81,6 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
             }
         })
-
-
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -118,7 +97,15 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                viewModel.filtrDocumentPosition(s.toString())
+                viewLifecycleOwner.lifecycleScope.launch {
+                    withContext(coroutineContext)
+                    {
+                        document?.documentPositions =
+                            viewModel.filtrDocumentPosition(s.toString())!!
+                        document?.let { viewModel.updateDocument(it) }
+                    }
+                }
+
             }
         })
         binding.searchTextlayout.setEndIconOnClickListener({
@@ -133,6 +120,37 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             binding.searchTextfield.setText("")
             binding.searchTextfield.clearFocus()
         }
+
+
+        document = arg.document
+        viewModel.stateResponse = this
+        viewModel.document.observe(viewLifecycleOwner, {
+            binding.cargosRecyclerview.also {
+                it.layoutManager = LinearLayoutManager(context)
+                it.setHasFixedSize(true)
+                documentPositionAdapter = DocumentPositionAdapter(
+                    document?.documentPositions?.toMutableList()!!,
+                    viewModel
+                )
+                binding.cargosRecyclerview.adapter = documentPositionAdapter
+                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
+            }
+        })
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            whenStarted {
+                if (!document?.isNew!!) {
+                    document!!.documentPositions =
+                        viewModel.getDocumentPositions(document!!.id)
+                    viewModel.updateDocument(document!!)
+
+                } else
+                    document!!.isNew = false
+
+
+            }
+        }
+
     }
 
     override fun OnLoading() {
@@ -147,7 +165,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
 
-    override fun  OnSucces() {
+    override fun OnSucces() {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
