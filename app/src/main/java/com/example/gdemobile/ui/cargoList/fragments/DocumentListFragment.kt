@@ -44,6 +44,12 @@ class DocumentListFragment : Fragment(), StateResponse {
             viewModel.getDocumentsInTemp()
 
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.getDocumentsInTemp()
+            }
+        }
         return binding.root
     }
 
@@ -75,12 +81,14 @@ class DocumentListFragment : Fragment(), StateResponse {
     override fun OnLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override suspend fun OnError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         errorLayoutBinding.errorTextview.text = message
+        binding.swipeRefreshLayout.isRefreshing = false
         binding.errorlayout.root.visibility = View.VISIBLE
     }
 
@@ -88,5 +96,6 @@ class DocumentListFragment : Fragment(), StateResponse {
         binding.errorlayout.root.visibility = View.GONE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 }

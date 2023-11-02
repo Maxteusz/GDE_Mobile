@@ -37,7 +37,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_cargoListFragment_to_configmDocumentDialog"
-            app:destination="@id/configmDocumentDialog" />
+            app:destination="@id/confirmDocumentDialog" />
 
     </fragment>
     <fragment
@@ -138,17 +138,17 @@
 
     </fragment>
     <dialog
-        android:id="@+id/configmDocumentDialog"
+        android:id="@+id/confirmDocumentDialog"
         android:name="com.example.gdemobile.ui.cargoList.dialogs.ConfirmDocumentDialog"
         android:label="configm_dialog"
         tools:layout="@layout/confirm_dialog">
         <action
-            android:id="@+id/action_configmDocumentDialog_to_cargoListFragment"
+            android:id="@+id/action_confirmDocumentDialog_to_cargoListFragment"
             app:destination="@id/cargoListFragment" />
         <action
-            android:id="@+id/action_configmDocumentDialog_to_documentListFragment"
-            app:destination="@id/documentListFragment"
-            app:popUpTo="@id/documentDetailsFragment"
+            android:id="@+id/action_confirmDocumentDialog_to_documentListFragment"
+
+            app:popUpTo="@+id/documentListFragment"
             app:popUpToInclusive="true"/>
     </dialog>
 

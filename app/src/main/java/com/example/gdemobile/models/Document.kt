@@ -26,6 +26,7 @@ class Document() : Serializable {
     @SerializedName("Opis")
     var describe : String =""
     var isNew  = false
+    var documentPositions = mutableListOf<DocumentPosition>()
 
 
 
