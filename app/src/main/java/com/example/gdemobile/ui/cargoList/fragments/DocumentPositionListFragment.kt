@@ -37,6 +37,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
     private lateinit var viewModel: InssuingCargoListViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +47,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel.stateResponse = this
 
 
 
@@ -121,20 +123,31 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             binding.searchTextfield.setText("")
             binding.searchTextfield.clearFocus()
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                refreshData()
+            }
+        }
 
 
         document = arg.document
-        viewModel.stateResponse = this
+
+        val listener = object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
+            override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.deleteCagoFromDocument(idDocumentPostion)
+                    refreshData()
+                }
+            }
+        }
         viewModel.document.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
-                (it.layoutManager as LinearLayoutManager).isItemPrefetchEnabled = true
-                (it.layoutManager as LinearLayoutManager).isSmoothScrollbarEnabled = true
-                (it.layoutManager as LinearLayoutManager).initialPrefetchItemCount = 20
+
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
                     document?.documentPositions?.toMutableList()!!,
-                    viewModel
+                    listener
                 )
                 binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
@@ -157,22 +170,31 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
     }
 
+    suspend  fun  refreshData() {
+        document!!.documentPositions =
+            viewModel.getDocumentPositions(document!!.id)
+        viewModel.updateDocument(document!!)
+    }
+
     override fun OnLoading() {
         binding.succeslayout.visibility = View.GONE
         binding.errorlayout.visibility = View.GONE
         binding.loadinglayout.visibility = View.VISIBLE
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override suspend fun OnError(message: String) {
         binding.errorlayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override fun OnSucces() {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.loadinglayout.visibility = View.GONE
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 }
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class DocumentPosition(
     @SerializedName("Id")
-   val  id: String,
+   val  id: Int,
     @SerializedName("Ilosc")
     var amount: Double,
     @SerializedName("Cena jednostkowa")
@@ -17,6 +17,7 @@ class DocumentPosition(
     val unit : Cargo.Unit? = null
 
     fun getAmountValue () = amount.toString()  + " " + unit?.name
+
 
 
 

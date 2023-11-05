@@ -73,7 +73,8 @@ class ConfirmDocumentDialog : DialogFragment(), StateResponse {
     override fun  OnSucces() {
         showToast("Dokument zatwierdzony")
         dismiss()
-        findNavController().navigate(R.id.action_confirmDocumentDialog_to_documentListFragment)
+        activity?.finish()
+
 
     }
 

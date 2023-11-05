@@ -9,10 +9,7 @@ import java.time.LocalDate
 
 open class ExtensionFunction {
     companion object {
-        fun DatePickerDialog.getDate(): LocalDate {
-            val da = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
-            return da
-        }
+
         fun Fragment.showToast(message: String) =
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 

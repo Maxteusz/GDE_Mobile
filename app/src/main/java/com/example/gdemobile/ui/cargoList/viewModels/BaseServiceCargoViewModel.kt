@@ -8,6 +8,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.ConfirmDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.CreateNewDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.DeleteCargoFromDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetContractors
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
@@ -211,6 +212,13 @@ open class BaseServiceCargoViewModel : ViewModel() {
         viewModelScope.launch {
             _document.value = document
         }
+    }
+    suspend fun deleteCagoFromDocument(idDocumentPosition : Int)
+    {
+        val connection = ConnectService(stateResponse)
+        var result = connection.makeConnection<Any>(
+            DeleteCargoFromDocument(idDocumentPosition)
+        )
     }
 
 

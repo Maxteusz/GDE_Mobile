@@ -33,7 +33,6 @@
                 android:layout_height="50dp" />
         </LinearLayout>
         <!--OnErrorLayout-->
-
         <include
             android:id="@+id/errorlayout"
             layout="@layout/error_layout"

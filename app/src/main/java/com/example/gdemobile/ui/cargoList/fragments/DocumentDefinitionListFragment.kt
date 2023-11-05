@@ -1,7 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-import android.util.Log
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withStarted
+
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
@@ -26,15 +26,10 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
     private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var adapter: DocumentDefinitionAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentDocumentDefinitionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
@@ -56,7 +51,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.documentDefinitions.observe(viewLifecycleOwner, Observer {
+        viewModel.documentDefinitions.observe(viewLifecycleOwner){
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
@@ -64,7 +59,7 @@ class DocumentDefinitionListFragment : Fragment(), StateResponse {
                 binding.recyclerview.adapter = adapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }
-        })
+        }
     }
 
     override fun OnLoading() {

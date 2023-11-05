@@ -7,10 +7,15 @@
 
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.DocumentPositionListFragment">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
         <!--OnSuccesLayout-->
         <LinearLayout
@@ -23,7 +28,8 @@
                 android:id="@+id/searchcard"
                 android:layout_width="match_parent"
                 android:focusable="true"
-                android:layout_height="70dp">
+                android:layout_height="70dp"
+                app:cardElevation="0dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -79,7 +85,6 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="15dp"
                 android:src="@drawable/baseline_chevron_right_30"
-                app:fabCustomSize="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -151,6 +156,8 @@
 
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </FrameLayout>
+
 </layout>

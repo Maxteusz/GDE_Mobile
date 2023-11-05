@@ -40,7 +40,7 @@ class DocumentListFragment : Fragment(), StateResponse {
             findNavController().navigate(com.example.gdemobile.R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            if(viewModel.documentListInTemp.value.isNullOrEmpty())
+            //if(viewModel.documentListInTemp.value.isNullOrEmpty())
             viewModel.getDocumentsInTemp()
 
         }
