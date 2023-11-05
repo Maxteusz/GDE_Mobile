@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="message"
+            type="String" />
 
     </data>
 
@@ -34,7 +37,9 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/baseline_signal_wifi_bad_24"></ImageView>
+                        android:src="@drawable/baseline_signal_wifi_bad_24">
+
+                    </ImageView>
 
                     <TextView
                         android:id="@+id/error_textview"

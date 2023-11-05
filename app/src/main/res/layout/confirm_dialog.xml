@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:background="@color/zxing_transparent">
 
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="300dp"
                 android:layout_height="180dp"

@@ -8,7 +8,7 @@ class DocumentPosition(
     @SerializedName("Ilosc")
     var amount: Double,
     @SerializedName("Cena jednostkowa")
-    var value: Currency
+    var valuePerUnit: Currency
 ) {
 
     @SerializedName("Towar")
