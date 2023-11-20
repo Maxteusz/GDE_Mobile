@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_cargoListFragment_to_configmDocumentDialog"
             app:destination="@id/confirmDocumentDialog" />
+        <action
+            android:id="@+id/action_cargoListFragment_to_documentPositionDetailsFragment"
+            app:destination="@id/documentPositionDetailsFragment" />
 
     </fragment>
     <fragment
@@ -71,9 +74,6 @@
             android:id="@+id/action_documentDetailsFragment_to_contractorListFragment"
             app:destination="@id/contractorListFragment" />
         <action
-            android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
-            app:destination="@id/documentDefinitionListFragment" />
-        <action
             android:id="@+id/action_documentDetailsFragment_to_documentListFragment"
             app:destination="@id/documentListFragment" />
         <action
@@ -86,6 +86,9 @@
                 app:argType="com.example.gdemobile.models.Document"
                 app:nullable="false" />
         </action>
+        <action
+            android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
+            app:destination="@id/documentDefinitionListFragment" />
     </fragment>
     <fragment
         android:id="@+id/contractorListFragment"
@@ -93,14 +96,6 @@
         android:label="ContractorListFragment">
         <action
             android:id="@+id/action_contractorListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/documentDefinitionListFragment"
-        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDefinitionListFragment"
-        android:label="DocumentDefinitionListFragment">
-        <action
-            android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
             app:destination="@id/documentDetailsFragment" />
     </fragment>
     <dialog
@@ -151,5 +146,21 @@
             app:popUpTo="@+id/documentListFragment"
             app:popUpToInclusive="true"/>
     </dialog>
+    <fragment
+        android:id="@+id/documentPositionDetailsFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionDetailsFragment"
+        android:label="DocumentPositionDetailsFragment" >
+        <action
+            android:id="@+id/action_documentPositionDetailsFragment_to_cargoListFragment"
+            app:destination="@id/cargoListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/documentDefinitionListFragment"
+        android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentDefinitionListFragment"
+        android:label="DocumentDefinitionListFragment" >
+        <action
+            android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
+            app:destination="@id/documentDetailsFragment" />
+    </fragment>
 
 </navigation>

@@ -11,7 +11,10 @@ import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter.CargoViewHolder
 
-class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>, private val listener: DeleteCargoViewHolderListener)
+class DocumentPositionAdapter(
+    private var cargos: MutableList<DocumentPosition>,
+    private val listener: DeleteCargoViewHolderListener,
+    private val listnerDetailDocumentPostion : DetailCargoViewHolderListener)
     : RecyclerView.Adapter<CargoViewHolder>() {
 
 
@@ -24,6 +27,12 @@ class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>,
         fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int)
 
     }
+    interface DetailCargoViewHolderListener {
+        fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition)
+
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CargoViewHolder(
         DataBindingUtil.inflate(
@@ -39,6 +48,10 @@ class DocumentPositionAdapter(private var cargos: MutableList<DocumentPosition>,
         holder.itemView.animate().alpha(1.0f).setDuration(3000).start()
         holder.recyclerviewCargoHolder.deleteImage.setOnClickListener {
             listener.onDeleteDocumentPositionItemClicked(cargos.get(position).id)
+        }
+        holder.recyclerviewCargoHolder.maincard.setOnClickListener {
+            listnerDetailDocumentPostion.onOpenDetailDocumentPostion(cargos[position])
+
         }
 
 

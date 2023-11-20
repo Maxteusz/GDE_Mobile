@@ -1,22 +1,24 @@
 package com.example.gdemobile.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class DocumentPosition(
+class DocumentPosition (
     @SerializedName("Id")
    val  id: Int,
     @SerializedName("Ilosc")
     var amount: Double,
-    @SerializedName("Cena jednostkowa")
+    @SerializedName("CenaJednostkowa")
     var valuePerUnit: Currency
-) {
+) : Serializable {
 
     @SerializedName("Towar")
     val cargo : Cargo? = null
     @SerializedName("Jednostka")
     val unit : Cargo.Unit? = null
 
-    fun getAmountValue () = amount.toString()  + " " + unit?.name
+    fun getAmountFullInfo () = amount.toString()  + " " + unit?.name
+    fun getAmountValue () = amount.toString()
 
 
 

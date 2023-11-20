@@ -16,8 +16,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.Document
+import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
@@ -25,6 +27,7 @@ import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.jar.Attributes.Name
 
 
 class DocumentPositionListFragment() : Fragment(), StateResponse {
@@ -32,7 +35,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
     private val arg: DocumentPositionListFragmentArgs by navArgs()
-    private  var document: Document? = null
+    private var document: Document? = null
 
 
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -48,11 +51,6 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
-
-
-
-
-
         return binding.root
     }
 
@@ -65,7 +63,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
             val data = Bundle()
             data.putString(NamesSharedVariable.idDocument, arg.document?.id)
             findNavController().navigate(
-                com.example.gdemobile.R.id.action_cargoListFragment_to_scanBarcodeFragment,
+                R.id.action_cargoListFragment_to_scanBarcodeFragment,
                 data
             )
         }
@@ -128,11 +126,10 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
                 refreshData()
             }
         }
-
-
         document = arg.document
 
-        val listener = object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
+        val listener =
+            object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.deleteCagoFromDocument(idDocumentPostion)
@@ -140,6 +137,21 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
                 }
             }
         }
+
+        val listenerDocumentPostionDetails =
+            object : DocumentPositionAdapter.DetailCargoViewHolderListener {
+                override fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition) {
+                    val data = Bundle()
+                    data.putSerializable(NamesSharedVariable.documentPosition,documentPosition)
+                    findNavController().navigate(
+                        R.id.action_cargoListFragment_to_documentPositionDetailsFragment,
+                        data
+                    )
+
+                }
+
+            }
+
         viewModel.document.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
@@ -147,7 +159,8 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
                     document?.documentPositions?.toMutableList()!!,
-                    listener
+                    listener,
+                    listenerDocumentPostionDetails
                 )
                 binding.cargosRecyclerview.adapter = documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.cargosRecyclerview.size)
@@ -170,7 +183,7 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
     }
 
-    suspend  fun  refreshData() {
+    suspend fun refreshData() {
         document!!.documentPositions =
             viewModel.getDocumentPositions(document!!.id)
         viewModel.updateDocument(document!!)

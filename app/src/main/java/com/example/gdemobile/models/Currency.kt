@@ -10,6 +10,7 @@ class Currency(
     val symbol : String = "PLN"
 
 ) {
+
     companion object {
         val symbols = listOf("PLN", "EUR");
     }

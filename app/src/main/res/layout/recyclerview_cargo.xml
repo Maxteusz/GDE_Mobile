@@ -10,6 +10,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/maincard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -61,7 +62,7 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text= "@{cargo.amountValue}" />
+            android:text= "@{cargo.amountFullInfo}" />
             <ImageView
                 android:id="@+id/delete_image"
                 android:layout_width="40dp"

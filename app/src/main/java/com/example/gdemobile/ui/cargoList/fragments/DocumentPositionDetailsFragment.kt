@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.gdemobile.R
-
+import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
+import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
+import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.utils.NamesSharedVariable
 
 
 class DocumentPositionDetailsFragment : Fragment() {
 
+    private lateinit var binding : FragmentDocumentPositionDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,7 +24,9 @@ class DocumentPositionDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_document_position_details, container, false)
+        binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
+        binding.documentPosition = arguments?.getSerializable(NamesSharedVariable.documentPosition) as DocumentPosition
+        return binding.root
     }
 
 
