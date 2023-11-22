@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -24,29 +23,45 @@ import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.utils.NamesSharedVariable
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.jar.Attributes.Name
 
 
 class DocumentPositionListFragment() : Fragment(), StateResponse {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
-    private val arg: DocumentPositionListFragmentArgs by navArgs()
     private var document: Document? = null
-
-
     private lateinit var viewModel: InssuingCargoListViewModel
 
+
+    val listener =
+        object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
+            override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.deleteCagoFromDocument(idDocumentPostion)
+                    refreshData()
+                }
+            }
+        }
+
+    val listenerDocumentPostionDetails =
+        object : DocumentPositionAdapter.DetailCargoViewHolderListener {
+            override fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition) {
+                val data = Bundle()
+                data.putSerializable(NamesSharedVariable.documentPosition,documentPosition)
+                findNavController().navigate(
+                    R.id.action_cargoListFragment_to_documentPositionDetailsFragment,
+                    data)
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
+        document = arguments?.getSerializable(NamesSharedVariable.document) as Document
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
@@ -54,14 +69,16 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         return binding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(com.example.gdemobile.R.id.action_cargoListFragment_to_configmDocumentDialog)
+            findNavController().navigate(R.id.action_cargoListFragment_to_configmDocumentDialog)
         }
         binding.cameraButton.setOnClickListener {
             val data = Bundle()
-            data.putString(NamesSharedVariable.idDocument, arg.document?.id)
+            data.putString(NamesSharedVariable.idDocument, document?.id)
             findNavController().navigate(
                 R.id.action_cargoListFragment_to_scanBarcodeFragment,
                 data
@@ -81,7 +98,6 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
             }
         })
-
         binding.searchTextfield.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -89,11 +105,9 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
                 count: Int,
                 after: Int
             ) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
 
             }
 
@@ -109,14 +123,6 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
             }
         })
-        binding.searchTextlayout.setEndIconOnClickListener({
-            binding.searchTextfield.text?.clear()
-        })
-        binding.refreshButton.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.Main) {
-
-            }
-        }
         binding.searchTextlayout.setEndIconOnClickListener {
             binding.searchTextfield.setText("")
             binding.searchTextfield.clearFocus()
@@ -126,36 +132,9 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
                 refreshData()
             }
         }
-        document = arg.document
-
-        val listener =
-            object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
-            override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.deleteCagoFromDocument(idDocumentPostion)
-                    refreshData()
-                }
-            }
-        }
-
-        val listenerDocumentPostionDetails =
-            object : DocumentPositionAdapter.DetailCargoViewHolderListener {
-                override fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition) {
-                    val data = Bundle()
-                    data.putSerializable(NamesSharedVariable.documentPosition,documentPosition)
-                    findNavController().navigate(
-                        R.id.action_cargoListFragment_to_documentPositionDetailsFragment,
-                        data
-                    )
-
-                }
-
-            }
-
         viewModel.document.observe(viewLifecycleOwner, {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
-
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
                     document?.documentPositions?.toMutableList()!!,
@@ -169,20 +148,11 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
 
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
-                if (!document?.isNew!!) {
-                    document!!.documentPositions =
-                        viewModel.getDocumentPositions(document!!.id)
-                    viewModel.updateDocument(document!!)
-
-                } else
-                    document!!.isNew = false
-
-
+                if(viewModel.isRequiredLoadData.value == true)
+                refreshData()
             }
         }
-
     }
-
     suspend fun refreshData() {
         document!!.documentPositions =
             viewModel.getDocumentPositions(document!!.id)
@@ -210,6 +180,10 @@ class DocumentPositionListFragment() : Fragment(), StateResponse {
         binding.swipeRefreshLayout.isRefreshing = false
     }
 }
+
+
+
+
 
 
 

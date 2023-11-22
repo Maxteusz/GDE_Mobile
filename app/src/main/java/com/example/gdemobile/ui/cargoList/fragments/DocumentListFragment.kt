@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ErrorLayoutBinding
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
+import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.launch
 
 
@@ -37,10 +40,10 @@ class DocumentListFragment : Fragment(), StateResponse {
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
         binding.newdocumentButton.setOnClickListener {
-            findNavController().navigate(com.example.gdemobile.R.id.action_documentListFragment_to_documentDetailsFragment)
+            findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            //if(viewModel.documentListInTemp.value.isNullOrEmpty())
+            if(viewModel.documentListInTemp.value.isNullOrEmpty())
             viewModel.getDocumentsInTemp()
 
         }
@@ -55,17 +58,23 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(document: Document) {
-            val action =
-                DocumentListFragmentDirections.actionDocumentListFragmentToCargoListFragment(
-                    document
-                )
-            findNavController().navigate(action)
+            val bundle = Bundle()
+            bundle.putSerializable(NamesSharedVariable.document, document)
+            viewModel.isRequiredLoadData.value = true
+
+            findNavController().navigate(
+                R.id.action_documentListFragment_to_cargoListFragment,
+                bundle)
         }
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.recyclerViewScrollState.observe(viewLifecycleOwner, Observer { state ->
+            binding.recyclerview.layoutManager?.onRestoreInstanceState(state)
+            Log.i("Load recyclerView State", viewModel.recyclerViewScrollState.value.toString())
+        })
         viewModel.documentListInTemp.observe(viewLifecycleOwner, Observer {
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
@@ -74,8 +83,20 @@ class DocumentListFragment : Fragment(), StateResponse {
                     DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
                 binding.recyclerview.adapter = recyclerViewAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
+               // binding.recyclerview.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState.value)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.recyclerview.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState.value)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.recyclerViewScrollState.value = binding.recyclerview.layoutManager?.onSaveInstanceState()
+        Log.i("Save recyclerView State", viewModel.recyclerViewScrollState.value.toString())
     }
 
     override fun OnLoading() {

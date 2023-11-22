@@ -97,8 +97,7 @@ class DocumentDetailsFragment : Fragment(), StateResponse {
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(coroutineContext) {
                 document = defferedCreateDocument.await()!!
-
-                document.isNew = true
+                viewModel.isRequiredLoadData.value = false;
                 val action =
                     DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(
                         document

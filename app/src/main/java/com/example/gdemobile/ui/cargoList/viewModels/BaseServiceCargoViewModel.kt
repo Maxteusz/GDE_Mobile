@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.cargoList
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,22 +30,16 @@ import kotlinx.coroutines.launch
 
 open class BaseServiceCargoViewModel : ViewModel() {
 
-    private var lastQueryTime: Long = 0
+
     var stateResponse: StateResponse? = null
     private var _document = MutableLiveData(Document())
-
     private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
-
-
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
-
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
-
-
+    var isRequiredLoadData = MutableLiveData<Boolean>(true)
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
-
-
+    val recyclerViewScrollState: MutableLiveData<Parcelable?> = MutableLiveData()
     val documentDefinitions: LiveData<List<DocumentDefinition>?>
         get() = _documentDefinitions
 
