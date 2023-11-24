@@ -16,8 +16,10 @@ import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
+import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
@@ -34,6 +36,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         dialog.setCanceledOnTouchOutside(false)
         return dialog
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,6 +71,8 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         binding.okButton.setOnClickListener {
             if (binding.amountEdittext.text?.length!! < 1)
                 binding.amountEdittext.error = "Podaj ilość"
+            else if (binding.valueEdittext.text?.length!! < 1)
+                binding.valueEdittext.error = "Podaj cenę za sztukę"
             else {
                 lifecycleScope.launch {
                     sharedViewModel.addCargoOnDocument(
@@ -92,12 +97,11 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     }
 
 
-    fun blockDialog()
-    {
+    fun blockDialog() {
         binding.amountEdittext.isClickable = false;
-        binding.amountEdittext.isFocusable = false ;
+        binding.amountEdittext.isFocusable = false;
         binding.currencysymbolSpinner.isClickable = false;
-        binding.currencysymbolSpinner.isFocusable= false;
+        binding.currencysymbolSpinner.isFocusable = false;
         binding.okButton.isClickable = false;
         binding.okButton.isFocusable = false;
         binding.unitSpinner.isClickable = false
@@ -115,7 +119,13 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     }
 
     override fun OnSucces() {
-        showToast("Dodano towar")
+        context?.let {
+            CustomToast.showToast(
+                it,
+                ToastMessages.correctCargoAdded,
+                CustomToast.Type.Information
+            )
+        }
         dialog?.dismiss()
     }
 

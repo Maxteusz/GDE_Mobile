@@ -15,7 +15,9 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
+import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
@@ -65,13 +67,13 @@ class ConfirmDocumentDialog : DialogFragment(), StateResponse {
     }
 
     override suspend fun OnError(message: String) {
-        showToast(message)
+        context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
         dismiss()
 
     }
 
     override fun  OnSucces() {
-        showToast("Dokument zatwierdzony")
+        context?.let { CustomToast.showToast(it,ToastMessages.correctConfimDocument,CustomToast.Type.Information) }
         dismiss()
         activity?.finish()
 

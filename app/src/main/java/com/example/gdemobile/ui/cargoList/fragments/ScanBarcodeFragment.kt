@@ -176,12 +176,14 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
 
     override fun OnSucces() {
         binding.loadinglayout.root.visibility = View.GONE
+        sharedViewModel.isRequiredLoadData.value = true
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(coroutineContext) {
                 cargo = deffered.await()
                 val data = Bundle()
                 data.putString(NamesSharedVariable.idDocument, idDocument)
                 data.putSerializable(NamesSharedVariable.cargo, cargo)
+                view
                 findNavController().navigate(
                     R.id.action_scanBarcodeFragment_to_amountCargoDialog,
                     data
