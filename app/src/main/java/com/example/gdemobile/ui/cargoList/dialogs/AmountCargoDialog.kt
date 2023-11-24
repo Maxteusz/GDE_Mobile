@@ -52,7 +52,6 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
             cargo?.additionalUnits!!.map { it -> it.name })
         binding.unitSpinner.setAdapter(unitAdapter)
-
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
         val currencySymbolAdapter = ArrayAdapter<String>(
             requireContext(),

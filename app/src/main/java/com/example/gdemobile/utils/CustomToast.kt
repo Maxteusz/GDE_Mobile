@@ -11,7 +11,7 @@ import com.example.gdemobile.databinding.CustomToastLayoutBinding
 object CustomToast {
 
     fun showToast(context: Context, message: String, type: Type) {
-        // Inflacja za pomocą bindingu
+
         val binding: CustomToastLayoutBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
             R.layout.custom_toast_layout,
