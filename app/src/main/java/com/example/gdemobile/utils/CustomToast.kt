@@ -29,6 +29,10 @@ object CustomToast {
             toast.duration = Toast.LENGTH_SHORT
             binding.icon.setImageResource(R.drawable.information_icon)
         }
+        if (type == Type.Error) {
+            toast.duration = Toast.LENGTH_LONG
+            binding.icon.setImageResource(R.drawable.error_icon)
+        }
         toast.view = layout
         toast.show()
     }

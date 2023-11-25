@@ -24,6 +24,7 @@ import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
 import com.google.firebase.FirebaseApp
@@ -169,7 +170,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     }
 
     override suspend fun OnError(message: String) {
-        this.showToast(message)
+        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
         binding.loadinglayout.root.visibility = View.GONE
     }
 

@@ -20,6 +20,7 @@ import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.ContractorAdapter
 import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
+import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import kotlinx.coroutines.launch
 
@@ -66,7 +67,7 @@ class ContractorListFragment : Fragment(), StateResponse {
         binding.succeslayout.visibility = View.GONE
     }
     override suspend fun OnError(message: String) {
-       showToast(message)
+        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
     override fun  OnSucces() {
         binding.loadinglayout.visibility = View.GONE

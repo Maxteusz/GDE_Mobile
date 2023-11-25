@@ -56,12 +56,16 @@
                 android:text="@{documentPosition.cargo.name}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:hint="Ilość">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -76,6 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
             android:hint="Jednostka">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -84,7 +90,7 @@
                 android:singleLine="true"
                 android:text="@{documentPosition.unit.name}" />
         </com.google.android.material.textfield.TextInputLayout>
-
+</LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"

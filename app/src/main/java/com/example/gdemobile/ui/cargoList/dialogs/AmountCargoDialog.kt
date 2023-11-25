@@ -113,7 +113,13 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
     }
 
     override suspend fun OnError(message: String) {
-        showToast(message)
+        context?.let {
+            CustomToast.showToast(
+                it,
+                message,
+                CustomToast.Type.Error
+            )
+        }
         dialog?.dismiss()
     }
 

@@ -15,6 +15,7 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -89,7 +90,7 @@ class DocumentDetailsFragment : Fragment(), StateResponse {
     override suspend fun OnError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
-        showToast(message)
+        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
 
     override fun OnSucces() {

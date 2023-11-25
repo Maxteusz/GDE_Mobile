@@ -73,7 +73,6 @@ class DocumentListFragment : Fragment(), StateResponse {
         super.onActivityCreated(savedInstanceState)
         viewModel.recyclerViewScrollState.observe(viewLifecycleOwner, Observer { state ->
             binding.recyclerview.layoutManager?.onRestoreInstanceState(state)
-            Log.i("Load recyclerView State", viewModel.recyclerViewScrollState.value.toString())
         })
         viewModel.documentListInTemp.observe(viewLifecycleOwner, Observer {
             binding.recyclerview.also {
@@ -83,7 +82,6 @@ class DocumentListFragment : Fragment(), StateResponse {
                     DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
                 binding.recyclerview.adapter = recyclerViewAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
-               // binding.recyclerview.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState.value)
             }
         })
     }
@@ -96,7 +94,7 @@ class DocumentListFragment : Fragment(), StateResponse {
     override fun onPause() {
         super.onPause()
         viewModel.recyclerViewScrollState.value = binding.recyclerview.layoutManager?.onSaveInstanceState()
-        Log.i("Save recyclerView State", viewModel.recyclerViewScrollState.value.toString())
+
     }
 
     override fun OnLoading() {
