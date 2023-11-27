@@ -16,7 +16,7 @@ open class Cargo(
     @SerializedName("JednostkaPodstawowa")
     val mainUnit = Unit()
     @SerializedName("DozwoloneJednostki")
-    val additionalUnits = listOf(com.example.gdemobile.models.Cargo.Unit())
+    val additionalUnits = listOf(Unit())
 
 
     class Unit()

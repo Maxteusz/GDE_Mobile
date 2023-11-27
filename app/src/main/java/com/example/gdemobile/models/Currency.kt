@@ -8,11 +8,15 @@ class Currency(
     val value : Double = 0.0,
     @SerializedName("SymbolWaluty")
     val symbol : String = "PLN"
-
 ) {
 
     companion object {
         val symbols = listOf("PLN", "EUR");
+    }
+
+    override fun toString(): String {
+        return "$value $symbol"
+
     }
 
 }

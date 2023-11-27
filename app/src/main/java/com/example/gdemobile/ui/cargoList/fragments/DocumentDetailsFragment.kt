@@ -69,22 +69,21 @@ class DocumentDetailsFragment : Fragment(), StateResponse {
         binding.nextButton.setOnClickListener {
             defferedCreateDocument = viewLifecycleOwner.lifecycleScope.async {
                 viewModel.document.value?.describe = binding.descibeTextfield.text.toString()
+                if(binding.dokdefEdittext.text.isNullOrEmpty())
+                    binding.dokdefEdittext.error = "Wybierz definicję"
+                else
                 document = viewModel.createNewDocument()
                 return@async document
 
             }
         }
-
-
+        
         return binding.root
     }
 
     override fun OnLoading() {
-
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
-
-
     }
 
     override suspend fun OnError(message: String) {
