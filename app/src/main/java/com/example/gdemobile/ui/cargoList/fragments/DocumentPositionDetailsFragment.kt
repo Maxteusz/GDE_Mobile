@@ -70,6 +70,7 @@ class DocumentPositionDetailsFragment : Fragment() {
                 documentPosition.amount = s.toString().toDouble()
             }
         })
+
         return binding.root
     }
 
