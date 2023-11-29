@@ -13,7 +13,7 @@ class Config {
         var port: String? = "5000"
         var usernameERP: String? = "Administrator"
         var passwordERP: String? = "12345"
-        var aggregation: Boolean = false
+        var fastAddingDocumentPosition: Boolean = false
         var insertAmountCargo : Boolean = false;
 
         fun saveConfiguration(activity: Activity) {
@@ -26,7 +26,7 @@ class Config {
                 putString(activity.getString(R.string.port_conf), port)
                 putString(activity.getString(R.string.username_conf), usernameERP)
                 putString(activity.getString(R.string.password_conf), passwordERP)
-                putBoolean(activity.getString(R.string.aggreagtion), aggregation)
+                putBoolean(activity.getString(R.string.fast_adding_documentpostion), fastAddingDocumentPosition)
                 putBoolean(activity.getString(R.string.insert_amount_cargo), insertAmountCargo)
 
                 apply()
@@ -43,7 +43,7 @@ class Config {
             port = sharedPref.getString(activity.getString(R.string.port_conf), "")
             usernameERP = sharedPref.getString(activity.getString(R.string.username_conf), "")
             passwordERP = sharedPref.getString(activity.getString(R.string.password_conf), "")
-            aggregation = sharedPref.getBoolean(activity.getString(R.string.aggreagtion), true)
+            fastAddingDocumentPosition = sharedPref.getBoolean(activity.getString(R.string.fast_adding_documentpostion), true)
             insertAmountCargo = sharedPref.getBoolean(activity.getString(R.string.insert_amount_cargo), false)
         }
 

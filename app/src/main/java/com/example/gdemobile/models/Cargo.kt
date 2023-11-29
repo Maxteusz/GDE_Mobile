@@ -17,6 +17,8 @@ open class Cargo(
     val mainUnit = Unit()
     @SerializedName("DozwoloneJednostki")
     val additionalUnits = listOf(Unit())
+    @SerializedName("Ceny")
+    val prices  = listOf(Price())
 
 
     class Unit()

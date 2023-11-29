@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +21,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
+import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
+import com.example.gdemobile.models.Currency
+import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.models.Price
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
+import com.example.gdemobile.utils.ToastMessages
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -59,6 +66,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         sharedViewModel =
             ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         sharedViewModel.stateResponse = this
+
 
         return binding.root
     }
@@ -167,11 +175,14 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
 
     override fun OnLoading() {
         binding.loadinglayout.root.visibility = View.VISIBLE
+        binding.unlockButton.isEnabled = false;
+
     }
 
     override suspend fun OnError(message: String) {
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
         binding.loadinglayout.root.visibility = View.GONE
+        binding.unlockButton.isEnabled = true;
     }
 
 
@@ -181,19 +192,61 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(coroutineContext) {
                 cargo = deffered.await()
-                val data = Bundle()
-                data.putString(NamesSharedVariable.idDocument, idDocument)
-                data.putSerializable(NamesSharedVariable.cargo, cargo)
-                view
-                findNavController().navigate(
-                    R.id.action_scanBarcodeFragment_to_amountCargoDialog,
-                    data
-                )
+                if(Config.fastAddingDocumentPosition) {
+                   sharedViewModel.stateResponse = addCargoSateResult
+                        val price =
+                            cargo?.prices?.first { it.name == Price.PriceNames.PRIMARY }?.bruttoPerAmount
+                        sharedViewModel.addCargoOnDocument(
+                            idDocument,
+                            cargo?.id,
+                            cargo?.mainUnit?.id,
+                            1.0,
+                            price
+                        )
+
+
+                }
+                else {
+                    binding.unlockButton.isEnabled = true;
+                    val data = Bundle()
+                    data.putString(NamesSharedVariable.idDocument, idDocument)
+                    data.putSerializable(NamesSharedVariable.cargo, cargo)
+                    view
+                    findNavController().navigate(
+                        R.id.action_scanBarcodeFragment_to_amountCargoDialog,
+                        data
+                    )
+                }
             }
         }
 
 
     }
+
+
+    val addCargoSateResult = object : StateResponse
+    {
+        override fun OnLoading() {
+
+        }
+
+        override suspend fun OnError(message: String) {
+            context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
+        }
+
+        override fun OnSucces() {
+            binding.unlockButton.isEnabled = true;
+            context?.let {
+                CustomToast.showToast(
+                    it,
+                    ToastMessages.correctCargoAdded,
+                    CustomToast.Type.Information
+                )
+            }
+        }
+
+    }
+
 
 
 }

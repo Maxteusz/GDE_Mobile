@@ -95,7 +95,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:passwordToggleEnabled="true"
                 android:hint="Hasło (Opcjonalnie)">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -115,19 +114,13 @@
                 android:textStyle="bold"
                 android:textSize="16dp"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/aggregation_switch"
+                android:id="@+id/fast_adding_documentposition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="@{config.Companion.aggregation}"
-                android:text="Agregacja pozycji"
+                android:checked="@{config.Companion.fastAddingDocumentPosition}"
+                android:text="Szybkie dodawanie pozycji"
                 android:textSize="16sp"/>
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/scanmode_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="@{config.Companion.insertAmountCargo}"
-                android:text="Wprowadzanie ilości"
-                android:textSize="16sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

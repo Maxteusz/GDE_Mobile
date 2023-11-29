@@ -4,14 +4,13 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class DocumentPosition (
-    @SerializedName("Id")
-   val  id: Int,
     @SerializedName("Ilosc")
     var amount: Double,
     @SerializedName("CenaJednostkowa")
     var valuePerUnit: Currency
 ) : Serializable {
-
+    @SerializedName("Id")
+    val  id: Int = 0
     @SerializedName("Towar")
     val cargo : Cargo? = null
     @SerializedName("Jednostka")
