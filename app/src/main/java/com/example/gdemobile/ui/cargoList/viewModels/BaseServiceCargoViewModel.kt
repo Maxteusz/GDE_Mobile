@@ -15,12 +15,14 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.GetContractors
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentPositionsOnDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExternalPartyInTemp
+import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.models.Price
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
@@ -59,21 +61,29 @@ open class BaseServiceCargoViewModel : ViewModel() {
 
     suspend fun addCargoOnDocument(
         idDocument: String?,
-        idCargo: String?,
+        documentPosition: DocumentPosition?
+       /* idCargo: String?,
         idUnit: String?,
         amount: Double?,
-        pricePerUnit: Currency?
+        pricePerUnit: Currency?*/
     ) {
 
+        if (Config.fastAddingDocumentPosition) {
+            documentPosition?.amount = 1.0
+            documentPosition?.valuePerUnit =
+                documentPosition?.cargo?.prices?.first { it.name == Price.PriceNames.PRIMARY }?.bruttoPerAmount!!
+            documentPosition.unit = documentPosition?.cargo?.mainUnit
+        }
         val connection = ConnectService(stateResponse)
         connection.makeConnection<String>(
             AddNewCargoToDocument(
                 idDocument,
-                idCargo,
-                idUnit,
-                amount,
-                pricePerUnit
+                documentPosition?.cargo?.id,
+                documentPosition?.unit?.id,
+                documentPosition?.amount,
+                documentPosition?.valuePerUnit
             )
+
         )
 
 

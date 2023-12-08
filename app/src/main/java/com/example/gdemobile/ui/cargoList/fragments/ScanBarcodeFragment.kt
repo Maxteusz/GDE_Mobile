@@ -24,20 +24,16 @@ import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.models.Price
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
 import com.example.gdemobile.utils.ToastMessages
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -50,7 +46,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     private lateinit var sharedViewModel: InssuingCargoListViewModel
     private var lockedScan: Boolean = false
     private var idDocument = ""
-    private var cargo: Cargo? = null
+    private var documentPosition: DocumentPosition? = DocumentPosition()
     private lateinit var deffered: Deferred<Cargo?>
 
 
@@ -191,32 +187,26 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
         sharedViewModel.isRequiredLoadData.value = true
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(coroutineContext) {
-                cargo = deffered.await()
+                documentPosition?.cargo = deffered.await()
                 if(Config.fastAddingDocumentPosition) {
-                   sharedViewModel.stateResponse = addCargoSateResult
-                        val price =
-                            cargo?.prices?.first { it.name == Price.PriceNames.PRIMARY }?.bruttoPerAmount
-                        sharedViewModel.addCargoOnDocument(
-                            idDocument,
-                            cargo?.id,
-                            cargo?.mainUnit?.id,
-                            1.0,
-                            price
-                        )
-
-
+                    sharedViewModel.stateResponse = addCargoSateResult
+                    sharedViewModel.addCargoOnDocument(
+                        idDocument,
+                        documentPosition
+                    )
                 }
                 else {
                     binding.unlockButton.isEnabled = true;
                     val data = Bundle()
                     data.putString(NamesSharedVariable.idDocument, idDocument)
-                    data.putSerializable(NamesSharedVariable.cargo, cargo)
+                    data.putSerializable(NamesSharedVariable.cargo, documentPosition?.cargo)
                     view
                     findNavController().navigate(
                         R.id.action_scanBarcodeFragment_to_amountCargoDialog,
                         data
                     )
                 }
+
             }
         }
 

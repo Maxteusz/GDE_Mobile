@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
+import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.StateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.NamesSharedVariable
 import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
 
     private lateinit var binding: FragmentAmountCargoDialogBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
-    private var cargo: Cargo? = null
+    private var documentPosition: DocumentPosition? = DocumentPosition()
     private var idDocument: String? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -41,17 +42,60 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
-        cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
-        idDocument = arguments?.getString(NamesSharedVariable.idDocument)
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
-        binding.unitSpinner.setText(cargo?.mainUnit?.name)
+        setAdapters()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        sharedViewModel =
+            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        sharedViewModel.stateResponse = this
+        binding.okButton.setOnClickListener {
+            if (checkValidationViews())
+                lifecycleScope.launch {
+                    idDocument =  arguments?.getString(NamesSharedVariable.idDocument)
+                    fillDocumentPositionInformation()
+                    sharedViewModel.addCargoOnDocument(
+                        idDocument = idDocument,
+                        documentPosition
+                    )
+                }
+            blockDialog()
+        }
+        return binding.root
+    }
+
+    fun fillDocumentPositionInformation() {
+
+        documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
+        documentPosition?.unit = documentPosition?.cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }
+        documentPosition!!.amount = binding.amountEdittext.text.toString().toDouble()
+        documentPosition!!.valuePerUnit = Currency(
+            binding.valueEdittext.text.toString().toDouble(),
+            binding.currencysymbolSpinner.text.toString()
+
+        )
+    }
+
+    fun checkValidationViews(): Boolean {
+        if (binding.amountEdittext.text?.length!! < 1) {
+            binding.amountEdittext.error = "Podaj ilość"
+            return false;
+        } else if (binding.valueEdittext.text?.length!! < 1) {
+            binding.valueEdittext.error = "Podaj cenę za sztukę"
+            return false;
+        }
+        return true
+    }
+
+    fun setAdapters() {
+        documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
+
+
         val unitAdapter = ArrayAdapter<String>(
             requireContext(),
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            cargo?.additionalUnits!!.map { it -> it.name })
+            documentPosition?.cargo?.additionalUnits!!.map { it -> it.name })
         binding.unitSpinner.setAdapter(unitAdapter)
+        binding.unitSpinner.setText(documentPosition?.cargo?.mainUnit?.name)
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
         val currencySymbolAdapter = ArrayAdapter<String>(
             requireContext(),
@@ -59,42 +103,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
             Currency.symbols
         )
         binding.currencysymbolSpinner.setAdapter(currencySymbolAdapter)
-
-
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        sharedViewModel =
-            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        sharedViewModel.stateResponse = this
-
-
-        binding.okButton.setOnClickListener {
-            if (binding.amountEdittext.text?.length!! < 1)
-                binding.amountEdittext.error = "Podaj ilość"
-            else if (binding.valueEdittext.text?.length!! < 1)
-                binding.valueEdittext.error = "Podaj cenę za sztukę"
-            else {
-                lifecycleScope.launch {
-                    sharedViewModel.addCargoOnDocument(
-                        idDocument = idDocument,
-                        idCargo = cargo?.id,
-                        idUnit = cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }.id,
-                        amount = binding.amountEdittext.text.toString().toDouble(),
-                        pricePerUnit = Currency(
-                            binding.valueEdittext.text.toString().toDouble(),
-                            binding.currencysymbolSpinner.text.toString()
-
-                        )
-                    )
-
-                }
-                blockDialog()
-            }
-
-        }
-
-        return binding.root
     }
-
 
     fun blockDialog() {
         binding.amountEdittext.isClickable = false;
