@@ -2,25 +2,21 @@ package com.example.gdemobile.apiConnect.enovaConnect
 
 import android.util.Log
 import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.LogTag
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.await
 import java.lang.Exception
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 class ConnectService(
-    val stateResponse: StateResponse?,
+    val stateResponse: IStateResponse?,
 ) {
 
     suspend fun <X : Any> makeConnection(connectionParameters: IConnectEnovaMethod): X? {
         try {
             stateResponse?.OnLoading()
 
-            val quotesApi = RetrofitClient().getInstance().create(RetrofitMethod::class.java)
+            val quotesApi = RetrofitClient().getInstance().create(IRetrofitMethod::class.java)
             var result = quotesApi.getListData<X>(RequestDto(connectionParameters))
             if (result.code() == 200) {
                 Log.i(LogTag.enovaApiNameMethod, connectionParameters.methodName)

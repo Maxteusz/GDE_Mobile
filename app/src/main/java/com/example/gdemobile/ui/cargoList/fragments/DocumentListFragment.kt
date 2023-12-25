@@ -1,7 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,14 +15,14 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ErrorLayoutBinding
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
 import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.launch
 
 
-class DocumentListFragment : Fragment(), StateResponse {
+class DocumentListFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
@@ -58,14 +57,11 @@ class DocumentListFragment : Fragment(), StateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(document: Document) {
-            val bundle = Bundle()
-            bundle.putSerializable(NamesSharedVariable.document, document)
+            viewModel.document.value = document
             viewModel.isRequiredLoadData.value = true
 
             findNavController().navigate(
-                R.id.action_documentListFragment_to_cargoListFragment,
-                bundle)
-        }
+                R.id.action_documentListFragment_to_cargoListFragment)}
 
     }
 

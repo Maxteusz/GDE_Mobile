@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 
@@ -15,13 +14,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
 import com.example.gdemobile.models.DocumentDefinition
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
 import kotlinx.coroutines.launch
 
 
-class DocumentDefinitionListFragment : Fragment(), StateResponse {
+class DocumentDefinitionListFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var adapter: DocumentDefinitionAdapter

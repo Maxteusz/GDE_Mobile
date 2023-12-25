@@ -12,18 +12,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.models.Document
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class DocumentDetailsFragment : Fragment(), StateResponse {
+class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
     private lateinit var viewModel: BaseServiceCargoViewModel

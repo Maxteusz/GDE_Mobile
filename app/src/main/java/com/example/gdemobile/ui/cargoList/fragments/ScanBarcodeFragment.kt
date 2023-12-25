@@ -26,7 +26,8 @@ import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.models.Price
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
+
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.NamesSharedVariable
@@ -39,7 +40,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ScanBarcodeFragment : Fragment(), StateResponse {
+class ScanBarcodeFragment : Fragment(), IStateResponse {
 
 
     private lateinit var binding: FragmentScanBarcodeBinding
@@ -214,7 +215,7 @@ class ScanBarcodeFragment : Fragment(), StateResponse {
     }
 
 
-    val addCargoSateResult = object : StateResponse
+    val addCargoSateResult = object : IStateResponse
     {
         override fun OnLoading() {
 

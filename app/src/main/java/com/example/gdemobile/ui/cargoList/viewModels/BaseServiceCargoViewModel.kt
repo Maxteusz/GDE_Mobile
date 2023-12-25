@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,22 +19,21 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentsExterna
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.models.Price
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.models.Price.PriceNames
+import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.cargoList.viewModels.IShowAmountDialog
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
 
-open class BaseServiceCargoViewModel : ViewModel() {
+open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
-    var stateResponse: StateResponse? = null
+    var stateResponse: IStateResponse? = null
     private var _document = MutableLiveData(Document())
     private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
@@ -58,51 +58,7 @@ open class BaseServiceCargoViewModel : ViewModel() {
     val contractors: LiveData<List<Contractor>?>
         get() = _contractors
 
-
-    suspend fun addCargoOnDocument(
-        idDocument: String?,
-        documentPosition: DocumentPosition?
-       /* idCargo: String?,
-        idUnit: String?,
-        amount: Double?,
-        pricePerUnit: Currency?*/
-    ) {
-
-        if (Config.fastAddingDocumentPosition) {
-            documentPosition?.amount = 1.0
-            documentPosition?.valuePerUnit =
-                documentPosition?.cargo?.prices?.first { it.name == Price.PriceNames.PRIMARY }?.bruttoPerAmount!!
-            documentPosition.unit = documentPosition?.cargo?.mainUnit
-        }
-        val connection = ConnectService(stateResponse)
-        connection.makeConnection<String>(
-            AddNewCargoToDocument(
-                idDocument,
-                documentPosition?.cargo?.id,
-                documentPosition?.unit?.id,
-                documentPosition?.amount,
-                documentPosition?.valuePerUnit
-            )
-
-        )
-
-
-    }
-
-
-    fun removeCargo(documentPosition: DocumentPosition, deleteAll: Boolean) {
-
-        /*if (deleteAll || documentPosition.amount <= 1)
-            _scannedCargo.value = _scannedCargo.value?.minus(documentPosition)
-        else
-            documentPosition.amount -= 1
-        _scannedCargoBeforeFilter.postValue(_scannedCargo.value)*/
-
-    }
-
-
-    @OptIn(FlowPreview::class)
-    suspend fun filtrDocumentPosition(chars: String): MutableList<DocumentPosition>? {
+    fun filtrDocumentPosition(chars: String): MutableList<DocumentPosition>? {
         //Important! : Function toList() make a copy od list
 
         if (chars.isNotEmpty())
@@ -199,34 +155,72 @@ open class BaseServiceCargoViewModel : ViewModel() {
         if (receiveList != null) {
             val convertedList = gson.fromJson<List<Contractor>>(gson.toJson(receiveList))
             _contractors.postValue(convertedList)
-
-
         }
     }
 
     suspend fun confirmDocument(idDocument: String) {
-
         val connection = ConnectService(stateResponse)
         connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
-
-
     }
 
-    fun updateDocument(document: Document) {
-        // Zaktualizuj wartość obiektu w wątku głównym
+     fun updateDocument(document: Document) {
         viewModelScope.launch {
-            _document.value = document
+            _document.postValue(document)
         }
     }
-    suspend fun deleteCagoFromDocument(idDocumentPosition : Int)
-    {
-        val connection = ConnectService(stateResponse)
-        var result = connection.makeConnection<Any>(
-            DeleteCargoFromDocument(idDocumentPosition)
-        )
+
+    suspend fun deleteCagoFromDocument(idDocumentPosition: Int) {
+        ConnectService(stateResponse)
+            .makeConnection<Any>(
+                DeleteCargoFromDocument(idDocumentPosition)
+            )
     }
 
 
+    suspend fun addCargoOnDocument(
+        fragment: Fragment,
+        documentPosition: DocumentPosition,
+        idDocument: String,
+        fastAddingStateResponse: IStateResponse
+    ) {
+        if (Config.fastAddingDocumentPosition) {
+            stateResponse = fastAddingStateResponse
+            addCargoOnDocument(
+                idDocument,
+                documentPosition
+            )
+        } else
+           showAmountDialog(fragment, idDocument, documentPosition)
+    }
+
+    suspend fun addCargoOnDocument(
+        idDocument: String?,
+        documentPosition: DocumentPosition?
+    ) {
+
+        if (Config.fastAddingDocumentPosition) {
+            documentPosition?.amount = 1.0
+            documentPosition?.valuePerUnit =
+                documentPosition?.cargo?.prices?.first { it.name == PriceNames.PRIMARY }?.bruttoPerAmount!!
+            documentPosition.unit = documentPosition.cargo?.mainUnit
+        }
+        val connection = ConnectService(stateResponse)
+        connection.makeConnection<String>(
+            AddNewCargoToDocument(
+                idDocument,
+                documentPosition?.cargo?.id,
+                documentPosition?.unit?.id,
+                documentPosition?.amount,
+                documentPosition?.valuePerUnit
+            )
+
+        )
+    }
+    suspend fun refreshData() {
+        document.value?.documentPositions =
+            getDocumentPositions(document.value?.id!!)
+        updateDocument(document.value!!)
+    }
 }
 
 

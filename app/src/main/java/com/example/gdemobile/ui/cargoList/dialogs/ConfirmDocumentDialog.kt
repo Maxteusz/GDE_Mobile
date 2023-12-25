@@ -10,18 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ConfirmDialogBinding
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.ExtensionFunction.Companion.showToast
 import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
-class ConfirmDocumentDialog : DialogFragment(), StateResponse {
+class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
     private lateinit var binding: ConfirmDialogBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
 

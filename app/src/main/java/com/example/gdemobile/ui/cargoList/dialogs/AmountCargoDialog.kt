@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.StateResponse
+import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.NamesSharedVariable
@@ -24,7 +24,7 @@ import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
-class AmountCargoDialog : DialogFragment(), StateResponse {
+class AmountCargoDialog : DialogFragment(), IStateResponse {
 
     private lateinit var binding: FragmentAmountCargoDialogBinding
     private lateinit var sharedViewModel: InssuingCargoListViewModel
@@ -129,7 +129,7 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
                 CustomToast.Type.Error
             )
         }
-        dialog?.dismiss()
+
     }
 
     override fun OnSucces() {
@@ -140,7 +140,9 @@ class AmountCargoDialog : DialogFragment(), StateResponse {
                 CustomToast.Type.Information
             )
         }
-        dialog?.dismiss()
+
+        this.dismiss()
+
     }
 
 
