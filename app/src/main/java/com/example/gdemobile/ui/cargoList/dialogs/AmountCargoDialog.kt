@@ -1,9 +1,11 @@
 package com.example.gdemobile.ui.cargoList.dialogs
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,7 @@ import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.utils.BroadcasReceiverIntentActions
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.NamesSharedVariable
 import com.example.gdemobile.utils.ToastMessages
@@ -51,7 +54,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding.okButton.setOnClickListener {
             if (checkValidationViews())
                 lifecycleScope.launch {
-                    idDocument =  arguments?.getString(NamesSharedVariable.idDocument)
+                    idDocument = arguments?.getString(NamesSharedVariable.idDocument)
                     fillDocumentPositionInformation()
                     sharedViewModel.addCargoOnDocument(
                         idDocument = idDocument,
@@ -66,7 +69,8 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
     fun fillDocumentPositionInformation() {
 
         documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
-        documentPosition?.unit = documentPosition?.cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }
+        documentPosition?.unit =
+            documentPosition?.cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }
         documentPosition!!.amount = binding.amountEdittext.text.toString().toDouble()
         documentPosition!!.valuePerUnit = Currency(
             binding.valueEdittext.text.toString().toDouble(),
@@ -90,10 +94,10 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
 
 
-        val unitAdapter = ArrayAdapter<String>(
+        val unitAdapter = ArrayAdapter(
             requireContext(),
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            documentPosition?.cargo?.additionalUnits!!.map { it -> it.name })
+            documentPosition?.cargo?.additionalUnits!!.map { it.name })
         binding.unitSpinner.setAdapter(unitAdapter)
         binding.unitSpinner.setText(documentPosition?.cargo?.mainUnit?.name)
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
@@ -140,8 +144,9 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
                 CustomToast.Type.Information
             )
         }
-
-        this.dismiss()
+        val intent = Intent(BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED)
+        requireActivity().sendBroadcast(intent)
+        dismiss()
 
     }
 

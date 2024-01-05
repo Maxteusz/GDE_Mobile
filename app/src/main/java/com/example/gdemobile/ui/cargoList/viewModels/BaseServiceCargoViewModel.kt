@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,7 +35,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
     var stateResponse: IStateResponse? = null
-    private var _document = MutableLiveData(Document())
+    private var _document = MutableLiveData<Document>()
     private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
@@ -103,6 +104,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
     suspend fun getDocumentPositions(idDocument: String): MutableList<DocumentPosition> {
+
         _scannedCargoCopy.clear()
         val gson = Gson()
         val connection = ConnectService(stateResponse)
@@ -163,11 +165,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
         connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
     }
 
-     fun updateDocument(document: Document) {
-        viewModelScope.launch {
-            _document.postValue(document)
-        }
-    }
+
 
     suspend fun deleteCagoFromDocument(idDocumentPosition: Int) {
         ConnectService(stateResponse)
@@ -219,7 +217,8 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     suspend fun refreshData() {
         document.value?.documentPositions =
             getDocumentPositions(document.value?.id!!)
-        updateDocument(document.value!!)
+        Log.i("Test", document.value!!.documentPositions.size.toString())
+        _document.postValue(_document.value)
     }
 }
 

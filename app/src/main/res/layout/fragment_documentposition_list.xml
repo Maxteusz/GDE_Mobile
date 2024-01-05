@@ -74,10 +74,13 @@
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/camera_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="100dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="85dp"
+                        app:fabCustomSize="50dp"
+                        app:maxImageSize="20dp"
+                        app:srcCompat="@drawable/outline_camera_alt_25"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent">
 
@@ -85,11 +88,13 @@
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/next_button"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
                         android:layout_marginBottom="15dp"
-                        android:src="@drawable/baseline_chevron_right_30"
+                        app:fabCustomSize="60dp"
+                        app:maxImageSize="40dp"
+                        app:srcCompat="@drawable/baseline_chevron_right_35"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent">
 

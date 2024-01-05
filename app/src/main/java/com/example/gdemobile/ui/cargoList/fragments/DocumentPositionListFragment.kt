@@ -1,5 +1,10 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,11 +13,11 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +25,13 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
+import com.example.gdemobile.utils.BroadcasReceiverIntentActions
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.NamesSharedVariable
-import com.example.gdemobile.utils.NamesSharedVariable.idDocument
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -40,6 +44,17 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentpositionListBinding
     private lateinit var viewModel: InssuingCargoListViewModel
     private lateinit var deffered: Deferred<Cargo?>
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.stateResponse = this@DocumentPositionListFragment
+                    viewModel.refreshData()
+                }
+            }
+        }
+    }
 
 
     private val listener =
@@ -79,14 +94,16 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onResume() {
         super.onResume()
         view?.isFocusableInTouchMode = true;
         view?.requestFocus();
-        Log.i("Resume", "Resume")
         viewModel.stateResponse = this
+        requireActivity().registerReceiver(receiver, IntentFilter(BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED),
+            Context.RECEIVER_NOT_EXPORTED)
         viewLifecycleOwner.lifecycleScope.launch {
-           // if (viewModel.isRequiredLoadData.value == true)
+           if (viewModel.isRequiredLoadData.value == true)
                 viewModel.refreshData()
         }
         view?.setOnKeyListener { _, keyCode, event ->
@@ -102,6 +119,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(receiver)
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -110,12 +132,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             findNavController().navigate(R.id.action_cargoListFragment_to_configmDocumentDialog)
         }
         binding.cameraButton.setOnClickListener {
-            val data = Bundle()
-            data.putString(idDocument, viewModel.document.value?.id)
+            viewModel.isRequiredLoadData.value = true
             findNavController().navigate(
                 R.id.action_cargoListFragment_to_scanBarcodeFragment,
-                data
-            )
+                )
         }
         binding.cargosRecyclerview.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -150,7 +170,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                     {
                         viewModel.document.value?.documentPositions =
                             viewModel.filtrDocumentPosition(s.toString())!!
-                        viewModel.document.value?.let { viewModel.updateDocument(it) }
+                        //viewModel.document.value?.let { viewModel.updateDocument(it) }
                     }
                 }
 
@@ -162,6 +182,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.stateResponse = this@DocumentPositionListFragment
                 viewModel.refreshData()
             }
         }
@@ -244,8 +265,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                             it,
                             viewModel.document.value?.id!!,
                             fastAddingCargoSateResult
-
                         )
+
                     }
                 }
 

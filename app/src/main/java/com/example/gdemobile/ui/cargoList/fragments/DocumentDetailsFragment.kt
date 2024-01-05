@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,6 +85,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
+        viewModel.document.value = Document()
     }
 
     override suspend fun OnError(message: String) {
@@ -97,12 +100,9 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
             withContext(coroutineContext) {
                 document = defferedCreateDocument.await()!!
                 viewModel.isRequiredLoadData.value = false;
-                val action =
-                    DocumentDetailsFragmentDirections.actionDocumentDetailsFragmentToCargoListFragment(
-                        document
-                    )
-
-                findNavController().navigate(action)
+                viewModel.document.value = document
+                viewModel.isRequiredLoadData.value = false
+                findNavController().navigate(R.id.action_documentDetailsFragment_to_cargoListFragment)
             }
         }
     }
