@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
 import com.example.gdemobile.apiConnect.enovaConnect.methods.ConfirmDocument
@@ -24,21 +23,23 @@ import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.models.Price.PriceNames
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.cargoList.viewModels.ActionType
 import com.example.gdemobile.ui.cargoList.viewModels.IShowAmountDialog
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
 
 
 open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
     var stateResponse: IStateResponse? = null
-    private var _document = MutableLiveData(Document())
+    lateinit var actionType: ActionType
+    private var _document = MutableLiveData<Document>()
     private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
     private var _documentListInTemp = MutableLiveData<List<Document>>(emptyList())
     private var _documentDefinitions = MutableLiveData<List<DocumentDefinition>?>(emptyList())
+
     var isRequiredLoadData = MutableLiveData<Boolean>(true)
     val scannedBarcode: MutableLiveData<String> = MutableLiveData("")
     val recyclerViewScrollState: MutableLiveData<Parcelable?> = MutableLiveData()
@@ -103,6 +104,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
     suspend fun getDocumentPositions(idDocument: String): MutableList<DocumentPosition> {
+
         _scannedCargoCopy.clear()
         val gson = Gson()
         val connection = ConnectService(stateResponse)
@@ -128,7 +130,6 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
             val cargo = gson.fromJson<Cargo>(gson.toJson(receiveList))
             return cargo;
         }
-
         return null
 
     }
@@ -163,11 +164,6 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
         connection.makeConnection<Boolean>(ConfirmDocument(idDocument))
     }
 
-     fun updateDocument(document: Document) {
-        viewModelScope.launch {
-            _document.postValue(document)
-        }
-    }
 
     suspend fun deleteCagoFromDocument(idDocumentPosition: Int) {
         ConnectService(stateResponse)
@@ -190,7 +186,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
                 documentPosition
             )
         } else
-           showAmountDialog(fragment, idDocument, documentPosition)
+            showAmountDialog(fragment, idDocument, documentPosition)
     }
 
     suspend fun addCargoOnDocument(
@@ -216,10 +212,11 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
         )
     }
+
     suspend fun refreshData() {
         document.value?.documentPositions =
             getDocumentPositions(document.value?.id!!)
-        updateDocument(document.value!!)
+        _document.postValue(_document.value)
     }
 }
 

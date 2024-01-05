@@ -48,6 +48,7 @@ class DocumentPositionAdapter(
         holder.itemView.animate().alpha(1.0f).setDuration(3000).start()
         holder.recyclerviewCargoHolder.deleteImage.setOnClickListener {
             listener.onDeleteDocumentPositionItemClicked(cargos.get(position).id)
+
         }
         holder.recyclerviewCargoHolder.maincard.setOnClickListener {
             listnerDetailDocumentPostion.onOpenDetailDocumentPostion(cargos[position])

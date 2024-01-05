@@ -105,9 +105,12 @@
         <action
             android:id="@+id/action_amountCargoDialog_to_scanBarcodeFragment"
             app:destination="@id/scanBarcodeFragment" />
+        <action
+            android:id="@+id/action_amountCargoDialog_to_documentPostionListFragment"
+            app:destination="@id/documentPostionListFragment" />
 
 
-</dialog>
+    </dialog>
     <fragment
         android:id="@+id/documentListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentListFragment"

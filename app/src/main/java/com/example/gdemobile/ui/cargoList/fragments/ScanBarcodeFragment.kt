@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +24,7 @@ import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.models.Price
 import com.example.gdemobile.ui.IStateResponse
-
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.NamesSharedVariable
@@ -51,18 +48,18 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     private lateinit var deffered: Deferred<Cargo?>
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val data = arguments
-        idDocument = data!!.getString(NamesSharedVariable.idDocument, "")
+
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater)
         sharedViewModel =
             ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         sharedViewModel.stateResponse = this
+
+        idDocument = sharedViewModel.document.value?.id!!
 
 
         return binding.root
@@ -114,7 +111,6 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 sharedViewModel.stateResponse = this
                                 deffered = viewLifecycleOwner.lifecycleScope.async {
-
                                     return@async sharedViewModel.getCargoInformationByEan(
                                         scannedCode
                                     )
@@ -177,7 +173,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     }
 
     override suspend fun OnError(message: String) {
-        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
+        context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
         binding.loadinglayout.root.visibility = View.GONE
         binding.unlockButton.isEnabled = true;
     }
@@ -189,14 +185,13 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(coroutineContext) {
                 documentPosition?.cargo = deffered.await()
-                if(Config.fastAddingDocumentPosition) {
+                if (Config.fastAddingDocumentPosition) {
                     sharedViewModel.stateResponse = addCargoSateResult
                     sharedViewModel.addCargoOnDocument(
                         idDocument,
                         documentPosition
                     )
-                }
-                else {
+                } else {
                     binding.unlockButton.isEnabled = true;
                     val data = Bundle()
                     data.putString(NamesSharedVariable.idDocument, idDocument)
@@ -215,14 +210,13 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     }
 
 
-    val addCargoSateResult = object : IStateResponse
-    {
+    val addCargoSateResult = object : IStateResponse {
         override fun OnLoading() {
 
         }
 
         override suspend fun OnError(message: String) {
-            context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
+            context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
         }
 
         override fun OnSucces() {
@@ -237,7 +231,6 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
         }
 
     }
-
 
 
 }
