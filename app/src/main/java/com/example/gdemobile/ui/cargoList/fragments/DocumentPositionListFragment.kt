@@ -305,6 +305,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
                     }
                 }
+                blockScanninng = false
 
 
             }

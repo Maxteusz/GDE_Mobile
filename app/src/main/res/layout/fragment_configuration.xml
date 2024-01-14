@@ -25,6 +25,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
+            android:background="@color/darkGray"
             android:orientation="vertical">
 
             <TextView
@@ -32,31 +33,33 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Połączenie"
-                android:textColor="@color/design_default_color_primary"
+                android:textColor="@color/orange"
                 android:textStyle="bold"
                 android:textSize="16dp">
 
             </TextView>
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/ConfigurationFragmentTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+
                 android:hint="Adres IP">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ip_textedit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/white"
                     android:text="@{config.Companion.ip}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/ConfigurationFragmentTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+
                 android:hint="Port">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -64,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:textColor="@color/white"
                     android:text="@{config.Companion.port}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,11 +77,11 @@
                 android:fontFamily="sans-serif"
                 android:text="Logowanie do systemu"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/design_default_color_primary"
+                android:textColor="@color/orange"
                 android:textStyle="bold"
                 android:textSize="16dp"/>
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/ConfigurationFragmentTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -86,12 +90,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username_textedit"
                     android:layout_width="match_parent"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:text="@{config.Companion.usernameERP}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/ConfigurationFragmentTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -100,6 +105,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_textedit"
                     android:layout_width="match_parent"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:text="@{config.Companion.passwordERP}"
                     android:inputType="textPassword"/>
@@ -110,7 +116,7 @@
                 android:fontFamily="sans-serif"
                 android:text="Konfiguracja programu"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/design_default_color_primary"
+                android:textColor="@color/orange"
                 android:textStyle="bold"
                 android:textSize="16dp"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -119,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:checked="@{config.Companion.fastAddingDocumentPosition}"
                 android:text="Szybkie dodawanie pozycji"
+                android:textColor="@color/white"
                 android:textSize="16sp"/>
 
             <LinearLayout

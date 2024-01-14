@@ -1,16 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.GDEMobile" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.GDEMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorPrimary">#222222</item>
+        <item name="colorPrimaryVariant">#FFD400</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">#FFD400</item>
+        <item name="colorSecondaryVariant">#FFD400</item>
+        <item name="colorOnSecondary">#222222</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/zxing_transparent</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

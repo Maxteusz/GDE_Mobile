@@ -26,9 +26,10 @@ class MenuActivity : AppCompatActivity() {
         binding.receivingButton.setOnClickListener {
             menuView.openActivity(applicationContext, CargoListActivity(), it)
         }
+        /*
         binding.issuingButton.setOnClickListener {
             menuView.openActivity(applicationContext, CargoListActivity(), it)
-        }
+        }*/
 
         binding.confButton.setOnClickListener {
             menuView.openActivity(applicationContext, ConfigurationActivity(),null)

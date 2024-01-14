@@ -18,7 +18,7 @@ class MenuView : ViewModel() {
         when (view?.id)
         {
             R.id.receiving_button -> Mode.mode = Mode.Modes.Receiving
-            R.id.issuing_button -> Mode.mode = Mode.Modes.Issuing
+            //R.id.issuing_button -> Mode.mode = Mode.Modes.Issuing
         }
         context.startActivity(intent)
 
