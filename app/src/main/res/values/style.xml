@@ -11,8 +11,10 @@
 
     <style name="ConfigurationFragmentTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/color_stroke_conf_fragment</item>
-        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHint">@color/lightGray</item>
+    </style>
 
-
+    <style name="ConfigurationFragmentEditTextStyle" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="android:textColor">@color/lightGray</item>
     </style>
 </resources>
