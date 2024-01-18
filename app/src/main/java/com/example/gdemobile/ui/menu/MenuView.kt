@@ -22,5 +22,6 @@ class MenuView : ViewModel() {
         }
         context.startActivity(intent)
 
+
     }
 }

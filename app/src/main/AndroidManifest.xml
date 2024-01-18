@@ -11,8 +11,6 @@
 
     <application
         android:allowBackup="true"
-
-
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,6 +19,10 @@
         android:theme="@style/Theme.GDEMobile"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".ui.configuration.ConfigurationActivity"
             android:exported="false" />

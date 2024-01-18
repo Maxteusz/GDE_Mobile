@@ -95,7 +95,9 @@
         android:label="ContractorListFragment">
         <action
             android:id="@+id/action_contractorListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment" />
+            app:destination="@id/documentDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <dialog
         android:id="@+id/amountCargoDialog"
@@ -123,13 +125,15 @@
 
         <action
             android:id="@+id/action_documentListFragment_to_cargoListFragment"
-            app:destination="@id/documentPostionListFragment">
+            app:destination="@id/documentPostionListFragment"
+            app:enterAnim="@android:anim/slide_in_left">
 
 
         </action>
         <action
             android:id="@+id/action_documentListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment" />
+            app:destination="@id/documentDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
 
 
     </fragment>

@@ -219,7 +219,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.succeslayout.visibility = View.GONE
         binding.errorlayout.visibility = View.GONE
-        binding.loadinglayout.visibility = View.VISIBLE
+        binding.loadinglayout.root.visibility = View.VISIBLE
         binding.swipeRefreshLayout.isRefreshing = false
         binding.cargosRecyclerview.adapter = null
 
@@ -227,7 +227,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     override suspend fun OnError(message: String) {
         binding.errorlayout.visibility = View.VISIBLE
-        binding.loadinglayout.visibility = View.GONE
+        binding.loadinglayout.root.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
     }
@@ -235,7 +235,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     override fun OnSucces() {
         binding.errorlayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
-        binding.loadinglayout.visibility = View.GONE
+        binding.loadinglayout.root.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
     }
 
@@ -243,7 +243,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         override fun OnLoading() {
             binding.succeslayout.visibility = View.GONE
             binding.errorlayout.visibility = View.GONE
-            binding.loadinglayout.visibility = View.VISIBLE
+            binding.loadinglayout.root.visibility = View.VISIBLE
             binding.swipeRefreshLayout.isRefreshing = false
             binding.cargosRecyclerview.adapter = null
 
@@ -251,7 +251,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
         override suspend fun OnError(message: String) {
             binding.errorlayout.visibility = View.VISIBLE
-            binding.loadinglayout.visibility = View.GONE
+            binding.loadinglayout.root.visibility = View.GONE
             binding.succeslayout.visibility = View.GONE
             binding.swipeRefreshLayout.isRefreshing = false
             context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }

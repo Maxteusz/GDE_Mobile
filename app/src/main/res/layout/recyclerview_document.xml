@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         app:cardElevation="8dp"
         android:clickable="true"
-        android:backgroundTint="#B0B0B0"
+        app:rippleColor="@color/orange"
+        app:cardCornerRadius="0dp"
+        android:backgroundTint="@color/darkGray"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -44,18 +46,19 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif"
+                android:textStyle="bold"
                     android:text="@{document.number}"
-                    android:textColor="@color/black"
+                    android:textColor="@color/orange"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="sans-serif"
                     android:text="@{document.contractor.name}"
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightGray"
                     android:lines="1"
                     android:textSize="12sp" />
 

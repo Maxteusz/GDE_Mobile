@@ -33,6 +33,22 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/logo_image"
+                        android:layout_width="230dp"
+                        android:layout_height="230dp"
+                        android:src="@drawable/logo_menu"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.2"
+                        app:tint="@color/orange">
+
+                    </ImageView>
+
                     <ImageButton
                         android:id="@+id/conf_button"
                         android:layout_width="30dp"
@@ -67,16 +83,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="20dp"
+
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/receiving_button"
@@ -84,10 +96,14 @@
                         android:layout_height="140dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/gradient_background_button"
                         app:backgroundTint="@null"
                         app:cornerRadius="20dp"
-                        app:elevation="9dp"
+                        android:outlineSpotShadowColor="@color/black"
                         app:icon="@drawable/receive_cargo_icon"
                         app:iconGravity="textStart"
                         app:iconSize="75dp"
@@ -95,28 +111,29 @@
                     </com.google.android.material.button.MaterialButton>
 
                     <com.google.android.material.button.MaterialButton
+
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="20dp"
                         android:background="@drawable/gradient_background_button"
                         app:backgroundTint="@null"
+                        app:cornerRadius="20dp"
+                        android:outlineSpotShadowColor="@color/black"
                         app:icon="@drawable/inssuing_cargo_icon"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/orange"
-                        app:iconSize="70dp"
-                        app:cornerRadius="20dp"
-                        app:elevation="9dp">
-
+                        app:iconSize="75dp"
+                        app:iconTint="@color/orange">
                     </com.google.android.material.button.MaterialButton>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.button.MaterialButton
 
@@ -124,35 +141,41 @@
                         android:layout_height="140dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/gradient_background_button"
                         app:backgroundTint="@null"
                         app:cornerRadius="20dp"
-                        app:elevation="9dp"
-                        app:icon="@drawable/inventarisation_icon"
+                        android:outlineSpotShadowColor="@color/black"
+                        app:icon="@drawable/receive_cargo_icon"
                         app:iconGravity="textStart"
                         app:iconSize="75dp"
                         app:iconTint="@color/orange">
-
-
-
                     </com.google.android.material.button.MaterialButton>
 
                     <com.google.android.material.button.MaterialButton
+
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="20dp"
                         android:background="@drawable/gradient_background_button"
                         app:backgroundTint="@null"
+                        app:cornerRadius="20dp"
+                        android:outlineSpotShadowColor="@color/black"
                         app:icon="@drawable/inssuing_cargo_icon"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/orange"
-                        app:iconSize="70dp"
-                        app:cornerRadius="20dp"
-                        app:elevation="9dp">
-
+                        app:iconSize="75dp"
+                        app:iconTint="@color/orange">
                     </com.google.android.material.button.MaterialButton>
                 </LinearLayout>
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

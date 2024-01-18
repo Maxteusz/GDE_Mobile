@@ -6,74 +6,74 @@
     <data>
 
     </data>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.cargoList.fragments.DocumentListFragment">
-
-        <!--OnLoadingLayout-->
         <LinearLayout
-            android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="vertical"
+            android:background="@color/darkGray"
+            tools:context=".ui.cargoList.fragments.DocumentListFragment">
 
-            <ProgressBar
-                android:id="@+id/cicular_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
-        </LinearLayout>
-        <!--OnErrorLayout-->
-        <include
-            android:id="@+id/errorlayout"
-            layout="@layout/error_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-        <!--OnSuccesLayout-->
-        <LinearLayout
-            android:id="@+id/succeslayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--OnLoadingLayout-->
+            <include
+                android:id="@+id/loadinglayout"
+                layout="@layout/loading_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:visibility="gone" />
+            <!--OnErrorLayout-->
+            <include
+                android:id="@+id/errorlayout"
+                layout="@layout/error_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+            <!--OnSuccesLayout-->
+            <LinearLayout
+                android:id="@+id/succeslayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/newdocument_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.95"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/baseline_add_24"
-                    app:layout_constraintVertical_bias="0.98" />
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/newdocument_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:outlineAmbientShadowColor="@color/orange"
+                        android:outlineSpotShadowColor="@color/orange"
+                        android:src="@drawable/baseline_add_24"
+                        app:tint = "@color/darkGray"
+                        app:backgroundTint="@color/orange"
+                        app:elevation="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.98" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

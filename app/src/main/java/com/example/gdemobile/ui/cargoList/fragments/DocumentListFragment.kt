@@ -1,5 +1,7 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         errorLayoutBinding = binding.errorlayout
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         viewModel.stateResponse = this
+        setColorsProgressSwipeLayout()
         binding.newdocumentButton.setOnClickListener {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
@@ -48,6 +51,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
+
             viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getDocumentsInTemp()
             }
@@ -81,6 +85,12 @@ class DocumentListFragment : Fragment(), IStateResponse {
             }
         })
     }
+    @SuppressLint("ResourceType")
+    fun setColorsProgressSwipeLayout()
+    {
+        binding.swipeRefreshLayout.setColorSchemeColors(resources.getInteger(R.color.orange))
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(resources.getInteger(R.color.darkGray))
+    }
 
     override fun onResume() {
         super.onResume()
@@ -94,13 +104,13 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
     override fun OnLoading() {
-        binding.loadinglayout.visibility = View.VISIBLE
+        binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override suspend fun OnError(message: String) {
-        binding.loadinglayout.visibility = View.GONE
+        binding.loadinglayout.root.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         errorLayoutBinding.errorTextview.text = message
         binding.swipeRefreshLayout.isRefreshing = false
@@ -109,7 +119,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
 
     override fun OnSucces() {
         binding.errorlayout.root.visibility = View.GONE
-        binding.loadinglayout.visibility = View.GONE
+        binding.loadinglayout.root.visibility  = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         binding.swipeRefreshLayout.isRefreshing = false
     }

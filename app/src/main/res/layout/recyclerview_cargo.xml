@@ -13,10 +13,14 @@
         android:id="@+id/maincard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        app:cardBackgroundColor="@color/darkGray"
+        app:cardCornerRadius="0dp"
+        android:layout_marginTop="0dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -37,28 +41,28 @@
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-black"
             android:text= "@{cargo.cargo.code}"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif"
                 android:maxLength="25"
                 android:text= "@{cargo.cargo.code}"
-                android:textColor="@color/black"
+                android:textColor="@color/lightGray"
                 android:textSize="13sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif"
                 android:maxLength="25"
                 android:text= "@{cargo.valuePerUnit.toString() + '/' + cargo.unit.name}"
-                android:textColor="@color/black"
+                android:textColor="@color/lightGray"
                 android:textSize="13sp" />
         </LinearLayout>
         <LinearLayout
@@ -74,16 +78,17 @@
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="@color/black"
+            android:textColor="@color/lightGray"
             android:text= "@{cargo.amountFullInfo}" />
             <ImageView
                 android:id="@+id/delete_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
                 android:clickable="true"
-                android:src="@drawable/baseline_remove_circle_24">
+                android:alpha="0.75"
+                android:src="@drawable/delete_icon">
 
             </ImageView>
         </LinearLayout>

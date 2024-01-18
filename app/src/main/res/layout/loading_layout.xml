@@ -8,19 +8,22 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/darkGray">
 
         <LinearLayout
             android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@color/darkGray"
             android:orientation="horizontal">
 
             <ProgressBar
                 android:id="@+id/cicular_icon"
                 android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:indeterminateTint="@color/orange"                />
         </LinearLayout>
     </FrameLayout>
 </layout>
