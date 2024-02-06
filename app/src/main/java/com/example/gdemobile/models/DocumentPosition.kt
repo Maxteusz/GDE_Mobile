@@ -6,7 +6,6 @@ import java.io.Serializable
 class DocumentPosition () : Serializable {
     @SerializedName("Ilosc")
     var amount: Double = 0.0
-
     @SerializedName("CenaJednostkowa")
     lateinit var valuePerUnit: Currency
     @SerializedName("Id")

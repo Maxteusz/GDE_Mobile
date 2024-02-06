@@ -73,7 +73,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
                 if(binding.dokdefEdittext.text.isNullOrEmpty())
                     binding.dokdefEdittext.error = "Wybierz definicję"
                 else
-                document = viewModel.createNewDocument()
+                document = viewModel.document.value?.let { it1 -> viewModel.createNewDocument(it1) }
                 return@async document
 
             }

@@ -1,6 +1,7 @@
-package com.example.gdemobile.apiConnect.enovaConnect.methods
+package com.example.gdemobile.apiConnect.enovaConnect.methods.document
 
 import com.example.gdemobile.apiConnect.enovaConnect.IDto
+import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.example.gdemobile.models.Document
 import com.google.gson.annotations.SerializedName
 

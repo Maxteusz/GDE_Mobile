@@ -13,7 +13,7 @@ class Document() : Serializable, Parcelable {
 
     @SerializedName("Id")
     var id : String = ""
-    @SerializedName("NumerDokumentu")
+    @SerializedName("NumerDokumentu", alternate = arrayOf("Numer"))
     var number : String = ""
     @SerializedName("Kontrahent")
     var contractor: Contractor? = null

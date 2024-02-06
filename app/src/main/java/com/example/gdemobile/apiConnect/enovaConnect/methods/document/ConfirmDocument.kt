@@ -1,6 +1,7 @@
-package com.example.gdemobile.apiConnect.enovaConnect.methods
+package com.example.gdemobile.apiConnect.enovaConnect.methods.document
 
 import com.example.gdemobile.apiConnect.enovaConnect.IDto
+import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.google.gson.annotations.SerializedName
 
 class ConfirmDocument(val idDocument: String) : IConnectEnovaMethod {

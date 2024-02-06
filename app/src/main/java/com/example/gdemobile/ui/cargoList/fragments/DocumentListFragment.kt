@@ -32,6 +32,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     private lateinit var errorLayoutBinding: ErrorLayoutBinding
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,14 +40,15 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
         errorLayoutBinding = binding.errorlayout
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.stateResponse = this
+        viewModel.stateResponse = this@DocumentListFragment
         setColorsProgressSwipeLayout()
         binding.newdocumentButton.setOnClickListener {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             if(viewModel.documentListInTemp.value.isNullOrEmpty())
-            viewModel.getDocumentsInTemp()
+                viewModel.getDocumentsInTemp()
+
 
         }
 
