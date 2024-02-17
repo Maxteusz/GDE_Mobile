@@ -1,19 +1,17 @@
-package com.example.gdemobile.apiConnect.enovaConnect.methods.document
+package com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions
 
 import com.example.gdemobile.apiConnect.enovaConnect.BaseDto
 import com.example.gdemobile.apiConnect.enovaConnect.IDto
 import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.google.gson.annotations.SerializedName
 
-class GetDocumentPositionsOnDocument(val idDocument: String) :
-    IConnectEnovaMethod {
+class DeleteDocumentPositions(val idDocumentPosition: Int) : IConnectEnovaMethod {
     override val methodName: String
-        get() = "PobierzPozycjeDokumentuPrzyjeciaZewnetrznegoMagazynowego"
+        get() = "UsunPozycjeDokumentuPrzyjeciaZewnetrznegoMagazynowego"
     override val methodService: String
         get() = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
     override val dto: IDto
-        get() = Dto(idDocument)
+        get() = Dto(idDocumentPosition)
 
-    private class Dto(@SerializedName("IdDokumentu") val idDocument: String) : BaseDto(), IDto
-
+    private class Dto(@SerializedName("IdPozycji") val idDocumentPosition: Int) : BaseDto(), IDto
 }

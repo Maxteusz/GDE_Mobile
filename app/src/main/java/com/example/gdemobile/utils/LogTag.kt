@@ -1,6 +1,8 @@
 package com.example.gdemobile.utils
 
 object LogTag {
+
+
     //Exceptions
     const val timeoutException = "SocketTimeoutException"
     const val connectException = "ConnectException"
@@ -16,8 +18,9 @@ object LogTag {
     const val enovaApiIsEmpty = "EnovaApiIsEmpty"
     const val enovaApiNameMethod = "EnovaApiNameMethod"
     const val enovaApiResultInstance = "EnovaApiResultInstance"
+    const val enovaApiBodyRequest: String = "EnovaApiBodyRequest"
 
-    //ScannedFragment Informations
+        //ScannedFragment Informations
     const val scannedCargo = "ScannedCargo"
 
     //AmountCargoDialog

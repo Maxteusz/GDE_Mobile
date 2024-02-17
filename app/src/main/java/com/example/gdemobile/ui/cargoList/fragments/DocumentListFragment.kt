@@ -1,7 +1,6 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
-import com.example.gdemobile.utils.NamesSharedVariable
 import kotlinx.coroutines.launch
 
 
@@ -62,8 +60,8 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
-        override fun onCustomItemClicked(document: Document) {
-            viewModel.document.value = document
+        override fun onCustomItemClicked(x: Document?) {
+            viewModel.document.value = x
             viewModel.isRequiredLoadData.value = true
 
             findNavController().navigate(
@@ -80,8 +78,10 @@ class DocumentListFragment : Fragment(), IStateResponse {
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                recyclerViewAdapter =
-                    DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
+                if(viewModel.documentListInTemp.value != null) {
+                    recyclerViewAdapter =
+                        DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
+                }
                 binding.recyclerview.adapter = recyclerViewAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }

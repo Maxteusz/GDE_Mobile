@@ -1,4 +1,4 @@
-package com.example.gdemobile.apiConnect.enovaConnect.repositories
+package com.example.gdemobile.apiConnect.enovaConnect.daos
 
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetContractors

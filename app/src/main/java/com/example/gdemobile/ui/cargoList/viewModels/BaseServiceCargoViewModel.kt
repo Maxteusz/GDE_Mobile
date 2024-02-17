@@ -6,14 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
-import com.example.gdemobile.apiConnect.enovaConnect.methods.AddNewCargoToDocument
-import com.example.gdemobile.apiConnect.enovaConnect.methods.DeleteCargoFromDocument
+import com.example.gdemobile.apiConnect.enovaConnect.daos.DocumentPosition.DocumentPositionDao
+import com.example.gdemobile.apiConnect.enovaConnect.methods.AddDocumentPosition
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.DeleteDocumentPositions
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
-import com.example.gdemobile.apiConnect.enovaConnect.methods.document.GetDocumentPositionsOnDocument
-import com.example.gdemobile.apiConnect.enovaConnect.repositories.RepositoryCargo
-import com.example.gdemobile.apiConnect.enovaConnect.repositories.RepositoryContractor
-import com.example.gdemobile.apiConnect.enovaConnect.repositories.RepositoryDocument
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.GetDocumentPositions
+import com.example.gdemobile.apiConnect.enovaConnect.daos.RepositoryCargo
+import com.example.gdemobile.apiConnect.enovaConnect.daos.RepositoryContractor
+import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
 import com.example.gdemobile.config.Config
+import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
@@ -89,24 +91,13 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
     suspend fun getDocumentsInTemp() {
-        _documentListInTemp.postValue(RepositoryDocument(stateResponse).getDocumentsInTemp())
+        _documentListInTemp.postValue(stateResponse?.let { DocumentDao(it).getDocumentsByType(documentType = DocumentType.PWPW) })
     }
 
 
-    suspend fun getDocumentPositions(idDocument: String): MutableList<DocumentPosition> {
+    suspend fun getDocumentPositions(idDocument: Int): List<DocumentPosition> {
+        return DocumentPositionDao(stateResponse).getDocumentPositions(idDocument)
 
-        _scannedCargoCopy.clear()
-        val gson = Gson()
-        val connection = stateResponse?.let { ConnectService(it) }
-        var convertedList = mutableListOf<DocumentPosition>()
-        var receiveList = connection?.makeConnection<List<DocumentPosition>>(
-            GetDocumentPositionsOnDocument(idDocument)
-        )
-        if (receiveList != null) {
-            convertedList = gson.fromJson<MutableList<DocumentPosition>>(gson.toJson(receiveList))
-        }
-        _scannedCargoCopy.addAll(convertedList)
-        return convertedList
 
     }
 
@@ -116,7 +107,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
     suspend fun createNewDocument(document: Document): Document {
-        return RepositoryDocument(stateResponse).createNewDocument(document)
+        return Document()
     }
 
     suspend fun getContractors() {
@@ -126,7 +117,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
     suspend fun confirmDocument(idDocument: String) {
-        RepositoryDocument(stateResponse).confirmDocument(idDocument = idDocument)
+        "DocumentDao(stateResponse).confirmDocument(idDocument = idDocument)"
     }
 
 
@@ -134,7 +125,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
         stateResponse?.let {
             ConnectService(it)
                 .makeConnection<Any>(
-                    DeleteCargoFromDocument(idDocumentPosition)
+                    DeleteDocumentPositions(idDocumentPosition)
                 )
         }
     }
@@ -169,7 +160,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
         }
         val connection = stateResponse?.let { ConnectService(it) }
         connection?.makeConnection<String>(
-            AddNewCargoToDocument(
+            AddDocumentPosition(
                 idDocument,
                 documentPosition?.cargo?.id,
                 documentPosition?.unit?.id,

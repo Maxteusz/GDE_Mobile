@@ -3,7 +3,9 @@ package com.example.gdemobile.apiConnect.enovaConnect
 import android.util.Log
 import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.utils.JsonSerializer
 import com.example.gdemobile.utils.LogTag
+import com.google.gson.Gson
 import java.lang.Exception
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -15,7 +17,7 @@ class ConnectService(
     suspend fun <X : Any> makeConnection(connectionParameters: IConnectEnovaMethod): X? {
         try {
             stateResponse?.OnLoading()
-
+Log.i(LogTag.enovaApiBodyRequest, Gson().toJson(connectionParameters))
             val quotesApi = RetrofitClient().getInstance().create(IRetrofitMethod::class.java)
             var result = quotesApi.getListData<X>(RequestDto(connectionParameters))
             if (result.code() == 200) {
