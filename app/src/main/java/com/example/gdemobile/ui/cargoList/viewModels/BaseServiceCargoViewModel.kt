@@ -95,7 +95,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
 
-    suspend fun getDocumentPositions(idDocument: Int): List<DocumentPosition> {
+    suspend fun getDocumentPositions(idDocument: Int): List<DocumentPosition>? {
         return DocumentPositionDao(stateResponse).getDocumentPositions(idDocument)
 
 

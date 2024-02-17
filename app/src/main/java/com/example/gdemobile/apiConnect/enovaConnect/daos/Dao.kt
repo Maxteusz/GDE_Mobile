@@ -10,7 +10,7 @@ import java.lang.Exception
 import java.net.ConnectException
 
 
-abstract class Dao(val stateResponse: IStateResponse) {
+abstract class Dao(val stateResponse: IStateResponse?) {
     suspend inline fun <reified T>request(method : IConnectEnovaMethod): T? {
         try {
             val gson = Gson()
@@ -19,7 +19,7 @@ abstract class Dao(val stateResponse: IStateResponse) {
             return gson.fromJson<T>(gson.toJson(receiveDto))
         } catch (e: Exception)
         {
-            stateResponse.OnError("Błąd pobierania danych")
+            stateResponse?.OnError("Błąd pobierania danych")
             return null
         }
     }
