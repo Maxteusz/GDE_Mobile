@@ -1,4 +1,4 @@
-package com.example.gdemobile.apiConnect.enovaConnect.daos
+package com.example.gdemobile.apiConnect.enovaConnect.daos.cargo
 
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
@@ -7,7 +7,7 @@ import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
 
-class RepositoryCargo(val stateResponse: IStateResponse?) {
+class CargoDao(val stateResponse: IStateResponse?) {
 
     suspend fun getCargoInformationByEan(ean: String): Cargo? {
             val gson = Gson()
