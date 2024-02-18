@@ -1,6 +1,5 @@
 package com.example.gdemobile.apiConnect.enovaConnect.methods.cargo
 
-import com.example.gdemobile.apiConnect.enovaConnect.BaseDto
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 import com.google.gson.annotations.SerializedName

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
@@ -56,10 +54,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
                 lifecycleScope.launch {
                     idDocument = arguments?.getString(NamesSharedVariable.idDocument)
                     fillDocumentPositionInformation()
-                    sharedViewModel.addCargoOnDocument(
-                        idDocument = idDocument,
-                        documentPosition
-                    )
+
                 }
             blockDialog()
         }

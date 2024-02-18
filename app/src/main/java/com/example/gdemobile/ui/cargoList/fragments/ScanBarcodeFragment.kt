@@ -187,10 +187,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                 documentPosition?.cargo = deffered.await()
                 if (Config.fastAddingDocumentPosition) {
                     sharedViewModel.stateResponse = addCargoSateResult
-                    sharedViewModel.addCargoOnDocument(
-                        idDocument,
-                        documentPosition
-                    )
+
                 } else {
                     binding.unlockButton.isEnabled = true;
                     val data = Bundle()

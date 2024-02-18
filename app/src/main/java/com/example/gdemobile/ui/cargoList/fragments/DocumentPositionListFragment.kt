@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 
 
 class DocumentPositionListFragment() : Fragment(), IStateResponse {
@@ -54,7 +52,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             if (intent.action == BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.stateResponse = this@DocumentPositionListFragment
-                    viewModel.refreshData()
+
                 }
             }
         }
@@ -66,7 +64,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.deleteCagoFromDocument(idDocumentPostion)
-                    viewModel.refreshData()
+
                 }
             }
         }
@@ -107,9 +105,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         requireActivity().registerReceiver(receiver, IntentFilter(BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED),
             Context.RECEIVER_NOT_EXPORTED)
         viewLifecycleOwner.lifecycleScope.launch {
-           if (viewModel.isRequiredLoadData.value == true)
-                viewModel.refreshData()
+
+
         }
+
         view?.setOnKeyListener { _, keyCode, event ->
             if(!blockScanninng) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
@@ -195,7 +194,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.stateResponse = this@DocumentPositionListFragment
-                viewModel.refreshData()
+
             }
         }
         viewModel.document.observe(viewLifecycleOwner) {
@@ -263,7 +262,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             viewModel.stateResponse = this@DocumentPositionListFragment
             viewLifecycleOwner.lifecycleScope.launch {
                 (Dispatchers.IO)
-                viewModel.refreshData()
+
                 context?.let {
                     CustomToast.showToast(
                         it,
@@ -296,12 +295,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                 withContext(coroutineContext) {
                     documentPosition.cargo = deffered.await()
                     documentPosition.let {
-                        viewModel.addCargoOnDocument(
-                            this@DocumentPositionListFragment,
-                            it,
-                            viewModel.document.value?.id!!,
-                            fastAddingCargoSateResult
-                        )
+
 
                     }
                 }

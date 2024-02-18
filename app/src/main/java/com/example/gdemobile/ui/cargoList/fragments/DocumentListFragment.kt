@@ -17,15 +17,15 @@ import com.example.gdemobile.databinding.ErrorLayoutBinding
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
+import com.example.gdemobile.ui.viewmodels.DocumentListViewModel
 import kotlinx.coroutines.launch
 
 
 class DocumentListFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentListBinding
-    private lateinit var viewModel: InssuingCargoListViewModel
+    private lateinit var viewModel: DocumentListViewModel
     private lateinit var recyclerViewAdapter: DocumentsAdapter
     private lateinit var errorLayoutBinding: ErrorLayoutBinding
 
@@ -37,23 +37,16 @@ class DocumentListFragment : Fragment(), IStateResponse {
     ): View? {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
         errorLayoutBinding = binding.errorlayout
-        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(DocumentListViewModel::class.java)
         viewModel.stateResponse = this@DocumentListFragment
         setColorsProgressSwipeLayout()
         binding.newdocumentButton.setOnClickListener {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            if(viewModel.documentListInTemp.value.isNullOrEmpty())
-                viewModel.getDocumentsInTemp()
-
-
-        }
-
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.getDocumentsInTemp()
+
             }
         }
         return binding.root
@@ -61,31 +54,15 @@ class DocumentListFragment : Fragment(), IStateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(x: Document?) {
-            viewModel.document.value = x
-            viewModel.isRequiredLoadData.value = true
-
-            findNavController().navigate(
+                       findNavController().navigate(
                 R.id.action_documentListFragment_to_cargoListFragment)}
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.recyclerViewScrollState.observe(viewLifecycleOwner, Observer { state ->
-            binding.recyclerview.layoutManager?.onRestoreInstanceState(state)
-        })
-        viewModel.documentListInTemp.observe(viewLifecycleOwner, Observer {
-            binding.recyclerview.also {
-                it.layoutManager = LinearLayoutManager(context)
-                it.setHasFixedSize(true)
-                if(viewModel.documentListInTemp.value != null) {
-                    recyclerViewAdapter =
-                        DocumentsAdapter(viewModel.documentListInTemp.value!!, listener)
-                }
-                binding.recyclerview.adapter = recyclerViewAdapter
-                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
-            }
-        })
+
+
     }
     @SuppressLint("ResourceType")
     fun setColorsProgressSwipeLayout()
@@ -93,17 +70,23 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.swipeRefreshLayout.setColorSchemeColors(resources.getInteger(R.color.orange))
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(resources.getInteger(R.color.darkGray))
     }
+fun initObservers() {
+    viewModel.documents.observe(viewLifecycleOwner, Observer {
+        binding.recyclerview.also {
+            it.layoutManager = LinearLayoutManager(context)
+            it.setHasFixedSize(true)
+            if(viewModel.documents.value != null) {
+                recyclerViewAdapter =
+                    DocumentsAdapter(viewModel.documents.value!!, listener)
+            }
+            binding.recyclerview.adapter = recyclerViewAdapter
+            (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
+        }
+    })
+}
 
-    override fun onResume() {
-        super.onResume()
-        binding.recyclerview.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState.value)
-    }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.recyclerViewScrollState.value = binding.recyclerview.layoutManager?.onSaveInstanceState()
 
-    }
 
     override fun OnLoading() {
         binding.loadinglayout.root.visibility = View.VISIBLE
