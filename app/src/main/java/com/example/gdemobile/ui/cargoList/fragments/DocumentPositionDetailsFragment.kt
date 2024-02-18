@@ -9,16 +9,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.NamesSharedVariable
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class DocumentPositionDetailsFragment : Fragment() {
@@ -62,7 +58,7 @@ class DocumentPositionDetailsFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                documentPosition.amount = s.toString().toDouble()
+
             }
         })
 

@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 
 class DocumentListViewModel: ViewModel(), IViewModel, IViewModelList {
     override var stateResponse: IStateResponse? = null
-    override val documentType: DocumentType? = null
+    override var documentType: DocumentType? = null
+    override lateinit var document: Document
     override var recyclerViewScrollState: Parcelable? = null
-
     private var _documents= MutableLiveData<List<Document>>(emptyList())
     val documents: LiveData<List<Document>>
         get() = _documents

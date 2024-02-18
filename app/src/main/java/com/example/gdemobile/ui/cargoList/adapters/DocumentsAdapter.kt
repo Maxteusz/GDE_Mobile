@@ -12,7 +12,7 @@ class DocumentsAdapter(private val documents : List<Document>, private val liste
     :  RecyclerView.Adapter<DocumentsAdapter.DocumentsViewHolder>() {
 
     interface CustomViewHolderListener{
-        fun onCustomItemClicked(x: Document?)
+        fun onCustomItemClicked(document: Document)
     }
 
     inner class DocumentsViewHolder(

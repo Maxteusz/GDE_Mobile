@@ -40,7 +40,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-black"
-            android:text= "@{cargo.cargo.code}"
+            android:maxLines="2"
+            android:maxWidth="200dp"
+            android:text= "@{cargo.cargo.name}"
             android:textColor="@color/orange"
             android:textSize="15sp" />
 
@@ -61,7 +63,7 @@
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif"
                 android:maxLength="25"
-                android:text= "@{cargo.valuePerUnit.toString() + '/' + cargo.unit.name}"
+                android:text= "@{cargo.perUnitString}"
                 android:textColor="@color/lightGray"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -79,7 +81,7 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/lightGray"
-            android:text= "@{cargo.amountFullInfo}" />
+            android:text= "@{cargo.amount.toString()}" />
             <ImageView
                 android:id="@+id/delete_image"
                 android:layout_width="40dp"

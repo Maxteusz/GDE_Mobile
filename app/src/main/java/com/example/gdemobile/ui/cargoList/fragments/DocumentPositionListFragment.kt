@@ -3,12 +3,10 @@ package com.example.gdemobile.ui.cargoList.fragments
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,15 +24,12 @@ import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
+import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.utils.BroadcasReceiverIntentActions
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.NamesSharedVariable
 import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -43,7 +38,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     private lateinit var documentPositionAdapter: DocumentPositionAdapter
     private lateinit var binding: FragmentDocumentpositionListBinding
-    private lateinit var viewModel: InssuingCargoListViewModel
+    private lateinit var viewModel: DocumentPositionsViewModel
     private lateinit var deffered: Deferred<Cargo?>
     private  var blockScanninng = false;
 
@@ -63,7 +58,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.deleteCagoFromDocument(idDocumentPostion)
+
 
                 }
             }
@@ -72,12 +67,6 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private val listenerDocumentPostionDetails =
         object : DocumentPositionAdapter.DetailCargoViewHolderListener {
             override fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition) {
-                val data = Bundle()
-                data.putSerializable(NamesSharedVariable.documentPosition, documentPosition)
-                findNavController().navigate(
-                    R.id.action_cargoListFragment_to_documentPositionDetailsFragment,
-                    data
-                )
             }
         }
 
@@ -85,13 +74,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         binding = FragmentDocumentpositionListBinding.inflate(layoutInflater);
         binding.lifecycleOwner = this
-        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
         viewModel.stateResponse = this
-
         return binding.root
     }
 
@@ -102,36 +88,14 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         view?.isFocusableInTouchMode = true;
         view?.requestFocus();
         viewModel.stateResponse = this
-        requireActivity().registerReceiver(receiver, IntentFilter(BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED),
-            Context.RECEIVER_NOT_EXPORTED)
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.getDocumentPositions()
 
-
-        }
-
-        view?.setOnKeyListener { _, keyCode, event ->
-            if(!blockScanninng) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                    viewModel.stateResponse = addCargoSateResult
-                    blockScanninng = true
-                    deffered = viewLifecycleOwner.lifecycleScope.async {
-                        return@async viewModel.getCargoInformationByEan(viewModel.scannedBarcode.value.toString())
-                    }
-                    viewModel.scannedBarcode.value = ""
-                } else if (event.action == KeyEvent.ACTION_DOWN) {
-                    viewModel.scannedBarcode.value += event.unicodeChar.toChar()
-
-                }
-            }
-
-            false
-        }
 
     }
 
     override fun onPause() {
         super.onPause()
-        requireActivity().unregisterReceiver(receiver)
+
     }
 
     @Deprecated("Deprecated in Java")
@@ -142,7 +106,6 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             findNavController().navigate(R.id.action_cargoListFragment_to_configmDocumentDialog)
         }
         binding.cameraButton.setOnClickListener {
-            viewModel.isRequiredLoadData.value = true
             findNavController().navigate(
                 R.id.action_cargoListFragment_to_scanBarcodeFragment,
                 )
@@ -179,9 +142,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                 viewLifecycleOwner.lifecycleScope.launch {
                     withContext(coroutineContext)
                     {
-                        viewModel.document.value?.documentPositions =
-                            viewModel.filtrDocumentPosition(s.toString())!!
-                        //viewModel.document.value?.let { viewModel.updateDocument(it) }
+
                     }
                 }
 
@@ -197,12 +158,12 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
             }
         }
-        viewModel.document.observe(viewLifecycleOwner) {
+        viewModel.documentPositions.observe(viewLifecycleOwner) {
             binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
                 documentPositionAdapter = DocumentPositionAdapter(
-                    viewModel.document.value?.documentPositions?.toMutableList()!!,
+                    viewModel.documentPositions.value?.toMutableList()!!,
                     listener,
                     listenerDocumentPostionDetails
                 )
@@ -259,18 +220,14 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         }
 
         override fun OnSucces() {
-            viewModel.stateResponse = this@DocumentPositionListFragment
-            viewLifecycleOwner.lifecycleScope.launch {
-                (Dispatchers.IO)
-
                 context?.let {
                     CustomToast.showToast(
                         it,
                         ToastMessages.correctCargoAdded,
                         CustomToast.Type.Information
                     )
-                }
-                blockScanninng = false
+
+
 
 
             }

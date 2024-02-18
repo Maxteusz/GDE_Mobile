@@ -42,12 +42,12 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
-        override fun onCustomItemClicked(x: Document?) {
+        override fun onCustomItemClicked(document: Document) {
+            viewModel.document = document
             findNavController().navigate(
                 R.id.action_documentListFragment_to_cargoListFragment
             )
         }
-
     }
 
 
@@ -88,11 +88,13 @@ class DocumentListFragment : Fragment(), IStateResponse {
         super.onResume()
         if(viewModel.documents.value?.isEmpty() == true)
         viewModel.getDocuments()
-        binding.recyclerview.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)
+        binding.recyclerview
+            .layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)
     }
     override fun onPause() {
         super.onPause()
-        viewModel.recyclerViewScrollState = binding.recyclerview.layoutManager?.onSaveInstanceState()
+        viewModel.recyclerViewScrollState =
+            binding.recyclerview.layoutManager?.onSaveInstanceState()
 
     }
 

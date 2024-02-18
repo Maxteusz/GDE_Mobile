@@ -45,7 +45,7 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
         sharedViewModel.stateResponse = this
         binding.confirmButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                sharedViewModel.document.value?.id?.let { it1 -> sharedViewModel.confirmDocument(it1) }
+                //sharedViewModel.document.value?.id?.let { it1 -> sharedViewModel.confirmDocument(it1) }
 
             }
 

@@ -6,7 +6,7 @@ class Currency(
 
     @SerializedName("Wartosc")
     val value : Double = 0.0,
-    @SerializedName("SymbolWaluty")
+    @SerializedName("Symbol")
     val symbol : String = "PLN"
 ) {
 
@@ -16,8 +16,8 @@ class Currency(
 
     override fun toString(): String {
         return "$value $symbol"
-
     }
+
 
 }
 

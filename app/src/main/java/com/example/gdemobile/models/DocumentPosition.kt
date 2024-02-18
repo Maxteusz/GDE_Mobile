@@ -5,19 +5,16 @@ import java.io.Serializable
 
 class DocumentPosition () : Serializable {
     @SerializedName("Ilosc")
-    var amount: Double = 0.0
-    @SerializedName("CenaJednostkowa")
-    lateinit var valuePerUnit: Currency
+    var amount: Quantity =  Quantity()
+   @SerializedName("CenaZaSztuke")
+     var valuePerUnit: Currency = Currency()
+
     @SerializedName("Id")
     val  id: Int = 0
     @SerializedName("Towar")
     var cargo : Cargo? = null
-    @SerializedName("Jednostka")
-    var unit : Cargo.Unit? = null
 
-
-
-    fun getAmountFullInfo () = amount.toString()  + " " + unit?.name
+    fun getPerUnitString(): String = "$valuePerUnit \\ ${amount.symbol}"
     fun getAmountValue () = amount.toString()
 
 

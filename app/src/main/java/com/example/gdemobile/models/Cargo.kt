@@ -7,8 +7,8 @@ import java.io.Serializable
 
 open class Cargo(
     @SerializedName("Id")
-    val id: String?,
-    @SerializedName("KodTowaru")
+    val id: Int,
+    @SerializedName("Kod")
     val code: String?,
     @SerializedName("Nazwa")
     val name: String?,
@@ -19,11 +19,10 @@ open class Cargo(
     val mainUnit = Unit()
     @SerializedName("DozwoloneJednostki")
     val additionalUnits = listOf(Unit())
-    @SerializedName("Ceny")
-    val prices  = listOf(Price())
+
 
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
+        parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -40,7 +39,7 @@ open class Cargo(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
+        parcel.writeInt(id)
         parcel.writeString(code)
         parcel.writeString(name)
         parcel.writeString(barcode)

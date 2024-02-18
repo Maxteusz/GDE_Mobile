@@ -1,16 +1,14 @@
 package com.example.gdemobile.ui.cargoList
 
+
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
-import com.example.gdemobile.apiConnect.enovaConnect.daos.DocumentPosition.DocumentPositionDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.contractor.ContractorDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
-
-
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentdefinitions.GetDocumentDefinitions
 import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Cargo
@@ -90,11 +88,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
 
-    suspend fun getDocumentPositions(idDocument: Int): List<DocumentPosition>? {
-        return DocumentPositionDao(stateResponse).getDocumentPositions(idDocument)
 
-
-    }
 
     suspend fun getCargoInformationByEan(ean: String): Cargo? {
         return CargoDao(stateResponse).getCargoInformationByEan(ean)

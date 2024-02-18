@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 class Document() : Serializable, Parcelable {
 
     @SerializedName("Id")
-    var id : String = ""
+    var id : Int = 0
     @SerializedName("NumerDokumentu", alternate = arrayOf("Numer"))
     var number : String = ""
     @SerializedName("Kontrahent")
@@ -26,7 +26,7 @@ class Document() : Serializable, Parcelable {
     var documentPositions = mutableListOf<DocumentPosition>()
 
     constructor(parcel: Parcel) : this() {
-        id = parcel.readString()!!
+        id = parcel.readInt()
         number = parcel.readString()!!
         date = parcel.readString()!!
         describe = parcel.readString()!!
@@ -34,7 +34,7 @@ class Document() : Serializable, Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
+        parcel.writeInt(id)
         parcel.writeString(number)
         parcel.writeString(date)
         parcel.writeString(describe)

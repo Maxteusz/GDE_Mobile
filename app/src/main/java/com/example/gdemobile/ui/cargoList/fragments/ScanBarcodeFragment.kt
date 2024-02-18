@@ -59,7 +59,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
             ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
         sharedViewModel.stateResponse = this
 
-        idDocument = sharedViewModel.document.value?.id!!
+        //idDocument = sharedViewModel.document.value?.id!!
 
 
         return binding.root

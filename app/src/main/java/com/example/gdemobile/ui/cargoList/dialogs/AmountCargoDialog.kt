@@ -63,7 +63,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
 
     fun fillDocumentPositionInformation() {
 
-        documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
+        /*documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         documentPosition?.unit =
             documentPosition?.cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }
         documentPosition!!.amount = binding.amountEdittext.text.toString().toDouble()
@@ -71,7 +71,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
             binding.valueEdittext.text.toString().toDouble(),
             binding.currencysymbolSpinner.text.toString()
 
-        )
+        )*/
     }
 
     fun checkValidationViews(): Boolean {
