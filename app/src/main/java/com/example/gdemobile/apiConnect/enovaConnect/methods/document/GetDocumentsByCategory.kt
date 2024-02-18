@@ -1,9 +1,7 @@
 package com.example.gdemobile.apiConnect.enovaConnect.methods.document
 
-import com.example.gdemobile.apiConnect.enovaConnect.BaseDto
-import com.example.gdemobile.apiConnect.enovaConnect.IDto
-import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
-import com.example.gdemobile.helpers.DocumentType
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 
 class GetDocumentsByCategory(val documentType : String) : IConnectEnovaMethod {
 
@@ -13,5 +11,5 @@ class GetDocumentsByCategory(val documentType : String) : IConnectEnovaMethod {
     override val dto: IDto
         get() = Dto(documentType)
 
-      private class Dto(documentType : String) : BaseDto(),IDto
+      private class Dto(documentType : String) :  IDto
 }

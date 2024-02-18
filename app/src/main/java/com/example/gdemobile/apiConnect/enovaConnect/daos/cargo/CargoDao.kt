@@ -1,7 +1,7 @@
 package com.example.gdemobile.apiConnect.enovaConnect.daos.cargo
 
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
-import com.example.gdemobile.apiConnect.enovaConnect.methods.GetCargoByEAN
+import com.example.gdemobile.apiConnect.enovaConnect.methods.cargo.GetCargoByEAN
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson

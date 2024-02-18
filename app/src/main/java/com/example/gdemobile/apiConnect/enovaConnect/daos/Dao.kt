@@ -1,13 +1,11 @@
 package com.example.gdemobile.apiConnect.enovaConnect.daos
 
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
-import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
-import java.lang.Exception
-import java.net.ConnectException
 
 
 abstract class Dao(val stateResponse: IStateResponse?) {

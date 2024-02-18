@@ -1,7 +1,7 @@
 package com.example.gdemobile.apiConnect.enovaConnect
 
 import com.example.gdemobile.config.Config
-import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
 import com.google.gson.annotations.SerializedName
 
 class RequestDto(connectionMethod: IConnectEnovaMethod) {
@@ -21,9 +21,9 @@ class RequestDto(connectionMethod: IConnectEnovaMethod) {
     private var _methodName: String = connectionMethod.methodName
 
     @SerializedName("MethodArgs")
-    private var methodArgsDto: MethodArgs = MethodArgs(connectionMethod.dto!!)
+    private var methodArgsDto  = connectionMethod.dto
 
-    private class MethodArgs (@SerializedName("dto")val dto : IDto)
+
 
 }
 

@@ -1,27 +1,22 @@
 package com.example.gdemobile.ui.cargoList
 
 import android.os.Parcelable
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.daos.DocumentPosition.DocumentPositionDao
-import com.example.gdemobile.apiConnect.enovaConnect.methods.AddDocumentPosition
-import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.DeleteDocumentPositions
-import com.example.gdemobile.apiConnect.enovaConnect.methods.GetDocumentDefinitions
-import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.GetDocumentPositions
-import com.example.gdemobile.apiConnect.enovaConnect.daos.RepositoryCargo
-import com.example.gdemobile.apiConnect.enovaConnect.daos.RepositoryContractor
+import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
+import com.example.gdemobile.apiConnect.enovaConnect.daos.contractor.ContractorDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
-import com.example.gdemobile.config.Config
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.DeleteDocumentPositions
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentdefinitions.GetDocumentDefinitions
 import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.models.Price.PriceNames
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.viewModels.ActionType
 import com.example.gdemobile.ui.cargoList.viewModels.IShowAmountDialog
@@ -102,7 +97,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
     suspend fun getCargoInformationByEan(ean: String): Cargo? {
-        return RepositoryCargo(stateResponse).getCargoInformationByEan(ean)
+        return CargoDao(stateResponse).getCargoInformationByEan(ean)
 
     }
 
@@ -112,7 +107,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
     suspend fun getContractors() {
         _contractors.postValue(emptyList())
-        _contractors.postValue(RepositoryContractor(stateResponse).getContractors())
+        _contractors.postValue(ContractorDao(stateResponse).getContractors())
     }
 
 
@@ -131,8 +126,8 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
 
-    suspend fun addCargoOnDocument(
-        fragment: Fragment,
+    suspend fun addCargoOnDocument(){}
+       /* fragment: Fragment,
         documentPosition: DocumentPosition,
         idDocument: String,
         fastAddingStateResponse: IStateResponse
@@ -144,11 +139,11 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
                 documentPosition
             )
         } else
-            showAmountDialog(fragment, idDocument, documentPosition)
+            showAmountDialog(fragment, idDocument, documentPosition)*/
     }
 
-    suspend fun addCargoOnDocument(
-        idDocument: String?,
+    suspend fun addCargoOnDocument() {}
+      /*  idDocument: String?,
         documentPosition: DocumentPosition?
     ) {
 
@@ -168,15 +163,15 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
                 documentPosition?.valuePerUnit
             )
 
-        )
-    }
+        )*/
 
-    suspend fun refreshData() {
-        document.value?.documentPositions =
+
+    suspend fun refreshData() {}
+     /*   document.value?.documentPositions =
             getDocumentPositions(document.value?.id!!)
-        _document.postValue(_document.value)
-    }
-}
+        _document.postValue(_document.value)*/
+
+
 
 
 

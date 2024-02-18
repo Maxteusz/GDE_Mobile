@@ -1,7 +1,7 @@
 package com.example.gdemobile.apiConnect.enovaConnect.daos.DocumentPosition
 
 import com.example.gdemobile.apiConnect.enovaConnect.daos.Dao
-import com.example.gdemobile.apiConnect.enovaConnect.methods.AddDocumentPosition
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions.AddDocumentPosition
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.DeleteDocumentPositions
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.GetDocumentPositions
 import com.example.gdemobile.models.DocumentPosition

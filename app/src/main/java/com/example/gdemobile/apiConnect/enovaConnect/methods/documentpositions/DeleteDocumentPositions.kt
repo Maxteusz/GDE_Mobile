@@ -1,8 +1,7 @@
 package com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions
 
-import com.example.gdemobile.apiConnect.enovaConnect.BaseDto
-import com.example.gdemobile.apiConnect.enovaConnect.IDto
-import com.example.gdemobile.apiConnect.enovaConnect.methods.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 import com.google.gson.annotations.SerializedName
 
 class DeleteDocumentPositions(val idDocumentPosition: Int) : IConnectEnovaMethod {
@@ -13,5 +12,5 @@ class DeleteDocumentPositions(val idDocumentPosition: Int) : IConnectEnovaMethod
     override val dto: IDto
         get() = Dto(idDocumentPosition)
 
-    private class Dto(@SerializedName("IdPozycji") val idDocumentPosition: Int) : BaseDto(), IDto
+    private class Dto(@SerializedName("IdPozycji") val idDocumentPosition: Int) : IDto
 }

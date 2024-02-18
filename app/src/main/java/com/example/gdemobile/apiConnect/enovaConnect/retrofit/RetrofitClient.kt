@@ -1,4 +1,4 @@
-package com.example.gdemobile.apiConnect.enovaConnect
+package com.example.gdemobile.apiConnect.enovaConnect.retrofit
 
 import com.example.gdemobile.config.Config
 import com.google.gson.GsonBuilder

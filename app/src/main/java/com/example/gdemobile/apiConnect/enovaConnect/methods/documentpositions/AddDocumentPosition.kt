@@ -1,6 +1,7 @@
-package com.example.gdemobile.apiConnect.enovaConnect.methods
+package com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions
 
-import com.example.gdemobile.apiConnect.enovaConnect.IDto
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
+import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 import com.example.gdemobile.models.DocumentPosition
 
 
