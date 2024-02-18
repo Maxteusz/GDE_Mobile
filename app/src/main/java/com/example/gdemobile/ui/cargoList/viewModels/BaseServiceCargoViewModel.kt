@@ -9,7 +9,8 @@ import com.example.gdemobile.apiConnect.enovaConnect.daos.DocumentPosition.Docum
 import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.contractor.ContractorDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
-import com.example.gdemobile.apiConnect.enovaConnect.methods.documentPositions.DeleteDocumentPositions
+
+
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentdefinitions.GetDocumentDefinitions
 import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Cargo
@@ -18,7 +19,6 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.viewModels.ActionType
 import com.example.gdemobile.ui.cargoList.viewModels.IShowAmountDialog
 import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
@@ -28,7 +28,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
      var stateResponse: IStateResponse? = null
-    lateinit var actionType: ActionType
+
     private var _document = MutableLiveData<Document>()
     private val _scannedCargoCopy = mutableListOf<DocumentPosition>()
     private var _contractors = MutableLiveData<List<Contractor>?>(emptyList())
@@ -117,12 +117,12 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
 
 
     suspend fun deleteCagoFromDocument(idDocumentPosition: Int) {
-        stateResponse?.let {
+        /*stateResponse?.let {
             ConnectService(it)
                 .makeConnection<Any>(
                     DeleteDocumentPositions(idDocumentPosition)
                 )
-        }
+        }*/
     }
 
 

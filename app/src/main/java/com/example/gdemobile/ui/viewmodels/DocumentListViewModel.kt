@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.viewmodels
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,9 +11,11 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch
 
-class DocumentListViewModel: ViewModel(), IViewModel {
+class DocumentListViewModel: ViewModel(), IViewModel, IViewModelList {
     override var stateResponse: IStateResponse? = null
     override val documentType: DocumentType? = null
+    override var recyclerViewScrollState: Parcelable? = null
+
     private var _documents= MutableLiveData<List<Document>>(emptyList())
     val documents: LiveData<List<Document>>
         get() = _documents
@@ -25,5 +28,7 @@ class DocumentListViewModel: ViewModel(), IViewModel {
              })
          }
     }
+
+
 
 }
