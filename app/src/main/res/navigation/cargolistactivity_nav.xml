@@ -9,10 +9,6 @@
         android:id="@+id/documentPostionListFragment"
         android:name="com.example.gdemobile.ui.cargoList.fragments.DocumentPositionListFragment"
         android:label="CargoListFragment">
-        <argument
-            android:name="document"
-            app:argType="com.example.gdemobile.models.Document"
-            app:nullable="true" />
 
         <action
             android:id="@+id/action_cargoListFragment_to_scanBarcodeFragment"
@@ -47,14 +43,9 @@
         android:name="com.example.gdemobile.ui.cargoList.fragments.ScanBarcodeFragment"
         android:label="fragment_scan_barcode"
         tools:layout="@layout/fragment_scan_barcode">
-        <argument
-            android:name="document"
-            app:argType="com.example.gdemobile.models.Document"
-            app:nullable="true" />
         <action
             android:id="@+id/action_scanBarcodeFragment_to_cargoListFragment"
-            app:destination="@id/documentPostionListFragment"
-            app:popEnterAnim="@animator/nav_default_enter_anim" />
+            app:destination="@id/documentPostionListFragment" />
         <action
             android:id="@+id/action_scanBarcodeFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
@@ -95,9 +86,7 @@
         android:label="ContractorListFragment">
         <action
             android:id="@+id/action_contractorListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/documentDetailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/amountCargoDialog"
@@ -125,15 +114,13 @@
 
         <action
             android:id="@+id/action_documentListFragment_to_cargoListFragment"
-            app:destination="@id/documentPostionListFragment"
-            app:enterAnim="@android:anim/slide_in_left">
+            app:destination="@id/documentPostionListFragment">
 
 
         </action>
         <action
             android:id="@+id/action_documentListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment"
-            app:enterAnim="@android:anim/slide_in_left" />
+            app:destination="@id/documentDetailsFragment" />
 
 
     </fragment>

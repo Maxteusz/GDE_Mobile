@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
 import com.example.gdemobile.ui.viewmodels.DocumentListViewModel
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
 class DocumentListFragment : Fragment(), IStateResponse {
@@ -24,6 +26,8 @@ class DocumentListFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentListBinding
     private lateinit var viewModel: DocumentListViewModel
     private lateinit var recyclerViewAdapter: DocumentsAdapter
+
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
 
 
@@ -43,7 +47,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
 
     val listener = object : DocumentsAdapter.CustomViewHolderListener {
         override fun onCustomItemClicked(document: Document) {
-            viewModel.document = document
+           sharedViewModel.setDocument(document)
             findNavController().navigate(
                 R.id.action_documentListFragment_to_cargoListFragment
             )

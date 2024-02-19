@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/darkGray">
+            android:background="@color/darkGray"
+            android:orientation="vertical">
 
             <!--OnSuccesLayout-->
             <LinearLayout
@@ -32,8 +32,8 @@
                     android:layout_height="70dp"
                     android:focusable="true"
                     app:cardBackgroundColor="@color/darkGray"
-                    app:rippleColor="@color/orange"
-                    app:cardElevation="0dp">
+                    app:cardElevation="0dp"
+                    app:rippleColor="@color/orange">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -51,15 +51,14 @@
                             android:layout_marginBottom="5dp"
                             android:focusableInTouchMode="false"
                             android:hint="Wyszukaj"
-
                             app:endIconDrawable="@drawable/baseline_clear_24"
                             app:endIconMode="custom">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/search_textfield"
                                 android:layout_width="match_parent"
-                                android:textColor="@color/lightGray"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/lightGray" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -73,8 +72,7 @@
                         android:id="@+id/cargos_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:nestedScrollingEnabled="false" />
+                        android:layout_marginTop="5dp"/>
 
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -83,14 +81,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="85dp"
-                        app:fabCustomSize="50dp"
-                        app:maxImageSize="20dp"
-                        app:elevation="5dp"
                         app:backgroundTint="@color/orange"
-                        android:outlineSpotShadowColor="@color/orange"
-                        app:srcCompat="@drawable/outline_camera_alt_25"
+                        app:elevation="5dp"
+                        app:fabCustomSize="50dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:maxImageSize="20dp"
+                        app:srcCompat="@drawable/outline_camera_alt_25">
 
                     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -100,15 +97,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
                         android:layout_marginBottom="15dp"
-                        app:fabCustomSize="60dp"
-                        app:tint="@color/darkGray"
-                        app:maxImageSize="40dp"
-                        app:elevation="8dp"
                         android:outlineSpotShadowColor="@color/orange"
                         app:backgroundTint="@color/orange"
-                        app:srcCompat="@drawable/baseline_chevron_right_35"
+                        app:elevation="8dp"
+                        app:fabCustomSize="60dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:maxImageSize="40dp"
+                        app:srcCompat="@drawable/baseline_chevron_right_35"
+                        app:tint="@color/darkGray">
 
                     </com.google.android.material.floatingactionbutton.FloatingActionButton>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,7 +143,7 @@
                             android:layout_height="60dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:src="@drawable/baseline_signal_wifi_bad_24"></ImageView>
+                            android:src="@drawable/baseline_signal_wifi_bad_24" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -166,7 +163,7 @@
                             android:layout_height="50dp"
                             android:layout_gravity="end"
                             android:layout_marginTop="15dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="Odśwież"
                             android:textSize="11sp"
