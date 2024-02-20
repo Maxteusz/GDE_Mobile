@@ -16,23 +16,26 @@ class DocumentPositionsViewModel() : ViewModel(), IViewModel, IViewModelList {
     override var stateResponse: IStateResponse? = null
 
     override var recyclerViewScrollState: Parcelable? = null
-    private var _documentPositions= MutableLiveData<List<DocumentPosition>>(emptyList())
+    private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
     val documentPositions: MutableLiveData<List<DocumentPosition>>
         get() = _documentPositions
 
-     fun getDocumentPositions(document : Document) {
-         _documentPositions.value = emptyList()
+    fun getDocumentPositions(document: Document) {
+        _documentPositions.value = emptyList()
         viewModelScope.launch {
-             _documentPositions
-                 .postValue(
+            _documentPositions
+                .postValue(
                     DocumentPositionDao(stateResponse)
-                     .getDocumentPositions(document.id))
-        }
-
-
+                        .getDocumentPositions(document.id)
+                )}
     }
 
-
+    fun addDocumentPosition(documentPosition: DocumentPosition, document: Document) {
+        viewModelScope.launch {
+            DocumentPositionDao(stateResponse)
+                .addDocumentPosition(documentPosition,document)
+        }
+    }
 
 
 }

@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
+import com.example.gdemobile.ui.cargoList.core.AddingDocumentPosition
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.launch
@@ -72,6 +74,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onResume() {
         super.onResume()
+        initKeyListener()
         view?.isFocusableInTouchMode = true;
         view?.requestFocus()
     }
@@ -130,7 +133,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
 
     }
-    fun initObservers()
+    private fun initObservers()
     {
         viewModel.documentPositions.observe(viewLifecycleOwner) {
             binding.cargosRecyclerview.also {
@@ -150,7 +153,22 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         }
     }
 
+    private fun initKeyListener()
+    {
+        view?.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        AddingDocumentPosition(sharedViewModel, viewModel, requireContext())
+                            .addDocumentPosition("123")
+                    }
 
+
+            }
+
+            false
+        }
+
+    }
     override fun OnLoading() {
         binding.succeslayout.visibility = View.GONE
         binding.errorlayout.visibility = View.GONE

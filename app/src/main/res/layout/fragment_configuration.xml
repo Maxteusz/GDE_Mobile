@@ -39,7 +39,7 @@
             </TextView>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/ConfigurationFragmentTextInputStyle"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -47,14 +47,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ip_textedit"
-                    style="@style/ConfigurationFragmentEditTextStyle"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{config.Companion.ip}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/ConfigurationFragmentTextInputStyle"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -62,7 +62,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/port_textedit"
-                    style="@style/ConfigurationFragmentEditTextStyle"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -80,7 +80,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/ConfigurationFragmentTextInputStyle"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -88,14 +88,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username_textedit"
-                    style="@style/ConfigurationFragmentEditTextStyle"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{config.Companion.usernameERP}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/ConfigurationFragmentTextInputStyle"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -103,7 +103,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_textedit"
-                    style="@style/ConfigurationFragmentEditTextStyle"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
 
                     android:layout_height="wrap_content"

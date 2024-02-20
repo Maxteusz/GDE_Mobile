@@ -9,12 +9,15 @@
         <item name="cornerSizeBottomLeft">20dp</item>
     </style>
 
-    <style name="ConfigurationFragmentTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="CustomTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/color_stroke_conf_fragment</item>
         <item name="android:textColorHint">@color/lightGray</item>
     </style>
 
-    <style name="ConfigurationFragmentEditTextStyle" parent="ThemeOverlay.Material3.TextInputEditText">
+    <style name="CustomEditTextStyle" parent="ThemeOverlay.Material3.TextInputEditText">
         <item name="android:textColor">@color/lightGray</item>
     </style>
+
+
+
 </resources>
