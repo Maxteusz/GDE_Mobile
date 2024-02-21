@@ -5,44 +5,23 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-open class Cargo(
+open class Cargo() : Serializable, Parcelable{
     @SerializedName("Id")
-    val id: Int,
+    val id: Int = 0
     @SerializedName("Kod")
-    val code: String?,
+    val code: String = ""
     @SerializedName("Nazwa")
-    val name: String?,
-    @SerializedName("KodEan")
-    val barcode: String?
-) : Serializable, Parcelable{
+    val name: String = ""
     @SerializedName("JednostkaPodstawowa")
-    val mainUnit = Unit()
-    @SerializedName("DozwoloneJednostki")
-    val additionalUnits = listOf(Unit())
+    val mainUnit : String = ""
+    lateinit var EAN : String
 
-
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString()
-    ) {
-    }
-
-
-    class Unit()
-    {
-        @SerializedName("Id")
-        var id : String = ""
-        @SerializedName("Nazwa")
-        val name = ""
+    constructor(parcel: Parcel) : this() {
+        EAN = parcel.readString().toString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(code)
-        parcel.writeString(name)
-        parcel.writeString(barcode)
+        parcel.writeString(EAN)
     }
 
     override fun describeContents(): Int {
@@ -58,4 +37,6 @@ open class Cargo(
             return arrayOfNulls(size)
         }
     }
+
+
 }

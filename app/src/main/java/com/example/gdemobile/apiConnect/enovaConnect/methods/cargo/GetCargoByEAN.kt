@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 
 class GetCargoByEAN(private val ean : String) : IConnectEnovaMethod {
     override val methodName: String
-        get() = "PobierzInfoTowaruPoKodzieEan"
+        get() = "PobierzTowar"
     override val methodService: String
-        get() = "GdeApi.ITowaryService, GdeApi"
+        get() = "APIEnova.Services.ITowarService, APIEnova"
     override val dto: IDto
         get() = Dto(ean)
 
-    private class Dto(@SerializedName("KodEan") val ean: String) :  IDto
+    private class Dto(@SerializedName("dto") val ean: String) :  IDto
 }

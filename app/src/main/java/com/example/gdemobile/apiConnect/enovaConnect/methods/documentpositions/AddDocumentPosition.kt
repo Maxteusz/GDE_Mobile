@@ -2,21 +2,19 @@ package com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions
 
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnectEnovaMethod
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
 
 
 //TODO(Adjust later to get cargo by EAN )
 class AddDocumentPosition(
     val documentPosition: DocumentPosition,
-    val document: Document
 ) : IConnectEnovaMethod {
     override val methodName: String
-        get() = "DodajPozycjeDokumentuPrzyjeciaZewnetrznegoMagazynowego"
+        get() = "DodajPozycjeDokumentu"
     override val methodService: String
-        get() = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
+        get() = "APIEnova.Services.IPozycjeDokumentuService, APIEnova"
     override val dto: IDto
-        get() = Dto(documentPosition,document.id)
+        get() = Dto(documentPosition)
 
-   private class Dto(documentPosition: DocumentPosition, documentId: Int) : IDto
+   private class Dto(documentPosition: DocumentPosition) : IDto
 }

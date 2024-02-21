@@ -11,9 +11,9 @@ import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch
 
 
-class DocumentPositionsViewModel() : ViewModel(), IViewModel, IViewModelList {
+class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel, IViewModelList {
 
-    override var stateResponse: IStateResponse? = null
+
 
     override var recyclerViewScrollState: Parcelable? = null
     private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
@@ -30,10 +30,10 @@ class DocumentPositionsViewModel() : ViewModel(), IViewModel, IViewModelList {
                 )}
     }
 
-    fun addDocumentPosition(documentPosition: DocumentPosition, document: Document) {
+    fun addDocumentPosition(documentPosition: DocumentPosition) {
         viewModelScope.launch {
             DocumentPositionDao(stateResponse)
-                .addDocumentPosition(documentPosition,document)
+                .addDocumentPosition(documentPosition)
         }
     }
 

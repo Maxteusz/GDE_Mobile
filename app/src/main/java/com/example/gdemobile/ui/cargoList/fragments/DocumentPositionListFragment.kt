@@ -158,8 +158,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         view?.setOnKeyListener { _, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        AddingDocumentPosition(sharedViewModel, viewModel, requireContext())
-                            .addDocumentPosition("123")
+                        AddingDocumentPosition(sharedViewModel,requireActivity())
+                            .getCargo("123",{
+                                findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
+                            })
                     }
 
 

@@ -8,9 +8,9 @@ import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 
-class CargoViewModel : ViewModel(), IViewModel {
+class CargoViewModel(override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel {
 
-    override var stateResponse: IStateResponse? = null
+
     fun getCargo(ean : String) : Deferred<Cargo?>
     {
         return viewModelScope.async {

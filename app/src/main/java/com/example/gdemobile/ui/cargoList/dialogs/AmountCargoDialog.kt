@@ -89,12 +89,9 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
 
 
-        val unitAdapter = ArrayAdapter(
-            requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            documentPosition?.cargo?.additionalUnits!!.map { it.name })
-        binding.unitSpinner.setAdapter(unitAdapter)
-        binding.unitSpinner.setText(documentPosition?.cargo?.mainUnit?.name)
+
+
+
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
         val currencySymbolAdapter = ArrayAdapter<String>(
             requireContext(),

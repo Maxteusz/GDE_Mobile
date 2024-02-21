@@ -16,52 +16,34 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
-import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
-import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.NamesSharedVariable
-import com.example.gdemobile.utils.ToastMessages
+import com.example.gdemobile.ui.cargoList.core.AddingDocumentPosition
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ScanBarcodeFragment : Fragment(), IStateResponse {
 
 
     private lateinit var binding: FragmentScanBarcodeBinding
-    private lateinit var sharedViewModel: InssuingCargoListViewModel
-    private var lockedScan: Boolean = false
-    private var idDocument = ""
-    private var documentPosition: DocumentPosition? = DocumentPosition()
-    private lateinit var deffered: Deferred<Cargo?>
 
+    private var lockedScan: Boolean = false
+
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater)
-        sharedViewModel =
-            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        sharedViewModel.stateResponse = this
-
-        //idDocument = sharedViewModel.document.value?.id!!
-
-
         return binding.root
     }
 
@@ -109,19 +91,17 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                         .addOnSuccessListener { barcodes ->
                             if (!barcodes.isNullOrEmpty() && !lockedScan) {
                                 val scannedCode = barcodes.first().rawValue.toString()
-                                sharedViewModel.stateResponse = this
-                                deffered = viewLifecycleOwner.lifecycleScope.async {
-                                    return@async sharedViewModel.getCargoInformationByEan(
-                                        scannedCode
-                                    )
+                                viewLifecycleOwner.lifecycleScope.launch {
+                                    AddingDocumentPosition(sharedViewModel,requireActivity()).getCargo(scannedCode, {
+                                        findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
+
+                                    })
                                 }
                                 lockScanning()
                             }
                         }
                     imageProxy.close()
-
                 }
-
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
                 try {
                     cameraProvider.unbindAll()
@@ -167,67 +147,21 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     }
 
     override fun OnLoading() {
-        binding.loadinglayout.root.visibility = View.VISIBLE
-        binding.unlockButton.isEnabled = false;
+
 
     }
 
     override suspend fun OnError(message: String) {
-        context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
-        binding.loadinglayout.root.visibility = View.GONE
-        binding.unlockButton.isEnabled = true;
+
     }
 
 
     override fun OnSucces() {
-        binding.loadinglayout.root.visibility = View.GONE
-        sharedViewModel.isRequiredLoadData.value = true
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(coroutineContext) {
-                documentPosition?.cargo = deffered.await()
-                if (Config.fastAddingDocumentPosition) {
-                    sharedViewModel.stateResponse = addCargoSateResult
-
-                } else {
-                    binding.unlockButton.isEnabled = true;
-                    val data = Bundle()
-                    data.putString(NamesSharedVariable.idDocument, idDocument)
-                    data.putSerializable(NamesSharedVariable.cargo, documentPosition?.cargo)
-                    view
-                    findNavController().navigate(
-                        R.id.action_scanBarcodeFragment_to_amountCargoDialog,
-                        data
-                    )
-                }
-
-            }
         }
 
 
     }
 
 
-    val addCargoSateResult = object : IStateResponse {
-        override fun OnLoading() {
-
-        }
-
-        override suspend fun OnError(message: String) {
-            context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
-        }
-
-        override fun OnSucces() {
-            binding.unlockButton.isEnabled = true;
-            context?.let {
-                CustomToast.showToast(
-                    it,
-                    ToastMessages.correctCargoAdded,
-                    CustomToast.Type.Information
-                )
-            }
-        }
-
-    }
 
 
-}
