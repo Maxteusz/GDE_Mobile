@@ -34,10 +34,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
 
 
     private lateinit var binding: FragmentScanBarcodeBinding
-
-    private var lockedScan: Boolean = false
-
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,9 +47,6 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         FirebaseApp.initializeApp(requireActivity())
-
-
-
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED
         )
@@ -61,10 +55,18 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             )
         binding.unlockButton.setOnClickListener {
-            if (lockedScan)
-                unlockScanning()
+            if (sharedViewModel.lockScaning.value == true)
+                sharedViewModel.unlockScanning()
             else
+                sharedViewModel.lockScanning()
+
+        }
+        sharedViewModel.lockScaning.observe(viewLifecycleOwner)
+        {
+            if (it)
                 lockScanning()
+            else
+                unlockScanning()
         }
         startCamera()
 
@@ -89,15 +91,18 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            if (!barcodes.isNullOrEmpty() && !lockedScan) {
+                            if (!barcodes.isNullOrEmpty() && !sharedViewModel.lockScaning.value!!) {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 viewLifecycleOwner.lifecycleScope.launch {
-                                    AddingDocumentPosition(sharedViewModel,requireActivity()).getCargo(scannedCode, {
+                                    AddingDocumentPosition(
+                                        sharedViewModel,
+                                        requireActivity()
+                                    ).getCargo(scannedCode, {
                                         findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
 
                                     })
                                 }
-                                lockScanning()
+                                sharedViewModel.lockScanning()
                             }
                         }
                     imageProxy.close()
@@ -135,14 +140,14 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     fun lockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
         binding.unlockButton.text = getString(R.string.blocked)
-        lockedScan = true
+
 
     }
 
     fun unlockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
         binding.unlockButton.text = getString(R.string.scanning)
-        lockedScan = false
+
 
     }
 
@@ -157,10 +162,10 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
 
 
     override fun OnSucces() {
-        }
-
-
     }
+
+
+}
 
 
 

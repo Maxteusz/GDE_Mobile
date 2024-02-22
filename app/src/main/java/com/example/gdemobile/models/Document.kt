@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class Document() : Serializable, Parcelable {
 
-    @SerializedName("Id")
+    @SerializedName("ID")
     var id : Int = 0
     @SerializedName("NumerDokumentu", alternate = arrayOf("Numer"))
     var number : String = ""

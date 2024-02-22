@@ -1,26 +1,25 @@
 package com.example.gdemobile.ui.cargoList.dialogs
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
-import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Currency
-import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.models.Quantity
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
-import com.example.gdemobile.utils.BroadcasReceiverIntentActions
+import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
-import com.example.gdemobile.utils.NamesSharedVariable
 import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
@@ -28,9 +27,8 @@ import kotlinx.coroutines.launch
 class AmountCargoDialog : DialogFragment(), IStateResponse {
 
     private lateinit var binding: FragmentAmountCargoDialogBinding
-    private lateinit var sharedViewModel: InssuingCargoListViewModel
-    private var documentPosition: DocumentPosition? = DocumentPosition()
-    private var idDocument: String? = null
+    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private lateinit var viewModel: DocumentPositionsViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -46,15 +44,15 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
         setAdapters()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        sharedViewModel =
-            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        sharedViewModel.stateResponse = this
+
+        viewModel = ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
+       viewModel.stateResponse = this
         binding.okButton.setOnClickListener {
             if (checkValidationViews())
                 lifecycleScope.launch {
-                    idDocument = arguments?.getString(NamesSharedVariable.idDocument)
                     fillDocumentPositionInformation()
-
+                   viewModel.addDocumentPosition(sharedViewModel.documentPosition.value!!,
+                       sharedViewModel.document.value?.id!!)
                 }
             blockDialog()
         }
@@ -62,16 +60,19 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
     }
 
     fun fillDocumentPositionInformation() {
-
-        /*documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
-        documentPosition?.unit =
-            documentPosition?.cargo?.additionalUnits!!.first { it.name == binding.unitSpinner.text.toString() }
-        documentPosition!!.amount = binding.amountEdittext.text.toString().toDouble()
-        documentPosition!!.valuePerUnit = Currency(
+       val documentPosition = sharedViewModel.documentPosition.value
+       Log.i("FFFFF", sharedViewModel.documentPosition.value?.cargo?.name!!)
+       documentPosition!!.amount = with(Quantity())
+        {
+            value = binding.amountEdittext.text.toString().toDouble()
+            symbol = "szt"
+            this
+        }
+        documentPosition.valuePerUnit = Currency(
             binding.valueEdittext.text.toString().toDouble(),
             binding.currencysymbolSpinner.text.toString()
 
-        )*/
+        )
     }
 
     fun checkValidationViews(): Boolean {
@@ -86,16 +87,11 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
     }
 
     fun setAdapters() {
-        documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
-
-
-
-
-
+        //documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
         val currencySymbolAdapter = ArrayAdapter<String>(
             requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            androidx.transition.R.layout.support_simple_spinner_dropdown_item,
             Currency.symbols
         )
         binding.currencysymbolSpinner.setAdapter(currencySymbolAdapter)
@@ -136,9 +132,10 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
                 CustomToast.Type.Information
             )
         }
-        val intent = Intent(BroadcasReceiverIntentActions.ACTION_AMOUNT_CARGO_DIALOG_DISMISSED)
-        requireActivity().sendBroadcast(intent)
+        sharedViewModel.unlockScanning()
         dismiss()
+
+
 
     }
 

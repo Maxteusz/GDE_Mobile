@@ -30,10 +30,10 @@ class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = n
                 )}
     }
 
-    fun addDocumentPosition(documentPosition: DocumentPosition) {
+    fun addDocumentPosition(documentPosition: DocumentPosition, documentID : Int) {
         viewModelScope.launch {
             DocumentPositionDao(stateResponse)
-                .addDocumentPosition(documentPosition)
+                .addDocumentPosition(documentPosition, documentID)
         }
     }
 

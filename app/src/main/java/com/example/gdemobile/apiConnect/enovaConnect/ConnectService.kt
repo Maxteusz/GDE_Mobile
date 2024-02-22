@@ -7,7 +7,6 @@ import com.example.gdemobile.apiConnect.enovaConnect.retrofit.RetrofitClient
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.LogTag
 import com.google.gson.Gson
-import java.lang.Exception
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -52,7 +51,7 @@ class ConnectService(
 
         }
         catch (exception: Exception) {
-            stateResponse?.OnError("Sprawdź wpisane dane do połączenia")
+            stateResponse?.OnError("Nie znany błąd")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 

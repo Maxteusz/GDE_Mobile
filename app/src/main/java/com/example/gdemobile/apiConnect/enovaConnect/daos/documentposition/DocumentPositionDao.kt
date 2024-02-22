@@ -11,8 +11,8 @@ class DocumentPositionDao(stateResponse: IStateResponse?) : Dao(
     stateResponse
 ), IDocumentPositionDao {
 
-    override suspend fun addDocumentPosition(documentPosition: DocumentPosition) {
-        request<Unit>(AddDocumentPosition(documentPosition))
+    override suspend fun addDocumentPosition(documentPosition: DocumentPosition, documentID : Int) {
+        request<Unit>(AddDocumentPosition(documentPosition, documentID))
     }
 
     override suspend fun getDocumentPositions(idDocument: Int): List<DocumentPosition>? {

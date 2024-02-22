@@ -10,8 +10,12 @@ class SharedViewModel : ViewModel() {
     private var _document = MutableLiveData<Document>()
     var document : LiveData<Document> = _document
 
-    private var _documentPosition = MutableLiveData<DocumentPosition>()
+
+    private var _documentPosition = MutableLiveData(DocumentPosition())
     var documentPosition : LiveData<DocumentPosition> = _documentPosition
+
+    private var _lockScaninng = MutableLiveData<Boolean>(false)
+    var lockScaning : LiveData<Boolean> = _lockScaninng
 
     fun setDocument(document: Document)
     {
@@ -22,5 +26,8 @@ class SharedViewModel : ViewModel() {
     {
         _documentPosition.value = documentPosition
     }
+
+    fun lockScanning() = run { _lockScaninng.value = true }
+    fun unlockScanning() = run { _lockScaninng.value = false }
 
 }

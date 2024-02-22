@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 open class Cargo() : Serializable, Parcelable{
-    @SerializedName("Id")
+    @SerializedName("ID")
     val id: Int = 0
     @SerializedName("Kod")
     val code: String = ""

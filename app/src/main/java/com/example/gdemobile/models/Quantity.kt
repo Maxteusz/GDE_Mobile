@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class Quantity {
     @SerializedName("Symbol")
-    val symbol : String = "N/n"
+    var symbol : String = "N/n"
     @SerializedName("Ilosc")
     var value : Double = 0.0
 
