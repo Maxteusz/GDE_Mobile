@@ -8,19 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
 class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
-    private lateinit var binding: ConfirmDialogBinding
-    private lateinit var sharedViewModel: InssuingCargoListViewModel
+    private lateinit var binding: com.example.gdemobile.databinding.ConfirmDialogBinding
+    private lateinit var documentViewModel : DocumentViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +43,13 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
     ): View? {
         binding = ConfirmDialogBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        sharedViewModel =
-            ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        sharedViewModel.stateResponse = this
+        documentViewModel =
+            ViewModelProvider(requireActivity()).get(DocumentViewModel::class.java)
+        documentViewModel.stateResponse = this
         binding.confirmButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                //sharedViewModel.document.value?.id?.let { it1 -> sharedViewModel.confirmDocument(it1) }
+                documentViewModel.confirmDocument(sharedViewModel.document.value!!)
+
 
             }
 
@@ -73,6 +77,7 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
         context?.let { CustomToast.showToast(it,ToastMessages.correctConfimDocument,CustomToast.Type.Information) }
         dismiss()
         activity?.finish()
+
 
 
     }

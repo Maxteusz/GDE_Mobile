@@ -6,9 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewCargoBinding
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter.CargoViewHolder
 
 class DocumentPositionAdapter(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -140,7 +141,9 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/save_button"
                     android:layout_width="100dp"
+                    android:textSize="12sp"
                     android:layout_height="50dp"
+                    app:cornerRadius="20dp"
                     android:text="Zapisz" />
             </LinearLayout>
         </LinearLayout>

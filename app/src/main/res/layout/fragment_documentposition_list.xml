@@ -98,7 +98,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
                         android:layout_marginBottom="15dp"
-                        android:outlineSpotShadowColor="@color/orange"
                         app:backgroundTint="@color/orange"
                         app:elevation="8dp"
                         app:fabCustomSize="60dp"

@@ -1,28 +1,21 @@
 package com.example.gdemobile.ui.cargoList.fragments
 
 import android.os.Bundle
-
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.size
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentDefinitionListBinding
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.ui.cargoList.adapters.DocumentDefinitionAdapter
 import kotlinx.coroutines.launch
 
 
 class DocumentDefinitionListFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
-    private lateinit var viewModel: InssuingCargoListViewModel
+
     private lateinit var adapter: DocumentDefinitionAdapter
 
     override fun onCreateView(
@@ -30,27 +23,26 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentDocumentDefinitionListBinding.inflate(layoutInflater);
+       /* binding = FragmentDocumentDefinitionListBinding.inflate(layoutInflater);
         viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.stateResponse = this
+        viewModel.stateResponse = this*/
 
         viewLifecycleOwner.lifecycleScope.launch {
-                if (viewModel.documentDefinitions.value?.isEmpty() == true)
-                   viewModel.getDocumentDefinitions()
+
         }
         return binding.root
     }
 
     val listener = object : DocumentDefinitionAdapter.ViewHolderListener {
         override fun onItemClicked(documentDefinition: DocumentDefinition) {
-            viewModel.document.value?.definition = documentDefinition
-            findNavController().popBackStack()
+
+
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.documentDefinitions.observe(viewLifecycleOwner){
+        /*viewModel.documentDefinitions.observe(viewLifecycleOwner){
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
@@ -58,7 +50,7 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
                 binding.recyclerview.adapter = adapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }
-        }
+        }*/
     }
 
     override fun OnLoading() {

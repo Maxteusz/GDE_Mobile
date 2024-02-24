@@ -21,6 +21,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="300dp"
                 android:layout_height="180dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="@color/darkGray"
                 app:cardElevation="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +35,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Czy zatwierdzić dokument?"
-                        android:textColor="@color/black"
+                        android:textColor="@color/lightGray"
                         android:textSize="16dp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,27 +47,23 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="5dp"
                         app:layout_constraintBottom_toBottomOf="parent">
 
-                        <com.google.android.material.button.MaterialButton
+                        <com.google.android.material.card.MaterialCardView
                             android:id="@+id/dissmis_button"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="10dp"
-                            android:backgroundTint="@color/red"
-                            android:text="NIE"
+                            android:backgroundTint="#222222"
                             android:layout_weight="1"
+                            app:cardCornerRadius="0dp"
                             app:layout_constraintBottom_toBottomOf="parent" />
 
-                        <com.google.android.material.button.MaterialButton
+                        <com.google.android.material.card.MaterialCardView
                             android:id="@+id/confirm_button"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="TAK"
-                            android:backgroundTint="@color/green"
+                            android:layout_height="50dp"
+                            app:cardCornerRadius="0dp"
+                            android:backgroundTint="@color/orange"
                             android:layout_weight="1" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

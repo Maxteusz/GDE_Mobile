@@ -23,7 +23,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.core.AddingDocumentPosition
+import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
@@ -94,7 +94,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                             if (!barcodes.isNullOrEmpty() && !sharedViewModel.lockScaning.value!!) {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 viewLifecycleOwner.lifecycleScope.launch {
-                                    AddingDocumentPosition(
+                                    CargoViewModel(
                                         sharedViewModel,
                                         requireActivity()
                                     ).getCargo(scannedCode, {

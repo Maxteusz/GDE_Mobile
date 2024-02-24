@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +41,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAmountCargoDialogBinding.inflate(inflater, container, false)
+        binding.cargo = sharedViewModel.documentPosition.value?.cargo
         setAdapters()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -51,21 +51,23 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
             if (checkValidationViews())
                 lifecycleScope.launch {
                     fillDocumentPositionInformation()
-                   viewModel.addDocumentPosition(sharedViewModel.documentPosition.value!!,
-                       sharedViewModel.document.value?.id!!)
+                    viewModel.addDocumentPosition(
+                        sharedViewModel.documentPosition.value!!,
+                        sharedViewModel.document.value?.id!!
+                    )
+
+                    blockDialog()
                 }
-            blockDialog()
         }
         return binding.root
     }
 
     fun fillDocumentPositionInformation() {
        val documentPosition = sharedViewModel.documentPosition.value
-       Log.i("FFFFF", sharedViewModel.documentPosition.value?.cargo?.name!!)
        documentPosition!!.amount = with(Quantity())
         {
             value = binding.amountEdittext.text.toString().toDouble()
-            symbol = "szt"
+            symbol = binding.unitSpinner.text.toString()
             this
         }
         documentPosition.valuePerUnit = Currency(
@@ -109,34 +111,31 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding.valueEdittext.isFocusable = false;
     }
 
+    fun unblockDialog() {
+        binding.amountEdittext.isClickable = true;
+        binding.amountEdittext.isFocusable = true
+        binding.currencysymbolSpinner.isClickable = true
+        binding.currencysymbolSpinner.isFocusable = true
+        binding.okButton.isClickable = true
+        binding.okButton.isFocusable = true
+        binding.unitSpinner.isClickable = true
+        binding.valueEdittext.isActivated = true
+        binding.valueEdittext.isFocusable = true
+    }
+
     override fun OnLoading() {
 
     }
 
     override suspend fun OnError(message: String) {
-        context?.let {
-            CustomToast.showToast(
-                it,
-                message,
-                CustomToast.Type.Error
-            )
-        }
-
+        unblockDialog()
+        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
 
     override fun OnSucces() {
-        context?.let {
-            CustomToast.showToast(
-                it,
-                ToastMessages.correctCargoAdded,
-                CustomToast.Type.Information
-            )
-        }
+        context?.let { CustomToast.showToast(requireActivity(),ToastMessages.correctCargoAdded,CustomToast.Type.Information) }
         sharedViewModel.unlockScanning()
         dismiss()
-
-
-
     }
 
 

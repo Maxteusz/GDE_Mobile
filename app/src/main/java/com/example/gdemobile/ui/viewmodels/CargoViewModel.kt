@@ -1,21 +1,33 @@
 package com.example.gdemobile.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
-import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.IStateResponse
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
+import com.example.gdemobile.utils.CustomToast
 
-class CargoViewModel(override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel {
+class CargoViewModel(private val sharedViewModel: SharedViewModel,
+                     private val context: Context,
+    override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel {
 
 
-    fun getCargo(ean : String) : Deferred<Cargo?>
-    {
-        return viewModelScope.async {
-            CargoDao(stateResponse).getCargoInformationByEan(ean)}
+    suspend fun getCargo(ean: String, action: () -> Unit) {
+        var cargo = CargoDao(GetCargoStateResponse(context,action)).getCargoInformationByEan(ean)
+        if(cargo != null)
+            sharedViewModel.documentPosition.value?.cargo = cargo
+    }
+    private class GetCargoStateResponse(private val context: Context, private val action: () -> Unit) :
+        IStateResponse {
+        override fun OnLoading() {}
 
+
+        override suspend fun OnError(message: String) {
+            CustomToast.showToast(context, message, CustomToast.Type.Information)
+        }
+
+        override fun OnSucces() {
+            action()
+        }
     }
 
 

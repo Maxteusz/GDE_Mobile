@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
@@ -15,10 +13,8 @@ import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.CustomToast
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -33,8 +29,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.document.value = Document()
+
 
 
     }
@@ -46,15 +41,9 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentDocumentDetailsBinding.inflate(layoutInflater)
+        binding = FragmentDocumentDetailsBinding.inflate(inflater, container, false)
 
-        var document = viewModel.document.value
-        viewModel.stateResponse = this
 
-        viewModel.document.observe(viewLifecycleOwner, Observer
-        {
-            binding.document = document
-        })
 
 
         //Section Document Definition
@@ -67,17 +56,9 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
         binding.contractorTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
 
-        binding.nextButton.setOnClickListener {
-            defferedCreateDocument = viewLifecycleOwner.lifecycleScope.async {
-                viewModel.document.value?.describe = binding.descibeTextfield.text.toString()
-                if(binding.dokdefEdittext.text.isNullOrEmpty())
-                    binding.dokdefEdittext.error = "Wybierz definicję"
-                else
-                document = viewModel.document.value?.let { it1 -> viewModel.createNewDocument(it1) }
-                return@async document
 
-            }
-        }
+
+
         
         return binding.root
     }

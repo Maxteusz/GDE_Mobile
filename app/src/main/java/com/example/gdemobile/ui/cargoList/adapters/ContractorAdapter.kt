@@ -1,18 +1,13 @@
 package com.example.gdemobile.ui.cargoList.adapters
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewContractorBinding
 import com.example.gdemobile.models.Contractor
-import com.example.gdemobile.models.DocumentDefinition
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 
 
 class ContractorAdapter (private val contractors : List<Contractor>, private var listener : ViewHolderListener )
@@ -24,7 +19,7 @@ class ContractorAdapter (private val contractors : List<Contractor>, private var
 
     }
     interface ViewHolderListener {
-        fun onItemClicked(x: Contractor)
+        fun onItemClicked(contractor: Contractor)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ContractorViewHolder(

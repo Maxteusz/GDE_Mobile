@@ -13,7 +13,6 @@ import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
-import com.example.gdemobile.ui.cargoList.InssuingCargoListViewModel
 import com.example.gdemobile.utils.NamesSharedVariable
 
 
@@ -26,12 +25,11 @@ class DocumentPositionDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(requireActivity()).get(InssuingCargoListViewModel::class.java)
-        viewModel.isRequiredLoadData.value = false
+
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
         val documentPosition =
             arguments?.getSerializable(NamesSharedVariable.documentPosition) as DocumentPosition
-        binding.documentPosition = documentPosition
+
 
 
         /* val unitAdapter = ArrayAdapter<String>(

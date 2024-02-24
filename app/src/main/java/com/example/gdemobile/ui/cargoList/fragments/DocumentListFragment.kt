@@ -17,14 +17,14 @@ import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.adapters.DocumentsAdapter
-import com.example.gdemobile.ui.viewmodels.DocumentListViewModel
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
 class DocumentListFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentListBinding
-    private lateinit var viewModel: DocumentListViewModel
+    private lateinit var viewModel: DocumentViewModel
     private lateinit var recyclerViewAdapter: DocumentsAdapter
 
     private val sharedViewModel : SharedViewModel by activityViewModels()
@@ -37,7 +37,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(requireActivity())[DocumentListViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[DocumentViewModel::class.java]
         viewModel.stateResponse = this
         initObservers()
         initComponentsMethod()

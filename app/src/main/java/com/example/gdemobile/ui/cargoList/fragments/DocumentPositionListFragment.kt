@@ -23,7 +23,7 @@ import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.adapters.DocumentPositionAdapter
-import com.example.gdemobile.ui.cargoList.core.AddingDocumentPosition
+import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.launch
@@ -158,7 +158,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         view?.setOnKeyListener { _, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        AddingDocumentPosition(sharedViewModel,requireActivity())
+                        CargoViewModel(sharedViewModel,requireActivity())
                             .getCargo("123",{
                                 findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
                             })

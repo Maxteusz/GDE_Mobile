@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 class ConfirmDocument(val idDocument: Int) : IConnectEnovaMethod {
     override val methodName: String
-        get() ="ZatwierdzDokumentPrzyjeciaZewnetrznegoMagazynowego"
+        get() ="ZatwierdzDokument"
     override val methodService: String
-        get() = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
+        get() = "APIEnova.Services.IDokumentHandlowyService, APIEnova"
     override val dto: IDto
         get() = Dto(idDocument)
 

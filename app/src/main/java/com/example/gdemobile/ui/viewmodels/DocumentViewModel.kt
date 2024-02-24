@@ -11,7 +11,7 @@ import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch
 
-class DocumentListViewModel: ViewModel(), IViewModel, IViewModelList {
+class DocumentViewModel: ViewModel(), IViewModel, IViewModelList {
     override var stateResponse: IStateResponse? = null
     override var recyclerViewScrollState: Parcelable? = null
     private var _documents= MutableLiveData<List<Document>>(emptyList())
@@ -25,6 +25,11 @@ class DocumentListViewModel: ViewModel(), IViewModel, IViewModelList {
                  )
              })
          }
+    }
+
+    suspend fun confirmDocument(document : Document)
+    {
+        stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
     }
 
 

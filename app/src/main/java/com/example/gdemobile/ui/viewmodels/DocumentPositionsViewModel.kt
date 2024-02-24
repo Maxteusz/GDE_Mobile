@@ -12,14 +12,10 @@ import kotlinx.coroutines.launch
 
 
 class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel, IViewModelList {
-
-
-
     override var recyclerViewScrollState: Parcelable? = null
     private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
     val documentPositions: MutableLiveData<List<DocumentPosition>>
         get() = _documentPositions
-
     fun getDocumentPositions(document: Document) {
         _documentPositions.value = emptyList()
         viewModelScope.launch {
