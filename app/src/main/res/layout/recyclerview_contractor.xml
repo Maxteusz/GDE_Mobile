@@ -13,14 +13,16 @@
         android:id="@+id/maincard"
         android:layout_width="match_parent"
         app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/darkGray"
+        app:rippleColor="@color/orange"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
 
             <ImageView
@@ -34,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-
                 android:orientation="vertical">
 
                 <TextView
@@ -44,7 +45,7 @@
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif"
                     android:text="@{contractor.code}"
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightGray"
                     android:textSize="16sp" />
 
                 <TextView
@@ -54,7 +55,7 @@
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif"
                     android:text="@{contractor.name}"
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightGray"
                     android:lines="1"
                     android:textSize="12sp"
                    />

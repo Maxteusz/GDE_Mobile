@@ -6,26 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
     private lateinit var viewModel: BaseServiceCargoViewModel
-    private var document: Document = Document()
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
-    private lateinit var defferedCreateDocument: Deferred<Document?>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +42,6 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
         binding = FragmentDocumentDetailsBinding.inflate(inflater, container, false)
 
-
-
-
         //Section Document Definition
         binding.dokdefTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
         binding.dokdefTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
@@ -56,10 +52,10 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
         binding.contractorTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
 
-
-
-
-        
+        sharedViewModel.document.observe(viewLifecycleOwner, Observer
+        {
+            binding.document = it
+        })
         return binding.root
     }
 
@@ -77,15 +73,8 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     override fun OnSucces() {
         binding.loadinglayout.visibility = View.GONE
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(coroutineContext) {
-                document = defferedCreateDocument.await()!!
-                viewModel.isRequiredLoadData.value = false;
-                viewModel.document.value = document
-                viewModel.isRequiredLoadData.value = false
-                findNavController().navigate(R.id.action_documentDetailsFragment_to_cargoListFragment)
-            }
-        }
+
+
     }
 
 

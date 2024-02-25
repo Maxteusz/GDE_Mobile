@@ -29,7 +29,7 @@ class DocumentDefinitionAdapter(
     )
 
     interface ViewHolderListener {
-        fun onItemClicked(x: DocumentDefinition)
+        fun onItemClicked(documentDefinition: DocumentDefinition)
     }
 
     override fun getItemCount(): Int {

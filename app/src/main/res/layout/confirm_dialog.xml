@@ -37,7 +37,6 @@
                         android:text="Czy zatwierdzić dokument?"
                         android:textColor="@color/lightGray"
                         android:textSize="16dp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -56,15 +55,39 @@
                             android:backgroundTint="#222222"
                             android:layout_weight="1"
                             app:cardCornerRadius="0dp"
-                            app:layout_constraintBottom_toBottomOf="parent" />
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/lightGray"
+                                    android:text="Nie"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/confirm_button"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             app:cardCornerRadius="0dp"
+                            app:cardElevation="0dp"
                             android:backgroundTint="@color/orange"
-                            android:layout_weight="1" />
+                            android:layout_weight="1" >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/darkGray"
+                                    android:text="Tak"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

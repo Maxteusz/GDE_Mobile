@@ -9,20 +9,17 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.ContractorListFragment">
+        tools:context=".ui.cargoList.fragments.ContractorListFragment"
+        android:background="@color/darkGray">
 
         <!--OnLoadingLayout-->
-       <LinearLayout
-           android:id="@+id/loadinglayout"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="vertical"
-           android:gravity="center">
-           <ProgressBar
-               android:id="@+id/cicular_icon"
-               android:layout_width="50dp"
-               android:layout_height="50dp"/>
-       </LinearLayout>
+
+        <include
+            android:id="@+id/loadinglayout"
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
         <!--OnSuccesLayout-->
         <LinearLayout

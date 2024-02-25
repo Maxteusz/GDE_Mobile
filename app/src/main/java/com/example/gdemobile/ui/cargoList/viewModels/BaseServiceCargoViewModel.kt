@@ -5,11 +5,9 @@ import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gdemobile.apiConnect.enovaConnect.ConnectService
 import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.contractor.ContractorDao
 import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
-import com.example.gdemobile.apiConnect.enovaConnect.methods.documentdefinitions.GetDocumentDefinitions
 import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.models.Contractor
@@ -18,8 +16,6 @@ import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.cargoList.viewModels.IShowAmountDialog
-import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
-import com.google.gson.Gson
 
 
 open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
@@ -69,7 +65,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
     }
 
     suspend fun getDocumentDefinitions() {
-        val gson = Gson()
+       /* val gson = Gson()
         val connection = stateResponse?.let { ConnectService(it) }
         var receiveList = connection?.makeConnection<List<DocumentDefinition>>(
             GetDocumentDefinitions()
@@ -77,7 +73,7 @@ open class BaseServiceCargoViewModel : ViewModel(), IShowAmountDialog {
         if (receiveList != null) {
             val convertedList = gson.fromJson<List<DocumentDefinition>>(gson.toJson(receiveList))
             _documentDefinitions.postValue((convertedList))
-        }
+        }*/
 
 
     }

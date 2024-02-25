@@ -13,22 +13,23 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.DocumentDetailsFragment">
+        tools:context=".ui.cargoList.fragments.DocumentDetailsFragment"
+        android:background="@color/darkGray">
 
         <!--OnSuccesLayout-->
         <LinearLayout
             android:id="@+id/succeslayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:visibility="visible"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dokdef_textfield"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconDrawable="@drawable/baseline_expand_more_24"
@@ -39,6 +40,7 @@
                     android:id="@+id/dokdef_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/CustomEditTextStyle"
                     android:editable="false"
                     android:singleLine="true"
                     android:focusableInTouchMode="false"
@@ -48,7 +50,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contractor_textfield"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -58,47 +60,30 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contractor_edittext"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:singleLine="true"
                     android:focusableInTouchMode="false"
-                    android:text="@{document.contractor.name}" />
+                    android:text="@{document.contractor.code}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-
                 android:hint="Opis">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/descibe_textfield"
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/date_textlayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:endIconDrawable="@drawable/baseline_expand_more_24"
-                app:endIconMode="custom"
-                android:layout_marginTop="15dp"
-                android:hint="Data utworzenia">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/date_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:text="@{document.date.toString()}" />
-            </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/next_button"
                 android:layout_width="150dp"

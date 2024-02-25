@@ -67,10 +67,8 @@ class DocumentListFragment : Fragment(), IStateResponse {
             binding.recyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                if (viewModel.documents.value != null) {
                     recyclerViewAdapter =
                         DocumentsAdapter(viewModel.documents.value!!, listener)
-                }
                 binding.recyclerview.adapter = recyclerViewAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
             }
@@ -79,6 +77,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     fun initComponentsMethod()
     {
         binding.newdocumentButton.setOnClickListener {
+            sharedViewModel.setDocument(Document())
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {

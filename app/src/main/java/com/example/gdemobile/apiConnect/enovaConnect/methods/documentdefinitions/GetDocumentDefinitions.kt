@@ -4,15 +4,14 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnect
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 import com.google.gson.annotations.SerializedName
 
-class GetDocumentDefinitions : IConnectEnovaMethod {
+class GetDocumentDefinitions(val documentType : String) : IConnectEnovaMethod {
     override val methodName: String
-        get() = "PobierzDefinicjeDokumenowPrzyjeciaMagazynowegoZewnetrznego"
+        get() = "PobierzDefinicjeDokumentuWgKategorii"
     override val methodService: String
-        get() = "GdeApi.IDokumentyPrzyjecMagazynowychService, GdeApi"
-    override val dto: IDto = Dto(0,20)
+        get() = "APIEnova.Services.IDefDokumentowService, APIEnova"
+    override val dto: IDto = Dto(documentType)
 
     private class Dto(
-        @SerializedName("Pomin") val skip: Int,
-        @SerializedName("Pobierz") val take: Int)
+        @SerializedName("typDokumentu") val documentType : String)
         : IDto
 }

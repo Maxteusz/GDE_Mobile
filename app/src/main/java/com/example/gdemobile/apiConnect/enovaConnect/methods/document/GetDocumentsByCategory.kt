@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 class GetDocumentsByCategory(val documentType : String) : IConnectEnovaMethod {
 
-    //TODO() = Change name method
+
     override val methodName: String = "PobierzDokumentyHandloweWgKategorii"
     override val methodService: String = "APIEnova.Services.IDokumentHandlowyService, APIEnova"
     override val dto: IDto

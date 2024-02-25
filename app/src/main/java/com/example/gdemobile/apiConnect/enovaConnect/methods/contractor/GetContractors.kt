@@ -7,7 +7,7 @@ class GetContractors : IConnectEnovaMethod {
     override val methodName: String
         get() = "PobierzWszystkichKontrahentow"
     override val methodService: String
-        get() = "GdeApi.IKontrahenciService, GdeApi"
+        get() = "APIEnova.Services.IKontrahentService, APIEnova"
     override val dto: IDto
         get() = Dto()
 

@@ -9,13 +9,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.DocumentDefinitionListFragment">
+        tools:context=".ui.cargoList.fragments.DocumentDefinitionListFragment"
+        android:background="@color/darkGray">
 
+        <!--OnSuccessLayout-->
         <LinearLayout
             android:id="@+id/succeslayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -26,19 +27,12 @@
         </LinearLayout>
 
         <!--OnLoadingLayout-->
-        <LinearLayout
+        <include
             android:id="@+id/loadinglayout"
+            layout="@layout/loading_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:orientation="vertical">
-
-            <ProgressBar
-                android:id="@+id/cicular_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
-        </LinearLayout>
+            android:visibility="gone" />
 
     </FrameLayout>
 </layout>
