@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.gdemobile.R
+import com.example.gdemobile.databinding.FragmentChoiceDocumentTypeBinding
 
 
 class ChoiceDocumentTypeFragment : Fragment() {
 
-
+    lateinit var binding : FragmentChoiceDocumentTypeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choice_document_type, container, false)
+        binding = FragmentChoiceDocumentTypeBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
 

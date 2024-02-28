@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentMenuBinding
+import com.example.gdemobile.helpers.DocumentType
+import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
 class MenuFragment : Fragment() {
     private lateinit var binding : FragmentMenuBinding
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,10 @@ class MenuFragment : Fragment() {
     {
         binding.confButton.setOnClickListener { findNavController().navigate(R.id.action_menuFragment_to_configurationFragment) }
         binding.receivingButton.setOnClickListener { findNavController().navigate(R.id.action_menuFragment_to_documentListFragment) }
+        binding.issuingButton.setOnClickListener {
+            sharedViewModel.documentType.mainType = DocumentType.Issuing()
+            findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
+        }
     }
 
 

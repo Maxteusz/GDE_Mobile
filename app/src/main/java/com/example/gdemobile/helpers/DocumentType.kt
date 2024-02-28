@@ -3,16 +3,21 @@ package com.example.gdemobile.helpers
 object DocumentType {
    lateinit var mainType : IMainType
 
+
     class Receiving : IMainType{
-        val inside = "PWPW"
-        val outside = "PWPW"
+        override val inside = "PWPW"
+        override val outside = "PWPW"
     }
 
     class Issuing : IMainType{
-        val inside = "PWPW"
-        val outside = "PWPW"
+        override val inside = "PWPW"
+        override val outside = "PWPW"
     }
 
 
     interface IMainType
+    {
+        val inside : String
+        val outside :  String
+    }
 }

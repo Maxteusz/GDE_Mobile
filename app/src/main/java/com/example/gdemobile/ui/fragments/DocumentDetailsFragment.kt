@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
-import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
 
@@ -21,7 +19,7 @@ import com.example.gdemobile.utils.CustomToast
 class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
-    private lateinit var viewModel: BaseServiceCargoViewModel
+
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
 
@@ -62,7 +60,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
-        viewModel.document.value = Document()
+
     }
 
     override suspend fun OnError(message: String) {

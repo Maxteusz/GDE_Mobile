@@ -13,6 +13,7 @@
         tools:context=".ui.fragments.ChoiceDocumentTypeFragment"
         android:background="@color/darkGray">
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/inside_button"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginStart="20dp"
@@ -29,6 +30,7 @@
                 android:layout_gravity="center">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/outside_button"
                     android:layout_width="140dp" android:layout_height="140dp"
                     app:cardBackgroundColor="@color/orange"
                     android:layout_marginRight="30dp"

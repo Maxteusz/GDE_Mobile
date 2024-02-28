@@ -3,12 +3,14 @@ package com.example.gdemobile.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
 
 class SharedViewModel : ViewModel() {
     private var _document = MutableLiveData<Document>()
     var document : LiveData<Document> = _document
+    var  documentType : DocumentType = DocumentType
 
 
     private var _documentPosition = MutableLiveData(DocumentPosition())

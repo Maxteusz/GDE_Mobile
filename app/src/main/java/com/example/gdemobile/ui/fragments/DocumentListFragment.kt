@@ -81,7 +81,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getDocuments()
+            viewModel.getDocuments(sharedViewModel.documentType)
         }
     }
 
@@ -90,7 +90,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     override fun onResume() {
         super.onResume()
         if(viewModel.documents.value?.isEmpty() == true)
-        viewModel.getDocuments()
+        viewModel.getDocuments(sharedViewModel.documentType)
         binding.recyclerview
             .layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)
     }

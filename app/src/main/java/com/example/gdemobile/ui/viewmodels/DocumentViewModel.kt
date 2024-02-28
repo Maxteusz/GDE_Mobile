@@ -17,11 +17,11 @@ class DocumentViewModel: ViewModel(), IViewModel, IViewModelList {
     private var _documents= MutableLiveData<List<Document>>(emptyList())
     val documents: LiveData<List<Document>>
         get() = _documents
-     fun getDocuments() {
+     fun getDocuments(documentType : DocumentType) {
          viewModelScope.launch {
              _documents.postValue(stateResponse?.let {
                  DocumentDao(it).getDocumentsByType(
-                     documentType = DocumentType.PWPW
+                     documentType = "PWPW"
                  )
              })
          }

@@ -8,18 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.cargoList.BaseServiceCargoViewModel
 import com.example.gdemobile.utils.NamesSharedVariable
 
 
 class DocumentPositionDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDocumentPositionDetailsBinding
-    private lateinit var viewModel: BaseServiceCargoViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

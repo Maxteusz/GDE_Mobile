@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.documentDefinition.DocumentDefinitionDao
-import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ class DocumentDefinitionViewModel() : ViewModel(), IViewModel {
     private var _documentDefinitions= MutableLiveData<List<DocumentDefinition>>(emptyList())
     val documentDefinitions: LiveData<List<DocumentDefinition>>
         get() = _documentDefinitions
-    fun getDocumentDefinitions(documentType: String = DocumentType.PWPW)
+    fun getDocumentDefinitions(documentType: String = "PWPW")
     {
         viewModelScope.launch {
             _documentDefinitions.postValue(DocumentDefinitionDao(stateResponse).getdDcumentDefinitions(documentType))
