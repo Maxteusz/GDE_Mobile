@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.ScanBarcodeFragment">
+        tools:context=".ui.fragments.ScanBarcodeFragment">
         <include
             android:id="@+id/loadinglayout"
             android:layout_width="match_parent"

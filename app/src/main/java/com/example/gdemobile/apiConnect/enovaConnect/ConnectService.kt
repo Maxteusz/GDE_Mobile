@@ -51,7 +51,7 @@ class ConnectService(
 
         }
         catch (exception: Exception) {
-            stateResponse?.OnError("Nie znany błąd")
+            stateResponse?.OnError("Nieznany błąd")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 

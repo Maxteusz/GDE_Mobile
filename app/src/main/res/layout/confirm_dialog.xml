@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.dialogs.ConfirmDocumentDialog">
+        tools:context=".ui.dialogs.ConfirmDocumentDialog">
 
         <LinearLayout
             android:layout_width="match_parent"

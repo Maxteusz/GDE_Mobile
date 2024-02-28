@@ -15,7 +15,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.configuration.ConfigurationFragment">
+        android:background="@color/darkGray"
+        tools:context=".ui.fragments.ConfigurationFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

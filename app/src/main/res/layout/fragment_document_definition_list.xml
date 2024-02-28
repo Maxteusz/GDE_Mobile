@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cargoList.fragments.DocumentDefinitionListFragment"
+        tools:context=".ui.fragments.DocumentDefinitionListFragment"
         android:background="@color/darkGray">
 
         <!--OnSuccessLayout-->

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/darkGray"
-            tools:context=".ui.cargoList.fragments.DocumentListFragment">
+            tools:context=".ui.fragments.DocumentListFragment">
 
             <!--OnLoadingLayout-->
             <include
