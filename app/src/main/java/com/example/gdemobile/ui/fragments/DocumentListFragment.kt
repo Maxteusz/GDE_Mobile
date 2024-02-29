@@ -89,7 +89,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     @SuppressLint("SuspiciousIndentation")
     override fun onResume() {
         super.onResume()
-        if(viewModel.documents.value?.isEmpty() == true)
+        //if(viewModel.documents.value?.isEmpty() == true)
         viewModel.getDocuments(sharedViewModel.documentType)
         binding.recyclerview
             .layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)
@@ -106,6 +106,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
+        binding.recyclerview.adapter = null
     }
 
     override suspend fun OnError(message: String) {

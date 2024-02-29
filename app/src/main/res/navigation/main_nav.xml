@@ -157,7 +157,11 @@
     <fragment
         android:id="@+id/choiceDocumentTypeFragment"
         android:name="com.example.gdemobile.ui.fragments.ChoiceDocumentTypeFragment"
-        android:label="ChoiceDocumentTypeFragment" />
+        android:label="ChoiceDocumentTypeFragment" >
+        <action
+            android:id="@+id/action_choiceDocumentTypeFragment_to_documentListFragment"
+            app:destination="@id/documentListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.gdemobile.ui.fragments.MenuFragment"

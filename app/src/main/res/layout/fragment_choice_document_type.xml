@@ -13,7 +13,6 @@
         tools:context=".ui.fragments.ChoiceDocumentTypeFragment"
         android:background="@color/darkGray">
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/inside_button"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginStart="20dp"
@@ -21,7 +20,7 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/gray">
+            app:cardBackgroundColor="@color/darkGray">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,17 +28,30 @@
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="center">
 
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/outside_button"
-                    android:layout_width="140dp" android:layout_height="140dp"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     app:cardBackgroundColor="@color/orange"
+                    app:cornerRadius="20dp"
+                    app:iconGravity="textStart"
+                    app:iconSize="80dp"
+                    app:icon="@drawable/external_link"
                     android:layout_marginRight="30dp"
-                    app:cardCornerRadius="20dp" />
+                     />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="140dp" android:layout_height="140dp"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/inside_button"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     app:cardBackgroundColor="@color/orange"
-                    app:cardCornerRadius="20dp" />
+                    app:iconGravity="textStart"
+                    app:iconSize="70dp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/internal_link">
+
+
+                </com.google.android.material.button.MaterialButton>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

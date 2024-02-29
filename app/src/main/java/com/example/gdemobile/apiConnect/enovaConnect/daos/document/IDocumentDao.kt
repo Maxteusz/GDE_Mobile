@@ -1,6 +1,5 @@
 package com.example.gdemobile.apiConnect.enovaConnect.daos.document
 
-import com.example.gdemobile.helpers.DocumentType
 import com.example.gdemobile.models.Document
 
 interface IDocumentDao {
