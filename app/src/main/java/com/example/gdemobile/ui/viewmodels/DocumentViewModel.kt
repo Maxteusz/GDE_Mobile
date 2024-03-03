@@ -27,6 +27,11 @@ class DocumentViewModel: ViewModel(), IViewModel, IViewModelList {
          }
     }
 
+    suspend fun createDocument(document : Document)
+    {
+        stateResponse?.let { DocumentDao(it).createDocument(document) }
+    }
+
     suspend fun confirmDocument(document : Document)
     {
         stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }

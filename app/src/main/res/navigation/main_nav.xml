@@ -161,6 +161,9 @@
         <action
             android:id="@+id/action_choiceDocumentTypeFragment_to_documentListFragment"
             app:destination="@id/documentListFragment" />
+        <action
+            android:id="@+id/action_choiceDocumentTypeFragment_to_documentDetailsFragment"
+            app:destination="@id/documentDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"

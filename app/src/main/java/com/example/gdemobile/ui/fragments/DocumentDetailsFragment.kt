@@ -8,17 +8,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
+import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
+import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
+import kotlinx.coroutines.launch
 
 
 class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
+    private lateinit var documentViewModel : DocumentViewModel
 
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
@@ -38,7 +45,15 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View? {
 
+        documentViewModel = ViewModelProvider(requireActivity()).get(DocumentViewModel::class.java)
+        documentViewModel.stateResponse = this
+
         binding = FragmentDocumentDetailsBinding.inflate(inflater, container, false)
+
+        if (sharedViewModel.documentType.subType in listOf(AcceptanceDocument.Internal(), IssuanceDocument.Internal())) {
+            binding.contractorEdittext.visibility = View.GONE
+            binding.contractorTextfield.visibility = View.GONE
+        }
 
         //Section Document Definition
         binding.dokdefTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
@@ -54,6 +69,15 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         {
             binding.document = it
         })
+
+        binding.nextButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.document.value?.let { it1 ->
+                documentViewModel.createDocument(
+                    it1
+                )
+            }
+        } }
         return binding.root
     }
 

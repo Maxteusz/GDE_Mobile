@@ -4,6 +4,8 @@ class AcceptanceDocument : IDocumentType {
     override var subType: ISubDocumentType? = null
 
 
+
+
     class Internal  : ISubDocumentType {
         override val symbol: String
             get() = "PWE"

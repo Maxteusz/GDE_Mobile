@@ -17,8 +17,8 @@ import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 class ChoiceDocumentTypeFragment : Fragment() {
 
-    private lateinit var binding : FragmentChoiceDocumentTypeBinding
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private lateinit var binding: FragmentChoiceDocumentTypeBinding
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,22 +31,38 @@ class ChoiceDocumentTypeFragment : Fragment() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    fun initViews()
-    {
+    fun initViews() {
         binding.insideButton.setOnClickListener {
-            if(sharedViewModel.documentType is AcceptanceDocument)
-            sharedViewModel.documentType.subType = AcceptanceDocument.Internal()
-            if (sharedViewModel.documentType is IssuanceDocument)
-                sharedViewModel.documentType.subType = IssuanceDocument.Internal()
+            setSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
+
+        binding.insideButton.setOnLongClickListener {
+            setSubDocument()
+            findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
+            true
+        }
+
+
+
         binding.outsideButton.setOnClickListener {
-            if(sharedViewModel.documentType is AcceptanceDocument)
-                sharedViewModel.documentType.subType = AcceptanceDocument.External()
-            if (sharedViewModel.documentType is IssuanceDocument)
-                sharedViewModel.documentType.subType = IssuanceDocument.External()
+            setSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
+        binding.outsideButton.setOnLongClickListener {
+            setSubDocument()
+            findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
+            true
+        }
+
+
+    }
+
+    private fun setSubDocument() {
+        if (sharedViewModel.documentType is AcceptanceDocument)
+            sharedViewModel.documentType.subType = AcceptanceDocument.External()
+        if (sharedViewModel.documentType is IssuanceDocument)
+            sharedViewModel.documentType.subType = IssuanceDocument.External()
     }
 
 

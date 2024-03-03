@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class DocumentDefinition {
 
-     @SerializedName("Id")
-     var  id : String = ""
+     @SerializedName("ID")
+     var  id : Int= 0
      @SerializedName("Symbol")
      var symbol : String = ""
      @SerializedName("Nazwa")
