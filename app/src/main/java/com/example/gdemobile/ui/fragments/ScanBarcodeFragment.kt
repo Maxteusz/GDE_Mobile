@@ -55,13 +55,13 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                 listOf(Manifest.permission.CAMERA).toTypedArray(), 3
             )
         binding.unlockButton.setOnClickListener {
-            if (sharedViewModel.lockScaning.value == true)
+            if (sharedViewModel.lockScanning.value == true)
                 sharedViewModel.unlockScanning()
             else
                 sharedViewModel.lockScanning()
 
         }
-        sharedViewModel.lockScaning.observe(viewLifecycleOwner)
+        sharedViewModel.lockScanning.observe(viewLifecycleOwner)
         {
             if (it)
                 lockScanning()
@@ -91,16 +91,15 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                     val image = FirebaseVisionImage.fromBitmap(mediaImage)
                     detector.detectInImage(image)
                         .addOnSuccessListener { barcodes ->
-                            if (!barcodes.isNullOrEmpty() && !sharedViewModel.lockScaning.value!!) {
+                            if (!barcodes.isNullOrEmpty() && !sharedViewModel.lockScanning.value!!) {
                                 val scannedCode = barcodes.first().rawValue.toString()
                                 viewLifecycleOwner.lifecycleScope.launch {
                                     CargoViewModel(
                                         sharedViewModel,
                                         requireActivity()
-                                    ).getCargo(scannedCode, {
+                                    ).getCargo(scannedCode) {
                                         findNavController().navigate(R.id.action_scanBarcodeFragment_to_amountCargoDialog)
-
-                                    })
+                                    }
                                 }
                                 sharedViewModel.lockScanning()
                             }

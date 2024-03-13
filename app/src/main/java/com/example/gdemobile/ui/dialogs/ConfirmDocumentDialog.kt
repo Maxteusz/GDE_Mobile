@@ -11,6 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.viewmodels.DocumentViewModel
@@ -69,14 +71,13 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
 
     override suspend fun OnError(message: String) {
         context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
-        dismiss()
+        findNavController().popBackStack()
 
     }
 
     override fun  OnSucces() {
         context?.let { CustomToast.showToast(it,ToastMessages.correctConfimDocument,CustomToast.Type.Information) }
-        dismiss()
-        activity?.finish()
+        findNavController().navigate(R.id.action_confirmDocumentDialog_to_menuFragment)
 
 
 

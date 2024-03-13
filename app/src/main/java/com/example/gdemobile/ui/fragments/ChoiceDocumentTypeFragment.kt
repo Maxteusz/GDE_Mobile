@@ -12,6 +12,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentChoiceDocumentTypeBinding
 import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
 import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
+import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
@@ -26,31 +27,32 @@ class ChoiceDocumentTypeFragment : Fragment() {
     ): View? {
         binding = FragmentChoiceDocumentTypeBinding.inflate(layoutInflater)
         initViews()
-
         return binding.root
     }
 
     @SuppressLint("SuspiciousIndentation")
     fun initViews() {
         binding.insideButton.setOnClickListener {
-            setSubDocument()
+            sharedViewModel.setDocument(Document())
+            setInternalSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
 
         binding.insideButton.setOnLongClickListener {
-            setSubDocument()
+            sharedViewModel.setDocument(Document())
+            setInternalSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
             true
         }
 
-
-
         binding.outsideButton.setOnClickListener {
-            setSubDocument()
+            sharedViewModel.setDocument(Document())
+            setExternalSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
         binding.outsideButton.setOnLongClickListener {
-            setSubDocument()
+            sharedViewModel.setDocument(Document())
+            setExternalSubDocument()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
             true
         }
@@ -58,11 +60,21 @@ class ChoiceDocumentTypeFragment : Fragment() {
 
     }
 
-    private fun setSubDocument() {
-        if (sharedViewModel.documentType is AcceptanceDocument)
-            sharedViewModel.documentType.subType = AcceptanceDocument.External()
-        if (sharedViewModel.documentType is IssuanceDocument)
-            sharedViewModel.documentType.subType = IssuanceDocument.External()
+    private fun setExternalSubDocument() {
+        when (sharedViewModel.documentType) {
+            is AcceptanceDocument -> sharedViewModel.documentType.subType =
+                AcceptanceDocument.External()
+
+            is IssuanceDocument -> sharedViewModel.documentType.subType =
+                IssuanceDocument.External()
+        }
+    }
+
+        private fun setInternalSubDocument() {
+            when (sharedViewModel.documentType) {
+                is AcceptanceDocument -> sharedViewModel.documentType.subType = AcceptanceDocument.Internal()
+                is IssuanceDocument -> sharedViewModel.documentType.subType = IssuanceDocument.Internal()
+            }
     }
 
 

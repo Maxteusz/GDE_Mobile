@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class DocumentDefinitionListFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
     private lateinit var documentDefinitionViewModel: DocumentDefinitionViewModel
-    private lateinit var adapter: DocumentDefinitionAdapter
+    private var adapter: DocumentDefinitionAdapter? = null
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -74,6 +74,7 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
+        adapter = null
     }
 
     override suspend fun OnError(message: String) {

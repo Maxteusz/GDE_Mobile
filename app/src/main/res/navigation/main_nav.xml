@@ -130,12 +130,8 @@
         android:label="configm_dialog"
         tools:layout="@layout/confirm_dialog">
         <action
-            android:id="@+id/action_confirmDocumentDialog_to_cargoListFragment"
-            app:destination="@id/documentPostionListFragment" />
-        <action
-            android:id="@+id/action_confirmDocumentDialog_to_documentListFragment"
-
-            app:popUpTo="@+id/documentListFragment"
+            android:id="@+id/action_confirmDocumentDialog_to_menuFragment"
+            app:popUpTo="@id/menuFragment"
             app:popUpToInclusive="true"/>
     </dialog>
     <fragment

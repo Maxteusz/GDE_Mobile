@@ -15,10 +15,13 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
 import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
+import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -26,6 +29,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
     private lateinit var documentViewModel : DocumentViewModel
+    private var createdDocument : Deferred<Document?>? = null
 
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
@@ -43,17 +47,18 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        documentViewModel = ViewModelProvider(requireActivity()).get(DocumentViewModel::class.java)
+        documentViewModel = ViewModelProvider(requireActivity())[DocumentViewModel::class.java]
         documentViewModel.stateResponse = this
 
         binding = FragmentDocumentDetailsBinding.inflate(inflater, container, false)
 
-        if (sharedViewModel.documentType.subType in listOf(AcceptanceDocument.Internal(), IssuanceDocument.Internal())) {
-            binding.contractorEdittext.visibility = View.GONE
-            binding.contractorTextfield.visibility = View.GONE
-        }
+        sharedViewModel.document.observe(viewLifecycleOwner, Observer {
+            binding.document = it
+        })
+        hideContractorField()
+
 
         //Section Document Definition
         binding.dokdefTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_documentDefinitionListFragment) }
@@ -65,20 +70,31 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
         binding.contractorTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
 
-        sharedViewModel.document.observe(viewLifecycleOwner, Observer
-        {
-            binding.document = it
-        })
+
 
         binding.nextButton.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-            sharedViewModel.document.value?.let { it1 ->
-                documentViewModel.createDocument(
-                    it1
-                )
+            createdDocument = viewLifecycleOwner.lifecycleScope.async {
+                return@async documentViewModel.createDocument(sharedViewModel.document.value!!)
             }
-        } }
+
+
+        }
+
         return binding.root
+    }
+
+    private fun hideContractorField()
+    {
+        when (sharedViewModel.documentType.subType) {
+            is AcceptanceDocument.Internal -> {
+                binding.contractorEdittext.visibility = View.GONE
+                binding.contractorTextfield.visibility = View.GONE
+            }
+            is IssuanceDocument.Internal -> {
+                binding.contractorEdittext.visibility = View.GONE
+                binding.contractorTextfield.visibility = View.GONE
+            }
+        }
     }
 
     override fun OnLoading() {
@@ -95,9 +111,20 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     override fun OnSucces() {
         binding.loadinglayout.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            createdDocument?.await()?.let { sharedViewModel.setDocument(it) }
+            sharedViewModel.setBlockLoadData(true)
+            findNavController().navigate(R.id.action_documentDetailsFragment_to_cargoListFragment)
+        }
 
 
     }
 
 
-}
+
+
+
+
+    }
+
+

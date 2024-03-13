@@ -28,8 +28,8 @@ class ConnectService(
                 Log.i(LogTag.enovaApiIsEmpty, result.body()!!.isEmpty.toString())
                 Log.i(LogTag.enovaApiResultInstance, result.body()!!.resultInstance.toString())
 
-                if (result.body()?.isException == false) {
-                    var result = result.body()?.resultInstance
+                if (!result.body()?.isException!!) {
+                    val result = result.body()?.resultInstance
                     stateResponse?.OnSucces()
                     return result
                 }

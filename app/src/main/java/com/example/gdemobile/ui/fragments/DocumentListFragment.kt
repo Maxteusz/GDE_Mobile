@@ -89,7 +89,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     @SuppressLint("SuspiciousIndentation")
     override fun onResume() {
         super.onResume()
-        //if(viewModel.documents.value?.isEmpty() == true)
+
         viewModel.getDocuments(sharedViewModel.documentType)
         binding.recyclerview
             .layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)

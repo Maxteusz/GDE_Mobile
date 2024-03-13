@@ -9,27 +9,36 @@ import com.example.gdemobile.models.DocumentPosition
 
 class SharedViewModel : ViewModel() {
     private var _document = MutableLiveData<Document>()
-    var document : LiveData<Document> = _document
-    lateinit var  documentType : IDocumentType
+    var document: LiveData<Document> = _document
+    lateinit var documentType: IDocumentType
 
 
     private var _documentPosition = MutableLiveData(DocumentPosition())
-    var documentPosition : LiveData<DocumentPosition> = _documentPosition
+    var documentPosition: LiveData<DocumentPosition> = _documentPosition
 
-    private var _lockScaninng = MutableLiveData<Boolean>(false)
-    var lockScaning : LiveData<Boolean> = _lockScaninng
+    //ScanBarcodeFragment
+    //Require to unblock/block scanning after close amount (in depends on conf)
+    private var _lockScanning = MutableLiveData(false)
+    var lockScanning: LiveData<Boolean> = _lockScanning
 
-    fun setDocument(document: Document)
-    {
+    private var _blockingLoadData = MutableLiveData(false)
+    var blockingLoadData: LiveData<Boolean> = _blockingLoadData
+
+    fun setBlockLoadData(value: Boolean) {
+        _blockingLoadData.value = value
+    }
+
+    fun getBlockLoadData() = _blockingLoadData.value
+
+    fun setDocument(document: Document) {
         _document.value = document
     }
 
-    fun setDocumentPosition(documentPosition: DocumentPosition)
-    {
+    fun setDocumentPosition(documentPosition: DocumentPosition) {
         _documentPosition.value = documentPosition
     }
 
-    fun lockScanning() = run { _lockScaninng.value = true }
-    fun unlockScanning() = run { _lockScaninng.value = false }
+    fun lockScanning() = run { _lockScanning.value = true }
+    fun unlockScanning() = run { _lockScanning.value = false }
 
 }

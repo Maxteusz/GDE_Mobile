@@ -149,7 +149,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             }
         }
         sharedViewModel.document.observe(viewLifecycleOwner){
+            if(sharedViewModel.getBlockLoadData() == false)
             viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+            sharedViewModel.setBlockLoadData(false)
         }
     }
 

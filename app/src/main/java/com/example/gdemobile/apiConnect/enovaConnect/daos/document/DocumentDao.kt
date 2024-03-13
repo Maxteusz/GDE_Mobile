@@ -6,6 +6,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.document.CreateNewD
 import com.example.gdemobile.apiConnect.enovaConnect.methods.document.GetDocumentsByCategory
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
+import com.google.firebase.inject.Deferred
 
 class DocumentDao(stateResponse: IStateResponse)  :
     IDocumentDao,
@@ -16,7 +17,7 @@ class DocumentDao(stateResponse: IStateResponse)  :
     }
 
 
-    override suspend fun createDocument(document: Document): Document?{
+    override suspend fun createDocument(document: Document): Document? {
         return requestObject<Document>(CreateNewDocument(document))
     }
 
