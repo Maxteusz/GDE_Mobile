@@ -132,7 +132,7 @@
         <action
             android:id="@+id/action_confirmDocumentDialog_to_menuFragment"
             app:popUpTo="@id/menuFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="false"/>
     </dialog>
     <fragment
         android:id="@+id/documentPositionDetailsFragment"

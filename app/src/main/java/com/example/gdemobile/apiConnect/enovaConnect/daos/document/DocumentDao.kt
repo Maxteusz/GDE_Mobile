@@ -6,14 +6,13 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.document.CreateNewD
 import com.example.gdemobile.apiConnect.enovaConnect.methods.document.GetDocumentsByCategory
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
-import com.google.firebase.inject.Deferred
 
 class DocumentDao(stateResponse: IStateResponse)  :
     IDocumentDao,
     Dao(stateResponse) {
 
-    override suspend fun confirmDocument(idDocument : Int) {
-        requestObject<Unit>(ConfirmDocument(idDocument))
+    override suspend fun confirmDocument(idDocument : Int) : Int? {
+        return requestObject<Int>(ConfirmDocument(idDocument))
     }
 
 

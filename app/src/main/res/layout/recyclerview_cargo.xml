@@ -6,7 +6,6 @@
         <variable
             name="cargo"
             type="com.example.gdemobile.models.DocumentPosition" />
-
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -16,86 +15,87 @@
         app:cardBackgroundColor="@color/darkGray"
         app:cardCornerRadius="0dp"
         android:layout_marginTop="0dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/cargo_icon"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif-black"
-            android:maxLines="2"
-            android:maxWidth="200dp"
-            android:text= "@{cargo.cargo.name}"
-            android:textColor="@color/orange"
-            android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif"
-                android:maxLength="25"
-                android:text= "@{cargo.cargo.code}"
-                android:textColor="@color/lightGray"
-                android:textSize="13sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif"
-                android:maxLength="25"
-                android:text= "@{cargo.perUnitString}"
-                android:textColor="@color/lightGray"
-                android:textSize="13sp" />
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="10dp"
-            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/lightGray"
-            android:text= "@{cargo.amount.toString()}" />
+
             <ImageView
-                android:id="@+id/delete_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/cargo_icon"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:alpha="0.75"
-                android:src="@drawable/delete_icon">
+                android:gravity="start"
+                android:orientation="vertical">
 
-            </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="sans-serif-black"
+                    android:maxLines="2"
+                    android:maxWidth="200dp"
+                    android:text="@{cargo.cargo.name}"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="sans-serif"
+                    android:maxLength="25"
+                    android:text="@{cargo.cargo.code}"
+                    android:textColor="@color/lightGray"
+                    android:textSize="13sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="sans-serif"
+                    android:maxLength="25"
+                    android:text="@{cargo.perUnitString}"
+                    android:textColor="@color/lightGray"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|end"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/lightGray"
+                    android:text="@{cargo.amount.toString()}" />
+
+                <ImageView
+                    android:id="@+id/delete_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:alpha="0.75"
+                    android:src="@drawable/delete_icon"/>
+
+            </LinearLayout>
         </LinearLayout>
-
-
-    </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

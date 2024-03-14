@@ -68,7 +68,7 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
 
     override fun onResume() {
         super.onResume()
-        documentDefinitionViewModel.getDocumentDefinitions(sharedViewModel.documentType)
+        documentDefinitionViewModel.getDocumentDefinitions(sharedViewModel.getDocumentType()!!)
     }
 
     override fun OnLoading() {

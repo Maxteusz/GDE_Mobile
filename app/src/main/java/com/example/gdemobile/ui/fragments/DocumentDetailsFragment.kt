@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
-import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
-import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.AcceptanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.viewmodels.DocumentViewModel
@@ -85,7 +85,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private fun hideContractorField()
     {
-        when (sharedViewModel.documentType.subType) {
+        when (sharedViewModel.getDocumentType()?.subType) {
             is AcceptanceDocument.Internal -> {
                 binding.contractorEdittext.visibility = View.GONE
                 binding.contractorTextfield.visibility = View.GONE

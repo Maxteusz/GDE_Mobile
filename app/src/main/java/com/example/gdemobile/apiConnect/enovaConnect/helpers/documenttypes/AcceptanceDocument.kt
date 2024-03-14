@@ -1,16 +1,19 @@
-package com.example.gdemobile.helpers.documenttypes
+package com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes
 
-class IssuanceDocument : IDocumentType {
+class AcceptanceDocument : IDocumentType {
     override var subType: ISubDocumentType? = null
+
+
+
 
     class Internal  : ISubDocumentType {
         override val symbol: String
-            get() = "WWE"
+            get() = "PWE"
     }
 
     class External : ISubDocumentType {
         override val symbol: String
-            get() = "WZE"
+            get() = "PZE"
     }
 
 }

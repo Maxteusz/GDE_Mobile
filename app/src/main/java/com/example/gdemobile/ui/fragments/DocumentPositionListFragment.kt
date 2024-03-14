@@ -1,5 +1,6 @@
 package com.example.gdemobile.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -54,7 +55,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     private val listenerDocumentPostionDetails =
         object : DocumentPositionAdapter.DetailCargoViewHolderListener {
-            override fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition) {
+            override fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition) {
             }
         }
 
@@ -133,6 +134,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
 
     }
+    @SuppressLint("SuspiciousIndentation")
     private fun initObservers()
     {
         viewModel.documentPositions.observe(viewLifecycleOwner) {
@@ -149,9 +151,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             }
         }
         sharedViewModel.document.observe(viewLifecycleOwner){
-            if(sharedViewModel.getBlockLoadData() == false)
             viewModel.getDocumentPositions(sharedViewModel.document.value!!)
-            sharedViewModel.setBlockLoadData(false)
+
         }
     }
 

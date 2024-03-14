@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentListBinding
 import com.example.gdemobile.models.Document
@@ -35,13 +36,14 @@ class DocumentListFragment : Fragment(), IStateResponse {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDocumentListBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[DocumentViewModel::class.java]
         viewModel.stateResponse = this
         initObservers()
         initComponentsMethod()
         setColorsProgressSwipeLayout()
+
         return binding.root
     }
 
@@ -63,16 +65,29 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
     fun initObservers() {
-        viewModel.documents.observe(viewLifecycleOwner, Observer {
+
+
+       sharedViewModel.documentType.observe(viewLifecycleOwner, Observer {
+                viewModel.getDocuments(sharedViewModel.getDocumentType()!!)
+                //initRecyclerViewAdapter(it)
+
+        })
+       viewModel.documents.observe(viewLifecycleOwner, Observer {
             binding.recyclerview.also {
-                it.layoutManager = LinearLayoutManager(context)
-                it.setHasFixedSize(true)
-                    recyclerViewAdapter =
-                        DocumentsAdapter(viewModel.documents.value!!, listener)
-                binding.recyclerview.adapter = recyclerViewAdapter
-                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
+                initRecyclerViewAdapter(it)
             }
         })
+    }
+
+    private fun initRecyclerViewAdapter(recyclerView : RecyclerView)
+    {
+        recyclerView.recycledViewPool.clear()
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerViewAdapter =
+            DocumentsAdapter(viewModel.documents.value!!, listener)
+        binding.recyclerview.adapter = recyclerViewAdapter
+        (recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
     }
     fun initComponentsMethod()
     {
@@ -81,7 +96,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getDocuments(sharedViewModel.documentType)
+            viewModel.getDocuments(sharedViewModel.getDocumentType()!!)
         }
     }
 
@@ -90,7 +105,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
     override fun onResume() {
         super.onResume()
 
-        viewModel.getDocuments(sharedViewModel.documentType)
+        //viewModel.getDocuments(sharedViewModel.getDocumentType()!!)
         binding.recyclerview
             .layoutManager?.onRestoreInstanceState(viewModel.recyclerViewScrollState)
     }
@@ -106,7 +121,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
-        binding.recyclerview.adapter = null
+
     }
 
     override suspend fun OnError(message: String) {

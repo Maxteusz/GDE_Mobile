@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.documentDefinition.DocumentDefinitionDao
-import com.example.gdemobile.helpers.documenttypes.IDocumentType
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IDocumentType
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch

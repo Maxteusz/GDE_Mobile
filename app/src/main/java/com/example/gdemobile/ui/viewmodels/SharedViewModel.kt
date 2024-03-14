@@ -3,14 +3,16 @@ package com.example.gdemobile.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gdemobile.helpers.documenttypes.IDocumentType
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IDocumentType
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.ISubDocumentType
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
 
 class SharedViewModel : ViewModel() {
     private var _document = MutableLiveData<Document>()
     var document: LiveData<Document> = _document
-    lateinit var documentType: IDocumentType
+    private var _documentType = MutableLiveData<IDocumentType>()
+    var documentType : LiveData<IDocumentType> = _documentType
 
 
     private var _documentPosition = MutableLiveData(DocumentPosition())
@@ -38,6 +40,17 @@ class SharedViewModel : ViewModel() {
         _documentPosition.value = documentPosition
     }
 
+    fun getDocumentType() = _documentType.value
+    fun setDocumentTypeSubType(documentSubType : ISubDocumentType)
+    {
+        _documentType.value?.subType = documentSubType
+
+    }
+    fun setDocumentType(documentType : IDocumentType)
+    {
+        _documentType.value = documentType
+
+    }
     fun lockScanning() = run { _lockScanning.value = true }
     fun unlockScanning() = run { _lockScanning.value = false }
 

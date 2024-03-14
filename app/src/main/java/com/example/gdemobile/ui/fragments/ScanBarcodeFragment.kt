@@ -21,7 +21,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentScanBarcodeBinding
-import com.example.gdemobile.models.Cargo
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
@@ -43,6 +42,8 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
         binding = FragmentScanBarcodeBinding.inflate(layoutInflater)
         return binding.root
     }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -73,7 +74,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     }
 
 
-    private fun startCamera(): Cargo? {
+    private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         val detector = FirebaseVision.getInstance()
             .visionBarcodeDetector
@@ -112,12 +113,12 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
                     cameraProvider.bindToLifecycle(
                         this, cameraSelector, imageAnalysis, preview
                     )
-                } catch (exc: Exception) {
+                } catch (_: Exception) {
                 }
             },
             getMainExecutor(requireActivity())
         )
-        return null
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -136,6 +137,8 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
             .build()
     }
 
+
+
     fun lockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
         binding.unlockButton.text = getString(R.string.blocked)
@@ -146,8 +149,6 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
     fun unlockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.green))
         binding.unlockButton.text = getString(R.string.scanning)
-
-
     }
 
     override fun OnLoading() {

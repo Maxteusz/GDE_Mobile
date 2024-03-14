@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentMenuBinding
-import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
-import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.AcceptanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
@@ -35,10 +35,12 @@ class MenuFragment : Fragment() {
     fun initViews()
     {
         binding.confButton.setOnClickListener { findNavController().navigate(R.id.action_menuFragment_to_configurationFragment) }
-        binding.receivingButton.setOnClickListener {  sharedViewModel.documentType = AcceptanceDocument()
+        binding.receivingButton.setOnClickListener {  sharedViewModel.setDocumentType(
+            AcceptanceDocument()
+        )
             findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment) }
         binding.issuingButton.setOnClickListener {
-           sharedViewModel.documentType = IssuanceDocument()
+           sharedViewModel.setDocumentType(IssuanceDocument())
             findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
         }
     }

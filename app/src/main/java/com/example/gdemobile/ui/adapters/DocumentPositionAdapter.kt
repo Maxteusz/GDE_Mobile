@@ -2,69 +2,59 @@ package com.example.gdemobile.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gdemobile.R
 import com.example.gdemobile.databinding.RecyclerviewCargoBinding
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.adapters.DocumentPositionAdapter.CargoViewHolder
 
 class DocumentPositionAdapter(
-    private var cargos: MutableList<DocumentPosition>,
-    private val listener: DeleteCargoViewHolderListener,
-    private val listnerDetailDocumentPostion : DetailCargoViewHolderListener
-)
-    : RecyclerView.Adapter<CargoViewHolder>() {
-
+    private val cargos: List<DocumentPosition>,
+    private val deleteListener: DeleteCargoViewHolderListener,
+    private val detailListener: DetailCargoViewHolderListener
+) : RecyclerView.Adapter<DocumentPositionAdapter.CargoViewHolder>() {
 
     inner class CargoViewHolder(
-        val recyclerviewCargoHolder: RecyclerviewCargoBinding
+        private val binding: RecyclerviewCargoBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    ) : RecyclerView.ViewHolder(recyclerviewCargoHolder.root)
+        init {
+            binding.deleteImage.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    deleteListener.onDeleteDocumentPositionItemClicked(cargos[position].id)
+                }
+            }
+            binding.maincard.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    detailListener.onOpenDetailDocumentPosition(cargos[position])
+                }
+            }
+        }
+
+        fun bind(documentPosition: DocumentPosition) {
+            binding.cargo = documentPosition
+            binding.executePendingBindings()
+        }
+    }
 
     interface DeleteCargoViewHolderListener {
-        fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int)
-
+        fun onDeleteDocumentPositionItemClicked(idDocumentPosition: Int)
     }
+
     interface DetailCargoViewHolderListener {
-        fun onOpenDetailDocumentPostion(documentPosition: DocumentPosition)
-
+        fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition)
     }
 
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CargoViewHolder(
-        DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.recyclerview_cargo,
-            parent,
-            false
-        )
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CargoViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = RecyclerviewCargoBinding.inflate(inflater, parent, false)
+        return CargoViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: CargoViewHolder, position: Int) {
-        holder.recyclerviewCargoHolder.cargo = cargos.get(position)
-        holder.itemView.animate().alpha(1.0f).setDuration(3000).start()
-        holder.recyclerviewCargoHolder.deleteImage.setOnClickListener {
-            listener.onDeleteDocumentPositionItemClicked(cargos.get(position).id)
-
-        }
-        holder.recyclerviewCargoHolder.maincard.setOnClickListener {
-            listnerDetailDocumentPostion.onOpenDetailDocumentPostion(cargos[position])
-
-        }
-
+        holder.bind(cargos[position])
 
     }
 
-
-
-
-    override fun getItemCount(): Int {
-        return cargos.size
-    }
-
-
+    override fun getItemCount(): Int = cargos.size
 }
-
-

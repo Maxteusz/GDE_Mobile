@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.AcceptanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.databinding.FragmentChoiceDocumentTypeBinding
-import com.example.gdemobile.helpers.documenttypes.AcceptanceDocument
-import com.example.gdemobile.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
@@ -61,19 +61,17 @@ class ChoiceDocumentTypeFragment : Fragment() {
     }
 
     private fun setExternalSubDocument() {
-        when (sharedViewModel.documentType) {
-            is AcceptanceDocument -> sharedViewModel.documentType.subType =
-                AcceptanceDocument.External()
+        when (sharedViewModel.getDocumentType()) {
+            is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = AcceptanceDocument.External()
 
-            is IssuanceDocument -> sharedViewModel.documentType.subType =
-                IssuanceDocument.External()
+            is IssuanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.External()
         }
     }
 
         private fun setInternalSubDocument() {
-            when (sharedViewModel.documentType) {
-                is AcceptanceDocument -> sharedViewModel.documentType.subType = AcceptanceDocument.Internal()
-                is IssuanceDocument -> sharedViewModel.documentType.subType = IssuanceDocument.Internal()
+            when (sharedViewModel.getDocumentType()) {
+                is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.Internal()
+                is IssuanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.Internal()
             }
     }
 
