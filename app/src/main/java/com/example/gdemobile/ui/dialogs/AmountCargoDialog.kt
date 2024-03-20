@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Quantity
@@ -26,6 +25,7 @@ import kotlinx.coroutines.launch
 
 class AmountCargoDialog : DialogFragment(), IStateResponse {
 
+    var dismissListener : IDialogDismissListener? = null
     private lateinit var binding: FragmentAmountCargoDialogBinding
     private val sharedViewModel : SharedViewModel by activityViewModels()
     private lateinit var viewModel: DocumentPositionsViewModel
@@ -76,6 +76,11 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
             binding.currencysymbolSpinner.text.toString()
 
         )
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        dismissListener = null
     }
 
     fun checkValidationViews(): Boolean {
@@ -132,25 +137,18 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         unblockDialog()
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
-val li : IStateResponse = object : IStateResponse {
-    override fun OnLoading() {
-        TODO("Not yet implemented")
-    }
 
-    override suspend fun OnError(message: String) {
-        TODO("Not yet implemented")
-    }
 
-    override fun OnSucces() {
-        TODO("Not yet implemented")
-    }
 
-}
     override fun OnSucces() {
         context?.let { CustomToast.showToast(requireActivity(),ToastMessages.correctCargoAdded,CustomToast.Type.Information) }
         sharedViewModel.unlockScanning()
-        li.OnSucces()
-        findNavController().popBackStack()
+        //findNavController().popBackStack()
+        if(dismissListener == null)
+            dismiss()
+        else
+        dismissListener?.DismissDialogFunction()
+
     }
 
 

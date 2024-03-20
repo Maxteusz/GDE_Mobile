@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,19 +24,17 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.ui.IStateResponseWithAdditionalAction
 import com.example.gdemobile.ui.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.dialogs.AmountCargoDialog
-import com.example.gdemobile.ui.dialogs.IDialogDismiss
+import com.example.gdemobile.ui.dialogs.IDialogDismissListener
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 
-class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismiss, Serializable, IStateResponseWithAdditionalAction {
+class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     private lateinit var _documentPositionAdapter: DocumentPositionAdapter
     private lateinit var _binding: FragmentDocumentpositionListBinding
@@ -168,7 +164,6 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
         }
 
 
-
     }
 
     private fun initKeyListener() {
@@ -178,7 +173,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
                     viewLifecycleOwner.lifecycleScope.launch {
                         CargoViewModel(sharedViewModel, requireActivity())
                             .getCargo(_scannedBarcode.trim()) {
-                                findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
+                                //findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
+                                openDialog()
                             }
 
                     }
@@ -189,26 +185,13 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
                     )
                     _scannedBarcode = ""
                 } else {
-                        _scannedBarcode += event.unicodeChar.toChar()
+                    _scannedBarcode += event.unicodeChar.toChar()
 
                 }
 
             false
         }
 
-    }
-
-    fun initRecyclerViewAdapter(recyclerView : RecyclerView)
-    {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        _documentPositionAdapter = DocumentPositionAdapter(
-            _viewModel.documentPositions.value?.toMutableList()!!,
-            listener,
-            listenerDocumentPostionDetails
-        )
-        _binding.cargosRecyclerview.adapter = _documentPositionAdapter
-        (recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(_binding.cargosRecyclerview.size)
     }
 
 
@@ -228,9 +211,6 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
         _binding.swipeRefreshLayout.isRefreshing = false
     }
 
-    override fun OnSucces(additionalAction: (() -> Unit)?) {
-        TODO("Not yet implemented")
-    }
 
     override fun OnSucces() {
         _binding.errorlayout.visibility = View.GONE
@@ -239,19 +219,22 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
         _binding.swipeRefreshLayout.isRefreshing = false
     }
 
-        fun openDialog()
-        {
-            val dialog = AmountCargoDialog()
-            dialog. setFragmentResultListener("requestKey") { requestKey, bundle ->
-                bundle.putSerializable("resultData", this)
+    fun openDialog() {
+        val dialog = AmountCargoDialog()
+        dialog.dismissListener = object : IDialogDismissListener {
+            override fun DismissDialogFunction() {
+                dialog.dismiss()
+                _viewModel.stateResponse = this@DocumentPositionListFragment
+                _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+
 
             }
-
         }
+        dialog.show(childFragmentManager, "AMOUNT_CARGO_DIALOG")
 
-    override fun DismissDialog() {
-        Log.i("Clicl", "CLick")
+
     }
+
 
 }
 
