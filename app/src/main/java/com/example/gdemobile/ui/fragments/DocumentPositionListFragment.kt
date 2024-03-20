@@ -26,6 +26,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentDocumentpositionListBinding
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.IStateResponseWithAdditionalAction
 import com.example.gdemobile.ui.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.dialogs.AmountCargoDialog
 import com.example.gdemobile.ui.dialogs.IDialogDismiss
@@ -37,7 +38,7 @@ import kotlinx.coroutines.launch
 import java.io.Serializable
 
 
-class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismiss, Serializable {
+class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismiss, Serializable, IStateResponseWithAdditionalAction {
 
     private lateinit var _documentPositionAdapter: DocumentPositionAdapter
     private lateinit var _binding: FragmentDocumentpositionListBinding
@@ -225,6 +226,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IDialogDismis
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.succeslayout.visibility = View.GONE
         _binding.swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun OnSucces(additionalAction: (() -> Unit)?) {
+        TODO("Not yet implemented")
     }
 
     override fun OnSucces() {

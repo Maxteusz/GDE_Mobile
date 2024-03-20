@@ -132,10 +132,24 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         unblockDialog()
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
+val li : IStateResponse = object : IStateResponse {
+    override fun OnLoading() {
+        TODO("Not yet implemented")
+    }
 
+    override suspend fun OnError(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun OnSucces() {
+        TODO("Not yet implemented")
+    }
+
+}
     override fun OnSucces() {
         context?.let { CustomToast.showToast(requireActivity(),ToastMessages.correctCargoAdded,CustomToast.Type.Information) }
         sharedViewModel.unlockScanning()
+        li.OnSucces()
         findNavController().popBackStack()
     }
 
