@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Quantity
@@ -135,7 +136,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
     override fun OnSucces() {
         context?.let { CustomToast.showToast(requireActivity(),ToastMessages.correctCargoAdded,CustomToast.Type.Information) }
         sharedViewModel.unlockScanning()
-        dismiss()
+        findNavController().popBackStack()
     }
 
 

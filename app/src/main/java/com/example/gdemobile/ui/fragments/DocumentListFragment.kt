@@ -138,4 +138,6 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.succeslayout.visibility = View.VISIBLE
         binding.swipeRefreshLayout.isRefreshing = false
     }
+
+
 }

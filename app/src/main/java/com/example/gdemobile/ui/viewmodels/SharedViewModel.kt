@@ -26,6 +26,14 @@ class SharedViewModel : ViewModel() {
     private var _blockingLoadData = MutableLiveData(false)
     var blockingLoadData: LiveData<Boolean> = _blockingLoadData
 
+    private var _refreshData = MutableLiveData(false)
+    var refreshData: LiveData<Boolean> = _refreshData
+
+    fun setRefreshData(value : Boolean)
+    {
+        _refreshData.value = value
+    }
+
     fun setBlockLoadData(value: Boolean) {
         _blockingLoadData.value = value
     }
