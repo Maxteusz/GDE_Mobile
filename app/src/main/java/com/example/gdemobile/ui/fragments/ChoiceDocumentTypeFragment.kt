@@ -24,7 +24,7 @@ class ChoiceDocumentTypeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentChoiceDocumentTypeBinding.inflate(layoutInflater)
         initViews()
         return binding.root
@@ -70,7 +70,7 @@ class ChoiceDocumentTypeFragment : Fragment() {
 
         private fun setInternalSubDocument() {
             when (sharedViewModel.getDocumentType()) {
-                is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.Internal()
+                is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = AcceptanceDocument.Internal()
                 is IssuanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.Internal()
             }
     }
