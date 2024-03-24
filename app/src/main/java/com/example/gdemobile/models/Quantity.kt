@@ -11,4 +11,5 @@ class Quantity {
     override fun toString(): String {
         return "$value $symbol"
     }
+    fun getValueToString() : String = value.toString()
 }

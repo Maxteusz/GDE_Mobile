@@ -1,10 +1,12 @@
 package com.example.gdemobile.ui.adapters
 
+
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gdemobile.databinding.CardCargoBinding
-
+import com.example.gdemobile.R
+import com.example.gdemobile.databinding.CardDocumentpositionBinding
 import com.example.gdemobile.models.DocumentPosition
 
 class DocumentPositionAdapter(
@@ -14,7 +16,7 @@ class DocumentPositionAdapter(
 ) : RecyclerView.Adapter<DocumentPositionAdapter.CargoViewHolder>() {
 
     inner class CargoViewHolder(
-        private val binding: CardCargoBinding
+        private val binding: CardDocumentpositionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -32,8 +34,15 @@ class DocumentPositionAdapter(
             }
         }
 
+
+        @SuppressLint("ResourceAsColor")
         fun bind(documentPosition: DocumentPosition) {
-            binding.cargo = documentPosition
+            binding.documentposition = documentPosition
+            if (documentPosition.valuePerUnit.value == 0.0) {
+              val colorDarkRed =  itemView.context.resources.getColor(R.color.darkRed)
+                binding.maincard.setCardBackgroundColor(colorDarkRed)
+
+            }
             binding.executePendingBindings()
         }
     }
@@ -48,14 +57,15 @@ class DocumentPositionAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CargoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = CardCargoBinding.inflate(inflater, parent, false)
+        val binding = CardDocumentpositionBinding.inflate(inflater, parent, false)
         return CargoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CargoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CargoViewHolder, position: Int) =
         holder.bind(cargos[position])
 
-    }
+
+
 
     override fun getItemCount(): Int = cargos.size
 }

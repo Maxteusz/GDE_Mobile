@@ -15,6 +15,11 @@ open class Cargo() : Serializable, Parcelable{
     @SerializedName("JednostkaPodstawowa")
     val mainUnit : String = ""
     lateinit var EAN : String
+    @SerializedName("JednostkiDodatkowe")
+    val additionalUnits  = listOf<String>("ddsds")
+
+
+
 
     constructor(parcel: Parcel) : this() {
         EAN = parcel.readString().toString()

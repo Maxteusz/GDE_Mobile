@@ -56,6 +56,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private val listenerDocumentPositionDetails =
         object : DocumentPositionAdapter.DetailCargoViewHolderListener {
             override fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition) {
+                sharedViewModel.setDocumentPosition(documentPosition)
+                findNavController().navigate(R.id.action_cargoListFragment_to_documentPositionDetailsFragment)
             }
         }
 
@@ -68,6 +70,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         _viewModel =
             ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
         _viewModel.stateResponse = this
+        _binding.documentnumberTextview.text = sharedViewModel.document.value?.number
         setColorsProgressSwipeLayout()
         initObservers()
         return _binding.root

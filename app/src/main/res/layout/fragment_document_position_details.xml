@@ -76,10 +76,9 @@
                         android:id="@+id/amount_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
                         style="@style/CustomEditTextStyle"
                         android:singleLine="true"
-                        android:text="@{documentPosition.amountValue}" />
+                        android:text="@{documentPosition.amount.valueToString}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -95,6 +94,9 @@
                         android:id="@+id/unit_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/lightGray"
+                        android:text="@{documentPosition.amount.symbol}"
+
                         android:singleLine="true"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -118,9 +120,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:editable="false"
                         style="@style/CustomEditTextStyle"
-                        android:focusableInTouchMode="false"
                         android:singleLine="true"
                         android:text="@{String.valueOf(documentPosition.valuePerUnit.value)}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -132,11 +132,13 @@
                     android:layout_weight="1"
                     android:hint="Waluta">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/currencysymbol_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:textColor="@color/lightGray"
+
                         android:text="@{documentPosition.valuePerUnit.symbol}" />
                 </com.google.android.material.textfield.TextInputLayout>
 

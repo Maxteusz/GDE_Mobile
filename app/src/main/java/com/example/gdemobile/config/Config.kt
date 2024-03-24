@@ -7,7 +7,7 @@ import java.io.Serializable
 class Config {
 
     companion object : Serializable {
-        var ip: String? = "20.0.1.238"
+        var ip: String? = ""
         var port: String? = "5000"
         var usernameERP: String? = "Administrator"
         var passwordERP: String? = "12345"

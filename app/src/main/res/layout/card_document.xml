@@ -8,79 +8,80 @@
             name="document"
             type="com.example.gdemobile.models.Document" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/maincard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="8dp"
-        android:clickable="true"
-        app:rippleColor="@color/orange"
-        app:cardCornerRadius="0dp"
-        android:backgroundTint="@color/darkGray">
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/maincard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/document_icon"/>
+            android:backgroundTint="@color/darkGray"
+            android:clickable="true"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="8dp"
+            app:rippleColor="@color/orange">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:text="@{document.number}"
-                    android:textColor="@color/orange"
-                    android:textSize="16sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:text="@{document.warehouse.code}"
-                    android:textColor="@color/lightGray"
-                    android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/contractor_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="@{document.contractor.name}"
-                    android:textColor="@color/lightGray"
-                    android:lines="1"
-                    android:textSize="14sp" />
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/document_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@{document.number}"
+                        android:textColor="@color/orange"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@{document.warehouse.code}"
+                        android:textColor="@color/lightGray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/contractor_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="sans-serif"
+                        android:lines="1"
+                        android:text="@{document.contractor.name}"
+                        android:textColor="@color/lightGray"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
-
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

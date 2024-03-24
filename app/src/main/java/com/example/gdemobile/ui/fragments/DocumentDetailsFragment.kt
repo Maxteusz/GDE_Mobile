@@ -33,16 +33,6 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-
-    }
-
-
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
