@@ -22,55 +22,56 @@ import com.example.gdemobile.utils.CustomToast
 
 class ContractorListFragment : Fragment(), IStateResponse {
 
-    private lateinit var binding: FragmentContractorListBinding
-    private lateinit var contractorAdapter : ContractorAdapter
-    private lateinit var contractorViewModel : ContractorViewModel
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private lateinit var _binding: FragmentContractorListBinding
+    private lateinit var _contractorAdapter : ContractorAdapter
+    private lateinit var _contractorViewModel : ContractorViewModel
+    private val _sharedViewModel : SharedViewModel by activityViewModels()
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentContractorListBinding.inflate(layoutInflater);
-        contractorViewModel = ViewModelProvider(requireActivity()).get(ContractorViewModel::class.java)
-        contractorViewModel.stateResponse = this
-        return binding.root
+        _binding = FragmentContractorListBinding.inflate(layoutInflater);
+        _contractorViewModel = ViewModelProvider(requireActivity()).get(ContractorViewModel::class.java)
+        _contractorViewModel.stateResponse = this
+        return _binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        contractorViewModel.getContractors()
+        _contractorViewModel.getContractors()
     }
 
     val listener = object : ContractorAdapter.ViewHolderListener {
         override fun onItemClicked(contractor: Contractor) {
-            sharedViewModel.document.value?.contractor = contractor
+            _sharedViewModel.document.value?.contractor = contractor
             findNavController().popBackStack()
+
         }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        contractorViewModel.contractors.observe(viewLifecycleOwner, Observer {
-            binding.contractorsRecyclerview.also {
+        _contractorViewModel.contractors.observe(viewLifecycleOwner, Observer {
+            _binding.contractorsRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                contractorAdapter = ContractorAdapter(contractorViewModel.contractors.value!!.sortedBy { n -> n.name }, listener)
-                binding.contractorsRecyclerview.adapter = contractorAdapter
-                (it.layoutManager as LinearLayoutManager).scrollToPosition(binding.contractorsRecyclerview.size)
+                _contractorAdapter = ContractorAdapter(_contractorViewModel.contractors.value!!.sortedBy { n -> n.name }, listener)
+                _binding.contractorsRecyclerview.adapter = _contractorAdapter
+                (it.layoutManager as LinearLayoutManager).scrollToPosition(_binding.contractorsRecyclerview.size)
             }
         })
     }
     override fun OnLoading() {
-       binding.loadinglayout.root.visibility = View.VISIBLE
-        binding.succeslayout.visibility = View.GONE
+       _binding.loadinglayout.root.visibility = View.VISIBLE
+        _binding.succeslayout.visibility = View.GONE
     }
     override suspend fun OnError(message: String) {
-        binding.loadinglayout.root.visibility = View.INVISIBLE
+        _binding.loadinglayout.root.visibility = View.INVISIBLE
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
     override fun  OnSucces() {
-        binding.loadinglayout.root.visibility = View.GONE
-        binding.succeslayout.visibility = View.VISIBLE
+        _binding.loadinglayout.root.visibility = View.GONE
+        _binding.succeslayout.visibility = View.VISIBLE
     }
 
 

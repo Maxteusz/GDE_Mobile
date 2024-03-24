@@ -1,5 +1,5 @@
 package com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes
 
-interface ISubDocumentType  {
+interface ISubActionType  {
     val symbol : String
 }

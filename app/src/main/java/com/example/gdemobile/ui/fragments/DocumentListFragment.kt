@@ -65,10 +65,8 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
     fun initObservers() {
-
-
-       sharedViewModel.documentType.observe(viewLifecycleOwner, Observer {
-                viewModel.getDocuments(sharedViewModel.getDocumentType()!!)
+       sharedViewModel.actionType.observe(viewLifecycleOwner, Observer {
+                viewModel.getDocuments(sharedViewModel.getActionType()!!)
                 //initRecyclerViewAdapter(it)
 
         })
@@ -96,7 +94,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
             findNavController().navigate(R.id.action_documentListFragment_to_documentDetailsFragment)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getDocuments(sharedViewModel.getDocumentType()!!)
+            viewModel.getDocuments(sharedViewModel.getActionType()!!)
         }
     }
 

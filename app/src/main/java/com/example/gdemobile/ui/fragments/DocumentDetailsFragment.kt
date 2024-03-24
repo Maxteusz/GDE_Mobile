@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issuance
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
-import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.AcceptanceDocument
-import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IssuanceDocument
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.viewmodels.DocumentViewModel
@@ -70,6 +70,11 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         binding.contractorTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
         binding.contractorTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_contractorListFragment) }
 
+        //Section Warehouse
+        binding.warehouseEdittext.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_warehouseListFragment) }
+        binding.warehouseTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_warehouseListFragment) }
+        binding.warehouseTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_warehouseListFragment) }
+
 
 
         binding.nextButton.setOnClickListener {
@@ -85,12 +90,12 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private fun hideContractorField()
     {
-        when (sharedViewModel.getDocumentType()?.subType) {
-            is AcceptanceDocument.Internal -> {
+        when (sharedViewModel.getActionType()?.subType) {
+            is Acceptance.Internal -> {
                 binding.contractorEdittext.visibility = View.GONE
                 binding.contractorTextfield.visibility = View.GONE
             }
-            is IssuanceDocument.Internal -> {
+            is Issuance.Internal -> {
                 binding.contractorEdittext.visibility = View.GONE
                 binding.contractorTextfield.visibility = View.GONE
             }

@@ -25,7 +25,7 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentDefinitionListBinding
     private lateinit var documentDefinitionViewModel: DocumentDefinitionViewModel
     private var adapter: DocumentDefinitionAdapter? = null
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +68,7 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
 
     override fun onResume() {
         super.onResume()
-        documentDefinitionViewModel.getDocumentDefinitions(sharedViewModel.getDocumentType()!!)
+        documentDefinitionViewModel.getDocumentDefinitions(sharedViewModel.getActionType()!!)
     }
 
     override fun OnLoading() {

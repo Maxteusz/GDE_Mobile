@@ -79,15 +79,14 @@
         <action
             android:id="@+id/action_documentDetailsFragment_to_documentDefinitionListFragment"
             app:destination="@id/documentDefinitionListFragment" />
+        <action
+            android:id="@+id/action_documentDetailsFragment_to_warehouseListFragment"
+            app:destination="@id/warehouseListFragment" />
     </fragment>
     <fragment
         android:id="@+id/contractorListFragment"
         android:name="com.example.gdemobile.ui.fragments.ContractorListFragment"
-        android:label="ContractorListFragment">
-        <action
-            android:id="@+id/action_contractorListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment" />
-    </fragment>
+        android:label="ContractorListFragment"/>
     <dialog
         android:id="@+id/amountCargoDialog"
         android:name="com.example.gdemobile.ui.dialogs.AmountCargoDialog"
@@ -145,11 +144,7 @@
     <fragment
         android:id="@+id/documentDefinitionListFragment"
         android:name="com.example.gdemobile.ui.fragments.DocumentDefinitionListFragment"
-        android:label="DocumentDefinitionListFragment" >
-        <action
-            android:id="@+id/action_documentDefinitionListFragment_to_documentDetailsFragment"
-            app:destination="@id/documentDetailsFragment" />
-    </fragment>
+        android:label="DocumentDefinitionListFragment" />
     <fragment
         android:id="@+id/choiceDocumentTypeFragment"
         android:name="com.example.gdemobile.ui.fragments.ChoiceDocumentTypeFragment"
@@ -179,5 +174,9 @@
         android:id="@+id/configurationFragment"
         android:name="com.example.gdemobile.ui.fragments.ConfigurationFragment"
         android:label="ConfigurationFragment" />
+    <fragment
+        android:id="@+id/warehouseListFragment"
+        android:name="com.example.gdemobile.ui.fragments.WarehouseListFragment"
+        android:label="WarehouseListFragment" />
 
 </navigation>

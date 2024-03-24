@@ -23,6 +23,8 @@ class Document() : Serializable, Parcelable {
     var date : String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     @SerializedName("Opis")
     var describe : String =""
+    @SerializedName("Magazyn")
+    var warehouse : Warehouse = Warehouse()
     var documentPositions = mutableListOf<DocumentPosition>()
 
     constructor(parcel: Parcel) : this() {

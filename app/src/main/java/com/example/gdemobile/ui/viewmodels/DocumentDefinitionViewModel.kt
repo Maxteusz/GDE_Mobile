@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.documentDefinition.DocumentDefinitionDao
-import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IDocumentType
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IActionType
 import com.example.gdemobile.models.DocumentDefinition
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ class DocumentDefinitionViewModel() : ViewModel(), IViewModel {
     private var _documentDefinitions= MutableLiveData<List<DocumentDefinition>>(emptyList())
     val documentDefinitions: LiveData<List<DocumentDefinition>>
         get() = _documentDefinitions
-    fun getDocumentDefinitions(documentType : IDocumentType)
+    fun getDocumentDefinitions(documentType : IActionType)
     {
         viewModelScope.launch {
             _documentDefinitions.postValue(DocumentDefinitionDao(stateResponse).getdDcumentDefinitions(documentType.subType?.symbol!!))

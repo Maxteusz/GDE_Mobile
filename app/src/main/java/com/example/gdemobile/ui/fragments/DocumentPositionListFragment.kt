@@ -49,13 +49,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
                 viewLifecycleOwner.lifecycleScope.launch {
-
-
                 }
             }
         }
 
-    private val listenerDocumentPostionDetails =
+    private val listenerDocumentPositionDetails =
         object : DocumentPositionAdapter.DetailCargoViewHolderListener {
             override fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition) {
             }
@@ -70,6 +68,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         _viewModel =
             ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
         _viewModel.stateResponse = this
+        setColorsProgressSwipeLayout()
         initObservers()
         return _binding.root
     }
@@ -81,6 +80,12 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         initKeyListener()
         view?.isFocusableInTouchMode = true;
         view?.requestFocus()
+    }
+
+    @SuppressLint("ResourceType")
+    fun setColorsProgressSwipeLayout() {
+        _binding.swipeRefreshLayout.setColorSchemeColors(resources.getInteger(R.color.orange))
+        _binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(resources.getInteger(R.color.darkGray))
     }
 
 
@@ -152,7 +157,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                 _documentPositionAdapter = DocumentPositionAdapter(
                     _viewModel.documentPositions.value?.toMutableList()!!,
                     listener,
-                    listenerDocumentPostionDetails
+                    listenerDocumentPositionDetails
                 )
                 _binding.cargosRecyclerview.adapter = _documentPositionAdapter
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(_binding.cargosRecyclerview.size)

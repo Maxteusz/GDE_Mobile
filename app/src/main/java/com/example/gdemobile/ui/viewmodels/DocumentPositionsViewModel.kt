@@ -23,6 +23,7 @@ class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = n
                 .postValue(
                     DocumentPositionDao(stateResponse)
                         .getDocumentPositions(document.id)
+                        ?.sortedByDescending { a -> a.id }
                 )}
     }
 

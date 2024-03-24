@@ -5,34 +5,33 @@
     <data>
 
         <variable
-            name="document"
-            type="com.example.gdemobile.models.Document" />
+            name="warehouse"
+            type="com.example.gdemobile.models.Warehouse" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/maincard"
         android:layout_width="match_parent"
-        app:cardElevation="8dp"
-        android:clickable="true"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/darkGray"
         app:rippleColor="@color/orange"
-        app:cardCornerRadius="0dp"
-        android:backgroundTint="@color/darkGray"
+        android:clickable="true"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/document_icon"/>
+                android:layout_marginStart="5dp"
+                android:src="@drawable/contractor_icon" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,11 +43,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                    android:text="@{document.number}"
-                    android:textColor="@color/orange"
+                    android:text="@{warehouse.code}"
+                    android:textColor="@color/lightGray"
                     android:textSize="16sp" />
 
                 <TextView
@@ -57,11 +55,11 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:fontFamily="sans-serif"
-                    android:text="@{document.contractor.name}"
+                    android:text="@{warehouse.name}"
                     android:textColor="@color/lightGray"
                     android:lines="1"
-                    android:textSize="12sp" />
-
+                    android:textSize="12sp"
+                    />
 
             </LinearLayout>
 

@@ -14,6 +14,11 @@
         <item name="android:textColorHint">@color/lightGray</item>
     </style>
 
+    <style name="CustomTextInputExposedStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/color_stroke_conf_fragment</item>
+        <item name="android:textColorHint">@color/lightGray</item>
+    </style>
+
     <style name="CustomEditTextStyle" parent="ThemeOverlay.Material3.TextInputEditText">
         <item name="android:textColor">@color/lightGray</item>
     </style>

@@ -3,7 +3,8 @@ package com.example.gdemobile.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gdemobile.databinding.RecyclerviewCargoBinding
+import com.example.gdemobile.databinding.CardCargoBinding
+
 import com.example.gdemobile.models.DocumentPosition
 
 class DocumentPositionAdapter(
@@ -13,7 +14,7 @@ class DocumentPositionAdapter(
 ) : RecyclerView.Adapter<DocumentPositionAdapter.CargoViewHolder>() {
 
     inner class CargoViewHolder(
-        private val binding: RecyclerviewCargoBinding
+        private val binding: CardCargoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -47,7 +48,7 @@ class DocumentPositionAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CargoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = RecyclerviewCargoBinding.inflate(inflater, parent, false)
+        val binding = CardCargoBinding.inflate(inflater, parent, false)
         return CargoViewHolder(binding)
     }
 

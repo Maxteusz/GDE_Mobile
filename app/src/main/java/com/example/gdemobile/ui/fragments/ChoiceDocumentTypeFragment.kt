@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
-import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.AcceptanceDocument
-import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IssuanceDocument
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issuance
 import com.example.gdemobile.databinding.FragmentChoiceDocumentTypeBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
@@ -34,25 +34,25 @@ class ChoiceDocumentTypeFragment : Fragment() {
     fun initViews() {
         binding.insideButton.setOnClickListener {
             sharedViewModel.setDocument(Document())
-            setInternalSubDocument()
+            setInternalSubAction()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
 
         binding.insideButton.setOnLongClickListener {
             sharedViewModel.setDocument(Document())
-            setInternalSubDocument()
+            setInternalSubAction()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
             true
         }
 
         binding.outsideButton.setOnClickListener {
             sharedViewModel.setDocument(Document())
-            setExternalSubDocument()
+            setExternalSubAction()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentListFragment)
         }
         binding.outsideButton.setOnLongClickListener {
             sharedViewModel.setDocument(Document())
-            setExternalSubDocument()
+            setExternalSubAction()
             findNavController().navigate(R.id.action_choiceDocumentTypeFragment_to_documentDetailsFragment)
             true
         }
@@ -60,18 +60,18 @@ class ChoiceDocumentTypeFragment : Fragment() {
 
     }
 
-    private fun setExternalSubDocument() {
-        when (sharedViewModel.getDocumentType()) {
-            is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = AcceptanceDocument.External()
+    private fun setExternalSubAction() {
+        when (sharedViewModel.getActionType()) {
+            is Acceptance -> sharedViewModel.getActionType()?.subType = Acceptance.External()
 
-            is IssuanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.External()
+            is Issuance -> sharedViewModel.getActionType()?.subType = Issuance.External()
         }
     }
 
-        private fun setInternalSubDocument() {
-            when (sharedViewModel.getDocumentType()) {
-                is AcceptanceDocument -> sharedViewModel.getDocumentType()?.subType = AcceptanceDocument.Internal()
-                is IssuanceDocument -> sharedViewModel.getDocumentType()?.subType = IssuanceDocument.Internal()
+        private fun setInternalSubAction() {
+            when (sharedViewModel.getActionType()) {
+                is Acceptance -> sharedViewModel.getActionType()?.subType = Acceptance.Internal()
+                is Issuance -> sharedViewModel.getActionType()?.subType = Issuance.Internal()
             }
     }
 

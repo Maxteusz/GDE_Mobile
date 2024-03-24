@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gdemobile.R
-import com.example.gdemobile.databinding.RecyclerviewDocumentdefinitionBinding
+import com.example.gdemobile.databinding.CardDocumentdefinitionBinding
 import com.example.gdemobile.models.DocumentDefinition
 
 class DocumentDefinitionAdapter(
@@ -14,7 +14,7 @@ class DocumentDefinitionAdapter(
 ) : RecyclerView.Adapter<DocumentDefinitionAdapter.DocumentDefnitionViewHolder>() {
 
     inner class DocumentDefnitionViewHolder(
-        val recyclerviewDocumentdefinitionBinding: RecyclerviewDocumentdefinitionBinding
+        val recyclerviewDocumentdefinitionBinding: CardDocumentdefinitionBinding
     ) : RecyclerView.ViewHolder(recyclerviewDocumentdefinitionBinding.root) {
 
     }
@@ -22,7 +22,7 @@ class DocumentDefinitionAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DocumentDefnitionViewHolder(
         DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.recyclerview_documentdefinition,
+            R.layout.card_documentdefinition,
             parent,
             false
         )

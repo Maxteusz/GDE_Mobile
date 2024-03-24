@@ -1,8 +1,6 @@
 package com.example.gdemobile.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +8,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
-import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.utils.NamesSharedVariable
 
 
 class DocumentPositionDetailsFragment : Fragment() {
@@ -22,11 +18,11 @@ class DocumentPositionDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
-        val documentPosition =
-            arguments?.getSerializable(NamesSharedVariable.documentPosition) as DocumentPosition
+
+
 
 
 
@@ -43,20 +39,7 @@ class DocumentPositionDetailsFragment : Fragment() {
         )
         binding.currencysymbolSpinner.setAdapter(currencyAdapter)
 
-        binding.amountEdittext.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })
 
         return binding.root
     }

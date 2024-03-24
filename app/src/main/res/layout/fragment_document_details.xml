@@ -69,6 +69,27 @@
                     android:text="@{document.contractor.code}" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/warehouse_textfield"
+                style="@style/CustomTextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Magazyn"
+                app:endIconDrawable="@drawable/baseline_expand_more_24"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/warehouse_edittext"
+                    style="@style/CustomEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:singleLine="true"
+                    android:focusableInTouchMode="false"
+                    android:text="@{document.warehouse.code}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputStyle"

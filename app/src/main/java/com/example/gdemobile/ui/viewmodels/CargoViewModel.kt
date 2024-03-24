@@ -6,13 +6,15 @@ import com.example.gdemobile.apiConnect.enovaConnect.daos.cargo.CargoDao
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.CustomToast
 
-class CargoViewModel(private val sharedViewModel: SharedViewModel,
-                     private val context: Context,
-    override var stateResponse: IStateResponse? = null) : ViewModel(), IViewModel {
+class CargoViewModel(
+    private val sharedViewModel: SharedViewModel,
+    private val context: Context,
+    override var stateResponse: IStateResponse? = null)
+    : ViewModel(), IViewModel {
 
 
     suspend fun getCargo(ean: String, action: () -> Unit) {
-        var cargo = CargoDao(GetCargoStateResponse(context,action)).getCargoInformationByEan(ean)
+        val cargo = CargoDao(GetCargoStateResponse(context,action)).getCargoInformationByEan(ean)
         if(cargo != null)
             sharedViewModel.documentPosition.value?.cargo = cargo
     }
