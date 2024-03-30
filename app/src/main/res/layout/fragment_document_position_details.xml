@@ -18,9 +18,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical"
             tools:context=".ui.fragments.DocumentPositionDetailsFragment">
 
@@ -28,13 +28,12 @@
                 style="@style/CustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:hint="Kod">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                   style="@style/CustomEditTextStyle"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -43,15 +42,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputStyle"                android:layout_width="match_parent"
+                style="@style/CustomTextInputStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Nazwa">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/CustomEditTextStyle"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -64,28 +64,28 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
-                    style="@style/CustomTextInputStyle"
                     android:layout_weight="1"
                     android:hint="Ilość">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/amount_edittext"
+                        style="@style/CustomEditTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/CustomEditTextStyle"
                         android:singleLine="true"
                         android:text="@{documentPosition.amount.valueToString}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputExposedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    style="@style/CustomTextInputExposedStyle"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:hint="Jednostka">
@@ -94,11 +94,10 @@
                         android:id="@+id/unit_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/lightGray"
+                        android:singleLine="true"
                         android:text="@{documentPosition.amount.symbol}"
 
-                        android:singleLine="true"
-                        />
+                        android:textColor="@color/lightGray" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -118,15 +117,16 @@
                     android:hint="Cena za sztukę">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        style="@style/CustomEditTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/CustomEditTextStyle"
                         android:singleLine="true"
                         android:text="@{String.valueOf(documentPosition.valuePerUnit.value)}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/CustomTextInputExposedStyle"                    android:layout_width="match_parent"
+                    style="@style/CustomTextInputExposedStyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
@@ -137,22 +137,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:textColor="@color/lightGray"
+                        android:text="@{documentPosition.valuePerUnit.symbol}"
 
-                        android:text="@{documentPosition.valuePerUnit.symbol}" />
+                        android:textColor="@color/lightGray" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-          <androidx.recyclerview.widget.RecyclerView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="10dp">
-
-          </androidx.recyclerview.widget.RecyclerView>
-
-
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+               android:layout_marginTop="30dp"
+                android:layout_weight="5.2"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <!--OnLoadingLayout-->
+                <include
+                    android:id="@+id/loadinglayout"
+                    layout="@layout/loading_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+                <!--OnSuccessLayout-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
         </LinearLayout>
+
+
+
     </FrameLayout>
 </layout>

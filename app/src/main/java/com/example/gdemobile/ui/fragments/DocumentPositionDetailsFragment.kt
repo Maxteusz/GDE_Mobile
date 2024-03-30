@@ -9,17 +9,20 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.R
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
+import com.example.gdemobile.ui.viewmodels.WarehouseViewModel
 
 
 class DocumentPositionDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDocumentPositionDetailsBinding
     private lateinit var _documentPosition: DocumentPosition
-
+    private lateinit var warehouseResourceViewModel: WarehouseViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
 
@@ -30,11 +33,9 @@ class DocumentPositionDetailsFragment : Fragment() {
     ): View {
         _documentPosition = sharedViewModel.documentPosition.value!!
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
+        warehouseResourceViewModel = ViewModelProvider(requireActivity())[Wa::class.java]
         initAdapters()
         binding.documentPosition = _documentPosition
-
-
-
         return binding.root
     }
 

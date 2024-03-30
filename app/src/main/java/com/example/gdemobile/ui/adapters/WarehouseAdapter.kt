@@ -8,7 +8,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.databinding.CardWarehouseBinding
 import com.example.gdemobile.models.Warehouse
 
-class WarehouseAdapter (private val warehouses: List<Warehouse>, private var listener : WarehouseAdapter.ViewHolderListener)
+class WarehouseAdapter (private val warehouses: List<Warehouse>, private var listener : ViewHolderListener)
     : RecyclerView.Adapter<WarehouseAdapter.WarehouseViewHolder>() {
     interface  ViewHolderListener {
         fun onItemClicked(warehouse: Warehouse)
