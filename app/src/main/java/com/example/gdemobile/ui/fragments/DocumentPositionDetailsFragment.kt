@@ -26,22 +26,21 @@ class DocumentPositionDetailsFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _documentPosition = sharedViewModel.documentPosition.value!!
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
-        warehouseResourceViewModel = ViewModelProvider(requireActivity())[Wa::class.java]
+        warehouseResourceViewModel =
+            ViewModelProvider(requireActivity())[WarehouseViewModel::class.java]
         initAdapters()
         binding.documentPosition = _documentPosition
         return binding.root
     }
 
 
-
-    fun initAdapters() {
+    private fun initAdapters() {
         val currencyAdapter = ArrayAdapter(
             requireActivity(),
             R.layout.support_simple_spinner_dropdown_item,
@@ -50,16 +49,13 @@ class DocumentPositionDetailsFragment : Fragment() {
 
         binding.currencysymbolSpinner.setAdapter(currencyAdapter)
         binding.currencysymbolSpinner.threshold = 100000
-
-
-
         val unitAdapter = ArrayAdapter(
-             requireActivity(),
-             R.layout.support_simple_spinner_dropdown_item,
+            requireActivity(),
+            R.layout.support_simple_spinner_dropdown_item,
             _documentPosition.cargo?.additionalUnits!!
         )
         binding.unitSpinner.threshold = 10000
-         binding.unitSpinner.setAdapter(unitAdapter)
+        binding.unitSpinner.setAdapter(unitAdapter)
     }
 
 

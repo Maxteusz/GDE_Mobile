@@ -6,4 +6,6 @@ class WarehouseResource {
     val warehouse : Warehouse = Warehouse()
     val cargo  : Cargo = Cargo()
     val amount : Quantity = Quantity()
+    val document  = Document()
+    val provider : Contractor = Contractor(0,"","")
 }

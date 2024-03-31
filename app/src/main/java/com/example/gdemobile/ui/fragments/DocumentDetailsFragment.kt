@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -95,6 +96,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
+        binding.loadinglayout.
 
     }
 

@@ -18,8 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:orientation="vertical"
             tools:context=".ui.fragments.DocumentPositionDetailsFragment">
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:hint="Ilość">
 
@@ -85,7 +85,7 @@
                     style="@style/CustomTextInputExposedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:hint="Jednostka">
@@ -96,7 +96,6 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@{documentPosition.amount.symbol}"
-
                         android:textColor="@color/lightGray" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -112,7 +111,7 @@
                     style="@style/CustomTextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:hint="Cena za sztukę">
 
@@ -128,7 +127,7 @@
                     style="@style/CustomTextInputExposedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:hint="Waluta">
 
@@ -146,10 +145,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-               android:layout_marginTop="30dp"
-                android:layout_weight="5.2"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="5.2"
                 android:orientation="horizontal">
                 <!--OnLoadingLayout-->
                 <include
@@ -161,11 +160,9 @@
                 <!--OnSuccessLayout-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
-
 
 
     </FrameLayout>
