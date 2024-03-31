@@ -96,8 +96,6 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override fun OnLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
-        binding.loadinglayout.
-
     }
 
     override suspend fun OnError(message: String) {
