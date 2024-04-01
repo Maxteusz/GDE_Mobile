@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -141,6 +142,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         }
         _binding.swipeRefreshLayout.setOnRefreshListener {
             _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+
         }
 
 
@@ -167,7 +169,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             }
         }
         sharedViewModel.document.observe(viewLifecycleOwner) {
-            _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+            if(sharedViewModel.getBlockLoadData() == false)
+                Log.i("BLOCKKKK", sharedViewModel.getBlockLoadData().toString())
+           _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+           // sharedViewModel.setBlockLoadData(false)
 
         }
 

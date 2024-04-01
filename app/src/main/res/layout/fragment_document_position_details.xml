@@ -82,6 +82,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/unit_inputlayout"
                     style="@style/CustomTextInputExposedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,16 +138,26 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@{documentPosition.valuePerUnit.symbol}"
-
                         android:textColor="@color/lightGray" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zasoby"
+                    android:textColor="@color/orange"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="5.2"
                 android:orientation="horizontal">
@@ -159,11 +170,12 @@
                     android:visibility="gone" />
                 <!--OnSuccessLayout-->
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/warehouses_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
 
     </FrameLayout>
 </layout>

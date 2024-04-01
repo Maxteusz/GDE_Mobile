@@ -4,14 +4,14 @@ import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IConnect
 import com.example.gdemobile.apiConnect.enovaConnect.methods.interfaces.IDto
 import com.google.gson.annotations.SerializedName
 
-class GetPrimaryInformation(val barcode : String) : IConnectEnovaMethod {
+class GetPrimaryInformation(val idCargo: Int) : IConnectEnovaMethod {
     override val methodName: String
         get() = "PobierzPodstZasobyWgTowaru"
     override val methodService: String
-        get() = "APIEnova.Services.IMagazynService, APIEnova"
+        get() = "APIEnova.Services.IZasobMagazynowyService, APIEnova"
     override val dto: IDto
-        get() = Dto(barcode)
+        get() = Dto(idCargo)
 
     private class Dto(
-        @SerializedName("barcode") val ean: String) :  IDto
+        @SerializedName("idTowaru") val idCargo: Int) :  IDto
 }

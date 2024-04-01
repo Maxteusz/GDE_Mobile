@@ -7,15 +7,15 @@ import com.example.gdemobile.models.WarehouseResource
 import com.example.gdemobile.ui.IStateResponse
 
 class WarehouseResourceDao(stateResponse: IStateResponse?) : Dao(stateResponse), IWarehouseResourceDao{
-    override suspend fun getPrimaryInformation(barcode: String): List<WarehouseResource>?{
-        return requestList<WarehouseResource>(GetPrimaryInformation(barcode))
+    override suspend fun getPrimaryInformation(idCargo : Int): List<WarehouseResource>?{
+        return requestList<WarehouseResource>(GetPrimaryInformation(idCargo))
     }
 
     override suspend fun getExtendedInformation(
-        barcode: String,
+        idCargo : Int,
         IDWarehouse: Int
     ): List<WarehouseResource>? {
-        return requestList<WarehouseResource>(GetExtendedInformation(barcode,IDWarehouse))
+        return requestList<WarehouseResource>(GetExtendedInformation(idCargo,IDWarehouse))
     }
 
 

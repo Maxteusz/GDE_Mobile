@@ -1,7 +1,7 @@
 package com.example.gdemobile.ui.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,37 +9,54 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.R
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
-import com.example.gdemobile.ui.viewmodels.DocumentViewModel
+import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.adapters.WarehouseResourcesAdapter
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
-import com.example.gdemobile.ui.viewmodels.WarehouseViewModel
+import com.example.gdemobile.ui.viewmodels.WarehouseResourceViewModel
+import kotlinx.coroutines.launch
 
 
-class DocumentPositionDetailsFragment : Fragment() {
+class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentPositionDetailsBinding
     private lateinit var _documentPosition: DocumentPosition
-    private lateinit var warehouseResourceViewModel: WarehouseViewModel
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var _warehouseResourceViewModel: WarehouseResourceViewModel
+    private lateinit var _warehouseResourceAdapter : WarehouseResourcesAdapter
+    private val _sharedViewModel: SharedViewModel by activityViewModels()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _documentPosition = sharedViewModel.documentPosition.value!!
+        _documentPosition = _sharedViewModel.documentPosition.value!!
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
-        warehouseResourceViewModel =
-            ViewModelProvider(requireActivity())[WarehouseViewModel::class.java]
+        _warehouseResourceViewModel =
+            ViewModelProvider(requireActivity())[WarehouseResourceViewModel::class.java]
+        _warehouseResourceViewModel.stateResponse = this
         initAdapters()
+        initObservers()
+        blockWidget()
         binding.documentPosition = _documentPosition
         return binding.root
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            _sharedViewModel.documentPosition.value?.cargo?.let {
+                _warehouseResourceViewModel
+                    .getPrimaryWarehouseResourceInformation(it.id)
+            }
+        }
+    }
     private fun initAdapters() {
         val currencyAdapter = ArrayAdapter(
             requireActivity(),
@@ -49,6 +66,7 @@ class DocumentPositionDetailsFragment : Fragment() {
 
         binding.currencysymbolSpinner.setAdapter(currencyAdapter)
         binding.currencysymbolSpinner.threshold = 100000
+
         val unitAdapter = ArrayAdapter(
             requireActivity(),
             R.layout.support_simple_spinner_dropdown_item,
@@ -56,6 +74,45 @@ class DocumentPositionDetailsFragment : Fragment() {
         )
         binding.unitSpinner.threshold = 10000
         binding.unitSpinner.setAdapter(unitAdapter)
+    }
+
+    private fun initObservers()
+    {
+        _warehouseResourceViewModel.warehouseResources.observe(viewLifecycleOwner, Observer {
+            binding.warehousesRecyclerview.also {
+                it.layoutManager = LinearLayoutManager(context)
+                it.setHasFixedSize(true)
+                _warehouseResourceAdapter = WarehouseResourcesAdapter(_warehouseResourceViewModel.warehouseResources.value!!, WarehouseResourcesAdapter.WAREHOUSE_RESOURCE_TYPE.PRIMARY)
+                it.adapter = _warehouseResourceAdapter
+            }
+        })
+    }
+
+    fun blockWidget()
+    {
+        if(_documentPosition.cargo?.additionalUnits.isNullOrEmpty())
+        binding.unitSpinner.isEnabled= false
+        else
+            binding.unitSpinner.isEnabled = true
+
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        _sharedViewModel.setBlockLoadData(true)
+        Log.i("Detaccccc","Detachhhhhhh")
+    }
+    override fun OnLoading() {
+
+    }
+
+    override suspend fun OnError(message: String) {
+
+    }
+
+    override fun OnSucces() {
+
     }
 
 

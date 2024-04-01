@@ -35,7 +35,7 @@ class WarehouseResourcesAdapter(private val warehouseResources: List<WarehouseRe
             false))
     }
 
-   public enum WAREHOUSE_RESOURCE_TYPE {
+   enum class WAREHOUSE_RESOURCE_TYPE {
         PRIMARY, EXTENSION
     }
 
