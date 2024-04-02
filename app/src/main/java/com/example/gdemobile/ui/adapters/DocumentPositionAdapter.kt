@@ -12,7 +12,7 @@ import com.example.gdemobile.models.DocumentPosition
 class DocumentPositionAdapter(
     private val cargos: List<DocumentPosition>,
     private val deleteListener: DeleteCargoViewHolderListener,
-    private val detailListener: DetailCargoViewHolderListener
+    private val detailListener: IDetailCargoViewHolderListener
 ) : RecyclerView.Adapter<DocumentPositionAdapter.CargoViewHolder>() {
 
     inner class CargoViewHolder(
@@ -35,7 +35,7 @@ class DocumentPositionAdapter(
         }
 
 
-        @SuppressLint("ResourceAsColor")
+        @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
         fun bind(documentPosition: DocumentPosition) {
             binding.documentposition = documentPosition
             if (documentPosition.valuePerUnit.value == 0.0) {
@@ -51,7 +51,7 @@ class DocumentPositionAdapter(
         fun onDeleteDocumentPositionItemClicked(idDocumentPosition: Int)
     }
 
-    interface DetailCargoViewHolderListener {
+    interface IDetailCargoViewHolderListener {
         fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition)
     }
 

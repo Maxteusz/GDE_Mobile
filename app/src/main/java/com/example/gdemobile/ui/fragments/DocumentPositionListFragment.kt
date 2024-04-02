@@ -43,7 +43,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private var _scannedBarcode: String = ""
 
 
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val _sharedViewModel: SharedViewModel by activityViewModels()
 
 
     private val listener =
@@ -55,9 +55,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         }
 
     private val listenerDocumentPositionDetails =
-        object : DocumentPositionAdapter.DetailCargoViewHolderListener {
+        object : DocumentPositionAdapter.IDetailCargoViewHolderListener {
             override fun onOpenDetailDocumentPosition(documentPosition: DocumentPosition) {
-                sharedViewModel.setDocumentPosition(documentPosition)
+                _sharedViewModel.setDocumentPosition(documentPosition)
                 findNavController().navigate(R.id.action_cargoListFragment_to_documentPositionDetailsFragment)
             }
         }
@@ -71,7 +71,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         _viewModel =
             ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
         _viewModel.stateResponse = this
-        _binding.documentnumberTextview.text = sharedViewModel.document.value?.number
+        _binding.documentnumberTextview.text = _sharedViewModel.document.value?.number
         setColorsProgressSwipeLayout()
         initObservers()
         return _binding.root
@@ -141,7 +141,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             _binding.searchTextfield.clearFocus()
         }
         _binding.swipeRefreshLayout.setOnRefreshListener {
-            _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+            _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
 
         }
 
@@ -156,11 +156,13 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     @SuppressLint("SuspiciousIndentation")
     private fun initObservers() {
         _viewModel.documentPositions.observe(viewLifecycleOwner) {
+            list ->
             _binding.cargosRecyclerview.also {
+
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
                 _documentPositionAdapter = DocumentPositionAdapter(
-                    _viewModel.documentPositions.value?.toMutableList()!!,
+                    list,
                     listener,
                     listenerDocumentPositionDetails
                 )
@@ -168,10 +170,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                 (it.layoutManager as LinearLayoutManager).scrollToPosition(_binding.cargosRecyclerview.size)
             }
         }
-        sharedViewModel.document.observe(viewLifecycleOwner) {
-            if(sharedViewModel.getBlockLoadData() == false)
-                Log.i("BLOCKKKK", sharedViewModel.getBlockLoadData().toString())
-           _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+        _sharedViewModel.document.observe(viewLifecycleOwner) {
+            if(_sharedViewModel.getBlockLoadData() == false)
+                Log.i("BLOCKKKK", _sharedViewModel.getBlockLoadData().toString())
+           _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
            // sharedViewModel.setBlockLoadData(false)
 
         }
@@ -184,7 +186,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             if (event.action == KeyEvent.ACTION_DOWN)
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        CargoViewModel(sharedViewModel, requireActivity())
+                        CargoViewModel(_sharedViewModel, requireActivity())
                             .getCargo(_scannedBarcode.trim()) {
                                 //findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
                                 openDialog()
@@ -238,7 +240,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             override fun DismissDialogFunction() {
                 dialog.dismiss()
                 _viewModel.stateResponse = this@DocumentPositionListFragment
-                _viewModel.getDocumentPositions(sharedViewModel.document.value!!)
+                _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
 
 
             }

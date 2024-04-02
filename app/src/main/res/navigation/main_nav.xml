@@ -140,6 +140,9 @@
         <action
             android:id="@+id/action_documentPositionDetailsFragment_to_cargoListFragment"
             app:destination="@id/documentPostionListFragment" />
+        <action
+            android:id="@+id/action_documentPositionDetailsFragment_to_warehouseResourceDetailFragment"
+            app:destination="@id/warehouseResourceDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/documentDefinitionListFragment"
@@ -178,5 +181,9 @@
         android:id="@+id/warehouseListFragment"
         android:name="com.example.gdemobile.ui.fragments.WarehouseListFragment"
         android:label="WarehouseListFragment" />
+    <fragment
+        android:id="@+id/warehouseResourceDetailFragment"
+        android:name="com.example.gdemobile.ui.fragments.WarehouseResourceDetailFragment"
+        android:label="WarehouseResourceDetailFragment" />
 
 </navigation>

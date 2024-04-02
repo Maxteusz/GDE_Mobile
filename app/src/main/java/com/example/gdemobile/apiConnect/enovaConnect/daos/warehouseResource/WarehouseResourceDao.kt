@@ -13,9 +13,9 @@ class WarehouseResourceDao(stateResponse: IStateResponse?) : Dao(stateResponse),
 
     override suspend fun getExtendedInformation(
         idCargo : Int,
-        IDWarehouse: Int
+        idWarehouse: Int
     ): List<WarehouseResource>? {
-        return requestList<WarehouseResource>(GetExtendedInformation(idCargo,IDWarehouse))
+        return requestList<WarehouseResource>(GetExtendedInformation(idCargo,idWarehouse))
     }
 
 

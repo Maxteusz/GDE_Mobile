@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IActionType
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.models.WarehouseResource
 
 class SharedViewModel : ViewModel() {
     private var _document = MutableLiveData<Document>()
@@ -16,6 +17,9 @@ class SharedViewModel : ViewModel() {
 
     private var _documentPosition = MutableLiveData(DocumentPosition())
     var documentPosition: LiveData<DocumentPosition> = _documentPosition
+
+    private var _warehouseResource = MutableLiveData(WarehouseResource())
+    var warehouseResource : LiveData<WarehouseResource> = _warehouseResource
 
     //ScanBarcodeFragment
     //Require to unblock/block scanning after close amount (in depends on conf)
@@ -46,6 +50,12 @@ class SharedViewModel : ViewModel() {
     fun setDocumentPosition(documentPosition: DocumentPosition) {
         _documentPosition.value = documentPosition
     }
+    fun getWarehouseResource() = warehouseResource.value
+    fun setWarehouseResource(warehouseResource: WarehouseResource)
+    {
+        _warehouseResource.value = warehouseResource
+    }
+
 
     fun getActionType() = _actionType.value
 

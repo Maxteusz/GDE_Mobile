@@ -9,17 +9,19 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.R
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentDocumentPositionDetailsBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.models.WarehouseResource
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.adapters.WarehouseResourcesAdapter
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.ui.viewmodels.WarehouseResourceViewModel
+import com.example.gdemobile.utils.CustomToast
 import kotlinx.coroutines.launch
 
 
@@ -76,16 +78,28 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
         binding.unitSpinner.setAdapter(unitAdapter)
     }
 
+    private val onClickListener  = object : WarehouseResourcesAdapter.IOnClickListener {
+        override fun onClick(warehouseResource: WarehouseResource) {
+            _sharedViewModel.setWarehouseResource(warehouseResource)
+            findNavController().navigate(com.example.gdemobile.R.id.action_documentPositionDetailsFragment_to_warehouseResourceDetailFragment)
+
+        }
+    }
     private fun initObservers()
     {
-        _warehouseResourceViewModel.warehouseResources.observe(viewLifecycleOwner, Observer {
+        _warehouseResourceViewModel.primaryWarehouseResources.observe(viewLifecycleOwner) {
+            list ->
             binding.warehousesRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
-                _warehouseResourceAdapter = WarehouseResourcesAdapter(_warehouseResourceViewModel.warehouseResources.value!!, WarehouseResourcesAdapter.WAREHOUSE_RESOURCE_TYPE.PRIMARY)
+                _warehouseResourceAdapter = WarehouseResourcesAdapter(
+                    list,
+                    WarehouseResourcesAdapter.WarehouseResourceType.PRIMARY,
+                    onClickListener
+                )
                 it.adapter = _warehouseResourceAdapter
             }
-        })
+        }
     }
 
     fun blockWidget()
@@ -108,7 +122,7 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
     }
 
     override suspend fun OnError(message: String) {
-
+        context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
     }
 
     override fun OnSucces() {

@@ -13,15 +13,19 @@ class WarehouseResourceViewModel() : ViewModel(),
     override var stateResponse: IStateResponse? = null
 
 
-    private val _warehouseResources = MutableLiveData<List<WarehouseResource>>(emptyList())
-    val warehouseResources: LiveData<List<WarehouseResource>>
-        get() = _warehouseResources
+    private val _primaryWarehouseResources = MutableLiveData<List<WarehouseResource>>(emptyList())
+    private val _extendedWarehouseResources = MutableLiveData<List<WarehouseResource>>(emptyList())
+    val primaryWarehouseResources: LiveData<List<WarehouseResource>>
+        get() = _primaryWarehouseResources
+
+    val extendedWarehouseResources: LiveData<List<WarehouseResource>>
+        get() = _extendedWarehouseResources
 
     suspend fun getPrimaryWarehouseResourceInformation(idCargo : Int){
-        return _warehouseResources.postValue(WarehouseResourceDao(stateResponse).getPrimaryInformation(idCargo))
+        return _primaryWarehouseResources.postValue(WarehouseResourceDao(stateResponse).getPrimaryInformation(idCargo))
     }
-    suspend fun getExtendedWarehouseResourceInformation(idCargo: Int, idWarehouse : Int): List<WarehouseResource>? {
-        return WarehouseResourceDao(stateResponse).getExtendedInformation(idCargo, idWarehouse)
+    suspend fun getExtendedWarehouseResourceInformation(idCargo: Int, idWarehouse : Int) {
+        return _extendedWarehouseResources.postValue(WarehouseResourceDao(stateResponse).getExtendedInformation(idCargo, idWarehouse))
     }
 
 
