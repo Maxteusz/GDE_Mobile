@@ -16,26 +16,29 @@ class ConnectService(
 
     suspend fun <X : Any> makeConnection(connectionParameters: IConnectEnovaMethod): X? {
         try {
-            stateResponse?.OnLoading()
+            while (stateResponse != null) {
+                stateResponse.OnLoading()
 
-            val quotesApi = RetrofitClient().getInstance().create(IRetrofitMethod::class.java)
-            var result = quotesApi.getListData<X>(RequestDto(connectionParameters))
-            Log.i(LogTag.enovaApiBodyRequest, Gson().toJson(RequestDto(connectionParameters)))
-            if (result.code() == 200) {
-                Log.i(LogTag.enovaApiNameMethod, connectionParameters.methodName)
-                Log.i(LogTag.enovaApiMessage, result.body()!!.exceptionMessage)
-                Log.i(LogTag.enovaApiIsExcpetion, result.body()!!.isException.toString())
-                Log.i(LogTag.enovaApiIsEmpty, result.body()!!.isEmpty.toString())
-                Log.i(LogTag.enovaApiResultInstance, result.body()!!.resultInstance.toString())
+                val quotesApi = RetrofitClient().getInstance().create(IRetrofitMethod::class.java)
+                val result = quotesApi.getListData<X>(RequestDto(connectionParameters))
+                Log.i(LogTag.enovaApiBodyRequest, Gson().toJson(RequestDto(connectionParameters)))
+                if (result.code() == 200) {
+                    Log.i(LogTag.enovaApiNameMethod, connectionParameters.methodName)
+                    Log.i(LogTag.enovaApiMessage, result.body()!!.exceptionMessage)
+                    Log.i(LogTag.enovaApiIsExcpetion, result.body()!!.isException.toString())
+                    Log.i(LogTag.enovaApiIsEmpty, result.body()!!.isEmpty.toString())
+                    Log.i(LogTag.enovaApiResultInstance, result.body()!!.resultInstance.toString())
 
-                if (!result.body()?.isException!!) {
-                    val result = result.body()?.resultInstance
-                    stateResponse?.OnSucces()
-                    return result
+                    if (!result.body()?.isException!!) {
+                        val result = result.body()?.resultInstance
+                        stateResponse?.OnSucces()
+                        return result
+                    }
+                    result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }
                 }
-                result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }
-            }
 
+                return null
+            }
             return null
 
         } catch (timeout: SocketTimeoutException) {
@@ -49,15 +52,13 @@ class ConnectService(
             return null
 
 
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             stateResponse?.OnError("Nieznany błąd")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 
 
         }
-
 
 
     }

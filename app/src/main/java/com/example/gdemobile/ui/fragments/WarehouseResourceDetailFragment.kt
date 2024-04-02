@@ -8,7 +8,6 @@ import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gdemobile.databinding.FragmentWarehouseResourceDetailBinding
 import com.example.gdemobile.ui.IStateResponse
@@ -16,7 +15,6 @@ import com.example.gdemobile.ui.adapters.WarehouseResourcesAdapter
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.ui.viewmodels.WarehouseResourceViewModel
 import com.example.gdemobile.utils.CustomToast
-import kotlinx.coroutines.launch
 
 class WarehouseResourceDetailFragment : Fragment(), IStateResponse {
 
@@ -34,12 +32,11 @@ class WarehouseResourceDetailFragment : Fragment(), IStateResponse {
         viewModel = ViewModelProvider(requireActivity())[WarehouseResourceViewModel::class.java]
         viewModel.stateResponse = this
         _initObservers()
-        lifecycleScope.launch {
             viewModel.getExtendedWarehouseResourceInformation(
                 _sharedViewModel.getWarehouseResource()?.cargo?.id!!,
                 _sharedViewModel.getWarehouseResource()?.warehouse?.ID!!
             )
-        }
+
         return _binding.root
     }
 

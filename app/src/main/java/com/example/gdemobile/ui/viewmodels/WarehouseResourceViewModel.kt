@@ -3,9 +3,11 @@ package com.example.gdemobile.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.warehouseResource.WarehouseResourceDao
 import com.example.gdemobile.models.WarehouseResource
 import com.example.gdemobile.ui.IStateResponse
+import kotlinx.coroutines.launch
 
 class WarehouseResourceViewModel() : ViewModel(),
     IViewModel {
@@ -21,11 +23,24 @@ class WarehouseResourceViewModel() : ViewModel(),
     val extendedWarehouseResources: LiveData<List<WarehouseResource>>
         get() = _extendedWarehouseResources
 
-    suspend fun getPrimaryWarehouseResourceInformation(idCargo : Int){
-        return _primaryWarehouseResources.postValue(WarehouseResourceDao(stateResponse).getPrimaryInformation(idCargo))
+     fun getPrimaryWarehouseResourceInformation(idCargo : Int){
+        viewModelScope.launch {
+            _primaryWarehouseResources.postValue(
+                WarehouseResourceDao(stateResponse).getPrimaryInformation(
+                    idCargo
+                )
+            )
+        }
     }
-    suspend fun getExtendedWarehouseResourceInformation(idCargo: Int, idWarehouse : Int) {
-        return _extendedWarehouseResources.postValue(WarehouseResourceDao(stateResponse).getExtendedInformation(idCargo, idWarehouse))
+     fun getExtendedWarehouseResourceInformation(idCargo: Int, idWarehouse : Int) {
+        viewModelScope.launch {
+            _extendedWarehouseResources.postValue(
+                WarehouseResourceDao(stateResponse).getExtendedInformation(
+                    idCargo,
+                    idWarehouse
+                )
+            )
+        }
     }
 
 

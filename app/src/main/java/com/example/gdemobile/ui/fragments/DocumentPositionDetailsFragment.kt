@@ -1,7 +1,6 @@
 package com.example.gdemobile.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,7 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
     private lateinit var binding: FragmentDocumentPositionDetailsBinding
     private lateinit var _documentPosition: DocumentPosition
     private lateinit var _warehouseResourceViewModel: WarehouseResourceViewModel
-    private lateinit var _warehouseResourceAdapter : WarehouseResourcesAdapter
+    private lateinit var _warehouseResourceAdapter: WarehouseResourcesAdapter
     private val _sharedViewModel: SharedViewModel by activityViewModels()
 
 
@@ -39,7 +38,7 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
         savedInstanceState: Bundle?
     ): View {
         _documentPosition = _sharedViewModel.documentPosition.value!!
-        binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater);
+        binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater)
         _warehouseResourceViewModel =
             ViewModelProvider(requireActivity())[WarehouseResourceViewModel::class.java]
         _warehouseResourceViewModel.stateResponse = this
@@ -59,6 +58,7 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
             }
         }
     }
+
     private fun initAdapters() {
         val currencyAdapter = ArrayAdapter(
             requireActivity(),
@@ -78,17 +78,16 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
         binding.unitSpinner.setAdapter(unitAdapter)
     }
 
-    private val onClickListener  = object : WarehouseResourcesAdapter.IOnClickListener {
+    private val onClickListener = object : WarehouseResourcesAdapter.IOnClickListener {
         override fun onClick(warehouseResource: WarehouseResource) {
             _sharedViewModel.setWarehouseResource(warehouseResource)
             findNavController().navigate(com.example.gdemobile.R.id.action_documentPositionDetailsFragment_to_warehouseResourceDetailFragment)
 
         }
     }
-    private fun initObservers()
-    {
-        _warehouseResourceViewModel.primaryWarehouseResources.observe(viewLifecycleOwner) {
-            list ->
+
+    private fun initObservers() {
+        _warehouseResourceViewModel.primaryWarehouseResources.observe(viewLifecycleOwner) { list ->
             binding.warehousesRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
@@ -102,31 +101,22 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
         }
     }
 
-    fun blockWidget()
-    {
-        if(_documentPosition.cargo?.additionalUnits.isNullOrEmpty())
-        binding.unitSpinner.isEnabled= false
-        else
-            binding.unitSpinner.isEnabled = true
+    fun blockWidget() {
+        binding.unitSpinner.isEnabled = !_documentPosition.cargo?.additionalUnits.isNullOrEmpty()
 
 
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        _sharedViewModel.setBlockLoadData(true)
-        Log.i("Detaccccc","Detachhhhhhh")
-    }
     override fun OnLoading() {
-
+        binding.loadinglayout.root.visibility = View.VISIBLE
     }
 
     override suspend fun OnError(message: String) {
-        context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
+        context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
     }
 
     override fun OnSucces() {
-
+        binding.loadinglayout.root.visibility = View.GONE
     }
 
 
