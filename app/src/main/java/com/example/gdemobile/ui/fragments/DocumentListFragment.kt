@@ -87,7 +87,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.recyclerview.adapter = recyclerViewAdapter
         (recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(binding.recyclerview.size)
     }
-    fun initComponentsMethod()
+    private fun initComponentsMethod()
     {
         binding.newdocumentButton.setOnClickListener {
             sharedViewModel.setDocument(Document())
@@ -115,14 +115,14 @@ class DocumentListFragment : Fragment(), IStateResponse {
     }
 
 
-    override fun OnLoading() {
+    override fun onLoading() {
         binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
         binding.swipeRefreshLayout.isRefreshing = false
 
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         binding.loadinglayout.root.visibility = View.GONE
         binding.succeslayout.visibility = View.GONE
         binding.errorlayout.errorTextview.text = message
@@ -130,7 +130,7 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.errorlayout.root.visibility = View.VISIBLE
     }
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         binding.errorlayout.root.visibility = View.GONE
         binding.loadinglayout.root.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE

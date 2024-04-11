@@ -1,9 +1,9 @@
 package com.example.gdemobile.ui
 
 interface IStateResponse {
-   fun OnLoading()
-    suspend fun OnError(message : String)
-    fun  OnSucces();
+   fun onLoading()
+    suspend fun onError(message : String)
+    fun  onSuccess();
 
 
 }

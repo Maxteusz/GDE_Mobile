@@ -12,11 +12,7 @@ import com.example.gdemobile.databinding.FragmentConfigurationBinding
 
 class ConfigurationFragment : Fragment() {
 
-lateinit var binding : FragmentConfigurationBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+private lateinit var binding : FragmentConfigurationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +27,7 @@ lateinit var binding : FragmentConfigurationBinding
         }
         return binding.root
     }
-    fun setConfiguration()
+    private fun setConfiguration()
     {
         Config.ip = binding.ipTextedit.text.toString()
         Config.port = binding.portTextedit.text.toString()

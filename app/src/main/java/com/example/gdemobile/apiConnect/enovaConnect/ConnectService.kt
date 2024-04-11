@@ -17,7 +17,7 @@ class ConnectService(
     suspend fun <X : Any> makeConnection(connectionParameters: IConnectEnovaMethod): X? {
         try {
             while (stateResponse != null) {
-                stateResponse.OnLoading()
+                stateResponse.onLoading()
 
                 val quotesApi = RetrofitClient().getInstance().create(IRetrofitMethod::class.java)
                 val result = quotesApi.getListData<X>(RequestDto(connectionParameters))
@@ -31,10 +31,10 @@ class ConnectService(
 
                     if (!result.body()?.isException!!) {
                         val result = result.body()?.resultInstance
-                        stateResponse?.OnSucces()
+                        stateResponse?.onSuccess()
                         return result
                     }
-                    result.body()?.exceptionMessage?.let { stateResponse?.OnError(it) }
+                    result.body()?.exceptionMessage?.let { stateResponse?.onError(it) }
                 }
 
                 return null
@@ -42,18 +42,18 @@ class ConnectService(
             return null
 
         } catch (timeout: SocketTimeoutException) {
-            stateResponse?.OnError("Serwer nie odpowiada")
+            stateResponse?.onError("Serwer nie odpowiada")
             Log.e(LogTag.timeoutException, timeout.message.toString())
             return null
 
         } catch (exception: ConnectException) {
-            stateResponse?.OnError("Sprawdź wpisane dane do połączenia")
+            stateResponse?.onError("Sprawdź wpisane dane do połączenia")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 
 
         } catch (exception: Exception) {
-            stateResponse?.OnError("Nieznany błąd")
+            stateResponse?.onError("Nieznany błąd")
             Log.e(LogTag.connectException, exception.message.toString())
             return null
 

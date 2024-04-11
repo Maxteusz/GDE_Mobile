@@ -71,18 +71,18 @@ class DocumentDefinitionListFragment : Fragment(), IStateResponse {
         documentDefinitionViewModel.getDocumentDefinitions(sharedViewModel.getActionType()!!)
     }
 
-    override fun OnLoading() {
+    override fun onLoading() {
         binding.loadinglayout.root.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
         adapter = null
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         binding.loadinglayout.root.visibility = View.INVISIBLE
         CustomToast.showToast(requireActivity(), message, CustomToast.Type.Error)
     }
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         binding.loadinglayout.root.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
     }

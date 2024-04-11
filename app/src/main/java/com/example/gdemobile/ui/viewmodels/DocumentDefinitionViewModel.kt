@@ -22,15 +22,15 @@ class DocumentDefinitionViewModel() : ViewModel(), IViewModel {
         }
     }
     override var stateResponse: IStateResponse? = object  : IStateResponse{
-        override fun OnLoading() {
+        override fun onLoading() {
 
         }
 
-        override suspend fun OnError(message: String) {
+        override suspend fun onError(message: String) {
 
         }
 
-        override fun OnSucces() {
+        override fun onSuccess() {
 
         }
 

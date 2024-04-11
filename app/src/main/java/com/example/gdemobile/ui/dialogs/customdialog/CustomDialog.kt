@@ -1,9 +1,10 @@
-package com.example.gdemobile.ui.dialogs
+package com.example.gdemobile.ui.dialogs.customdialog
 
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,15 +23,15 @@ import com.example.gdemobile.utils.ToastMessages
 import kotlinx.coroutines.launch
 
 
-class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
-    private lateinit var binding: com.example.gdemobile.databinding.ConfirmDialogBinding
+class CustomDialog(
+    private val customDialogStates : ICustomDialogState
+) : DialogFragment() {
+    private lateinit var binding: ConfirmDialogBinding
     private lateinit var documentViewModel : DocumentViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -47,12 +48,11 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         documentViewModel =
             ViewModelProvider(requireActivity()).get(DocumentViewModel::class.java)
-        documentViewModel.stateResponse = this
+        customDialogStates.binding = binding
+        customDialogStates.fragment = this
         binding.confirmButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                documentViewModel.confirmDocument(sharedViewModel.document.value!!)
-
-
+                customDialogStates.onPositiveClickOn()
             }
 
         }
@@ -61,27 +61,7 @@ class ConfirmDocumentDialog : DialogFragment(), IStateResponse {
         return binding.root
     }
 
-    override fun OnLoading() {
-        binding.messageTextview.setText("Zatwierdzanie dokumentu...")
-        binding.dissmisButton.visibility = View.INVISIBLE
-        binding.confirmButton.visibility = View.INVISIBLE
 
-
-    }
-
-    override suspend fun OnError(message: String) {
-        context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
-        findNavController().popBackStack()
-
-    }
-
-    override fun  OnSucces() {
-        context?.let { CustomToast.showToast(it,ToastMessages.correctConfimDocument,CustomToast.Type.Information) }
-        findNavController().navigate(R.id.action_confirmDocumentDialog_to_menuFragment)
-
-
-
-    }
 
 
 }

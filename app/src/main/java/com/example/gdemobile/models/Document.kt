@@ -13,7 +13,7 @@ class Document() : Serializable, Parcelable {
 
     @SerializedName("ID")
     var id : Int = 0
-    @SerializedName("NumerDokumentu", alternate = arrayOf("Numer"))
+    @SerializedName("NumerDokumentu", alternate = ["Numer"])
     var number : String = ""
     @SerializedName("Kontrahent")
     var contractor: Contractor? = null
@@ -25,7 +25,6 @@ class Document() : Serializable, Parcelable {
     var describe : String =""
     @SerializedName("Magazyn")
     var warehouse : Warehouse = Warehouse()
-    var documentPositions = mutableListOf<DocumentPosition>()
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readInt()

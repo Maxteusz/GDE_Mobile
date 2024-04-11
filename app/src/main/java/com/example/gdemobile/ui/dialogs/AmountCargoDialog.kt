@@ -129,25 +129,25 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding.valueEdittext.isFocusable = true
     }
 
-    override fun OnLoading() {
+    override fun onLoading() {
 
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         unblockDialog()
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
 
 
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         context?.let { CustomToast.showToast(requireActivity(),ToastMessages.correctCargoAdded,CustomToast.Type.Information) }
         sharedViewModel.unlockScanning()
         //findNavController().popBackStack()
         if(dismissListener == null)
             dismiss()
         else
-        dismissListener?.DismissDialogFunction()
+        dismissListener?.dismissDialogFunction()
 
     }
 

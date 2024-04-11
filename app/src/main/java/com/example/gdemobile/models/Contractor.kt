@@ -11,6 +11,4 @@ class Contractor(
     @SerializedName("Nazwa")
     val name: String?
 )
-{
 
-}

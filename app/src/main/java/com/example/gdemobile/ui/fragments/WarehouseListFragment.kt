@@ -64,16 +64,16 @@ class WarehouseListFragment : Fragment(), IStateResponse{
         super.onResume()
         _warehouseViewModel.getWarehouses()
     }
-    override fun OnLoading() {
+    override fun onLoading() {
         _binding.loadinglayout.root.visibility = View.VISIBLE
         _binding.succeslayout.visibility = View.GONE
 
     }
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         _binding.loadinglayout.root.visibility = View.INVISIBLE
         context?.let { CustomToast.showToast(it,message, CustomToast.Type.Error) }
     }
-    override fun  OnSucces() {
+    override fun  onSuccess() {
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.succeslayout.visibility = View.VISIBLE
     }

@@ -93,18 +93,18 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         }
     }
 
-    override fun OnLoading() {
+    override fun onLoading() {
         binding.loadinglayout.visibility = View.VISIBLE
         binding.succeslayout.visibility = View.GONE
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
         context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
     }
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         binding.loadinglayout.visibility = View.GONE
         viewLifecycleOwner.lifecycleScope.launch {
             createdDocument?.await()?.let { sharedViewModel.setDocument(it) }

@@ -28,6 +28,8 @@ import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.dialogs.AmountCargoDialog
 import com.example.gdemobile.ui.dialogs.IDialogDismissListener
+import com.example.gdemobile.ui.dialogs.customdialog.ConfirmDocumentState
+import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
@@ -98,7 +100,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
         super.onActivityCreated(savedInstanceState)
 
         _binding.nextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_cargoListFragment_to_configmDocumentDialog)
+            CustomDialog(
+                ConfirmDocumentState(
+                    _sharedViewModel.document.value!!
+                )
+            ).show(childFragmentManager, "CONFIRM_DOCUMENT_DIALOG")
         }
         _binding.cameraButton.setOnClickListener {
             findNavController().navigate(
@@ -133,7 +139,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                _viewModel.filterDocumentPosition(s.toString())
+            }
 
         })
         _binding.searchTextlayout.setEndIconOnClickListener {
@@ -148,15 +156,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
-
     @SuppressLint("SuspiciousIndentation")
     private fun initObservers() {
-        _viewModel.documentPositions.observe(viewLifecycleOwner) {
-            list ->
+        _viewModel.documentPositions.observe(viewLifecycleOwner) { list ->
             _binding.cargosRecyclerview.also {
 
                 it.layoutManager = LinearLayoutManager(context)
@@ -171,10 +173,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             }
         }
         _sharedViewModel.document.observe(viewLifecycleOwner) {
-            if(_sharedViewModel.getBlockLoadData() == false)
-                Log.i("BLOCKKKK", _sharedViewModel.getBlockLoadData().toString())
-           _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
-           // sharedViewModel.setBlockLoadData(false)
+            if (_sharedViewModel.getBlockLoadData() == false)
+            _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
+            // sharedViewModel.setBlockLoadData(false)
 
         }
 
@@ -188,7 +189,6 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                     viewLifecycleOwner.lifecycleScope.launch {
                         CargoViewModel(_sharedViewModel, requireActivity())
                             .getCargo(_scannedBarcode.trim()) {
-                                //findNavController().navigate(R.id.action_cargoListFragment_to_amountCargoDialog)
                                 openDialog()
                             }
 
@@ -210,7 +210,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     }
 
 
-    override fun OnLoading() {
+    override fun onLoading() {
         _binding.succeslayout.visibility = View.GONE
         _binding.errorlayout.visibility = View.GONE
         _binding.loadinglayout.root.visibility = View.VISIBLE
@@ -219,7 +219,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
 
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         _binding.errorlayout.visibility = View.VISIBLE
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.succeslayout.visibility = View.GONE
@@ -227,17 +227,17 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     }
 
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         _binding.errorlayout.visibility = View.GONE
         _binding.succeslayout.visibility = View.VISIBLE
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.swipeRefreshLayout.isRefreshing = false
     }
 
-    fun openDialog() {
+    private fun openDialog() {
         val dialog = AmountCargoDialog()
         dialog.dismissListener = object : IDialogDismissListener {
-            override fun DismissDialogFunction() {
+            override fun dismissDialogFunction() {
                 dialog.dismiss()
                 _viewModel.stateResponse = this@DocumentPositionListFragment
                 _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)

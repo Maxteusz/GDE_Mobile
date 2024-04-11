@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class WarehouseResource {
 
-    val ID : Int = 0;
     @SerializedName("Magazyn")
     val warehouse : Warehouse = Warehouse()
     @SerializedName("Towar")

@@ -17,7 +17,7 @@ abstract class Dao(val stateResponse: IStateResponse?) {
             gson.fromJson<T>(gson.toJson(receiveDto))
         } catch (e: Exception) {
             Log.i("DaoRequestException", e.message.toString())
-            stateResponse?.OnError("Błąd pobierania danych")
+            stateResponse?.onError("Błąd pobierania danych")
             null
         }
     }
@@ -31,7 +31,7 @@ abstract class Dao(val stateResponse: IStateResponse?) {
         } catch (e: Exception)
         {
             Log.i("DaoRequestException", e.message.toString())
-            stateResponse?.OnError("Błąd pobierania danych")
+            stateResponse?.onError("Błąd pobierania danych")
             return emptyList<T>()
         }
     }

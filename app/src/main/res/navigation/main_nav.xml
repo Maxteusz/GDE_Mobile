@@ -28,13 +28,20 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_cargoListFragment_to_configmDocumentDialog"
-            app:destination="@id/confirmDocumentDialog" />
+            app:destination="@id/confirmDocumentDialog">
+
+        </action>
         <action
             android:id="@+id/action_cargoListFragment_to_documentPositionDetailsFragment"
             app:destination="@id/documentPositionDetailsFragment" />
         <action
             android:id="@+id/action_cargoListFragment_to_amountCargoDialog"
             app:destination="@id/amountCargoDialog" />
+        <action
+            android:id="@+id/action_documentPostionListFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:popUpTo="@id/menuFragment"
+            app:popUpToInclusive="false"/>
 
 
     </fragment>
@@ -125,7 +132,7 @@
     </fragment>
     <dialog
         android:id="@+id/confirmDocumentDialog"
-        android:name="com.example.gdemobile.ui.dialogs.ConfirmDocumentDialog"
+        android:name="com.example.gdemobile.ui.dialogs.customdialog.CustomDialog"
         android:label="configm_dialog"
         tools:layout="@layout/confirm_dialog">
         <action

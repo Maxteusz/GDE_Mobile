@@ -20,14 +20,14 @@ class CargoViewModel(
     }
     private class GetCargoStateResponse(private val context: Context, private val action: () -> Unit) :
         IStateResponse {
-        override fun OnLoading() {}
+        override fun onLoading() {}
 
 
-        override suspend fun OnError(message: String) {
+        override suspend fun onError(message: String) {
             CustomToast.showToast(context, message, CustomToast.Type.Information)
         }
 
-        override fun OnSucces() {
+        override fun onSuccess() {
             action()
         }
     }
