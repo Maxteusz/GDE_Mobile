@@ -32,7 +32,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     private lateinit var documentViewModel : DocumentViewModel
     private var createdDocument : Deferred<Document?>? = null
 
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+     val sharedViewModel : SharedViewModel by activityViewModels()
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -110,6 +110,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
             createdDocument?.await()?.let { sharedViewModel.setDocument(it) }
             sharedViewModel.setBlockLoadData(true)
             findNavController().navigate(R.id.action_documentDetailsFragment_to_cargoListFragment)
+
         }
 
 

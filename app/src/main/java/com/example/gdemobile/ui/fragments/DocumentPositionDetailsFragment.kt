@@ -1,6 +1,8 @@
 package com.example.gdemobile.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,20 +32,22 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
     private lateinit var _documentPosition: DocumentPosition
     private lateinit var _warehouseResourceViewModel: WarehouseResourceViewModel
     private lateinit var _warehouseResourceAdapter: WarehouseResourcesAdapter
-    private val _sharedViewModel: SharedViewModel by activityViewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _documentPosition = _sharedViewModel.documentPosition.value!!
         binding = FragmentDocumentPositionDetailsBinding.inflate(layoutInflater)
+        _documentPosition = sharedViewModel.documentPosition.value!!
+
         _warehouseResourceViewModel =
             ViewModelProvider(requireActivity())[WarehouseResourceViewModel::class.java]
         _warehouseResourceViewModel.stateResponse = this
-        initAdapters()
-        initObservers()
+          initAdapters()
+       initObservers()
         blockWidget()
         binding.documentPosition = _documentPosition
         return binding.root
@@ -51,13 +55,16 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
 
     override fun onResume() {
         super.onResume()
+        sharedViewModel.setBlockLoadData(true)
         lifecycleScope.launch {
-            _sharedViewModel.documentPosition.value?.cargo?.let {
+            sharedViewModel.documentPosition.value?.cargo?.let {
                 _warehouseResourceViewModel
                     .getPrimaryWarehouseResourceInformation(it.id)
             }
         }
     }
+
+
 
     private fun initAdapters() {
         val currencyAdapter = ArrayAdapter(
@@ -80,7 +87,7 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
 
     private val onClickListener = object : WarehouseResourcesAdapter.IOnClickListener {
         override fun onClick(warehouseResource: WarehouseResource) {
-            _sharedViewModel.setWarehouseResource(warehouseResource)
+            sharedViewModel.setWarehouseResource(warehouseResource)
             findNavController().navigate(com.example.gdemobile.R.id.action_documentPositionDetailsFragment_to_warehouseResourceDetailFragment)
 
         }
@@ -107,17 +114,15 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
 
     }
 
-    override fun OnLoading() {
-        binding.loadinglayout.root.visibility = View.VISIBLE
+    override fun onLoading() {
+      binding.loadinglayout.root.visibility = View.VISIBLE
     }
 
-    override suspend fun OnError(message: String) {
+    override suspend fun onError(message: String) {
         context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
     }
 
-    override fun OnSucces() {
+    override fun onSuccess() {
         binding.loadinglayout.root.visibility = View.GONE
     }
-
-
 }
