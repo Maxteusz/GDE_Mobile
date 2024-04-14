@@ -1,9 +1,7 @@
-package com.example.gdemobile.ui.dialogs.customdialog
+package com.example.gdemobile.ui.dialogs.customdialog.states
 
 import android.view.View
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.ConfirmDialogBinding
@@ -14,18 +12,14 @@ import com.example.gdemobile.utils.ToastMessages
 
 class ConfirmDocumentState(val document: Document) :
     ICustomDialogState {
+    override var message: String = "Czy zatwierdzić dokument?"
 
-private var message = "Czy chcesz zatwierdzic dokument?"
     override var binding: ConfirmDialogBinding? = null
     override var fragment: DialogFragment? = null
     override suspend fun onPositiveClickOn() {
         DocumentViewModel().apply {
             stateResponse = this@ConfirmDocumentState
         }.confirmDocument(document)
-    }
-
-    init {
-        binding?.messageTextview?.text = message
     }
 
     override fun onLoading() {

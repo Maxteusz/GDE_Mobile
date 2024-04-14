@@ -1,12 +1,10 @@
 package com.example.gdemobile.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +26,7 @@ import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.ui.adapters.DocumentPositionAdapter
 import com.example.gdemobile.ui.dialogs.AmountCargoDialog
 import com.example.gdemobile.ui.dialogs.IDialogDismissListener
-import com.example.gdemobile.ui.dialogs.customdialog.ConfirmDocumentState
+import com.example.gdemobile.ui.dialogs.customdialog.states.ConfirmDocumentState
 import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
