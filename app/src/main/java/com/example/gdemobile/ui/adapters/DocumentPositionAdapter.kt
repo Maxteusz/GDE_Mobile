@@ -23,7 +23,7 @@ class DocumentPositionAdapter(
             binding.deleteImage.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    deleteListener.onDeleteDocumentPositionItemClicked(cargos[position].id)
+                    deleteListener.onDeleteDocumentPositionItemClicked(cargos[position])
                 }
             }
             binding.maincard.setOnClickListener {
@@ -48,7 +48,7 @@ class DocumentPositionAdapter(
     }
 
     interface DeleteCargoViewHolderListener {
-        fun onDeleteDocumentPositionItemClicked(idDocumentPosition: Int)
+        fun onDeleteDocumentPositionItemClicked(documentPosition: DocumentPosition)
     }
 
     interface IDetailCargoViewHolderListener {

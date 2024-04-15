@@ -19,19 +19,21 @@ private lateinit var binding : FragmentConfigurationBinding
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentConfigurationBinding.inflate(layoutInflater)
+
         binding.saveButton.setOnClickListener {
-            setConfiguration()
+            bindFields()
             Config.saveConfiguration(requireActivity())
             findNavController().popBackStack()
 
         }
         return binding.root
     }
-    private fun setConfiguration()
+    private fun bindFields()
     {
         Config.ip = binding.ipTextedit.text.toString()
         Config.port = binding.portTextedit.text.toString()
         Config.usernameERP = binding.usernameTextedit.text.toString()
+        Config.database = binding.databaseTextedit.text.toString()
         Config.passwordERP = binding.passwordTextedit.text.toString()
         Config.fastAddingDocumentPosition = binding.fastAddingDocumentposition.isChecked
 

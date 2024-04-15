@@ -80,6 +80,20 @@
                 android:textColor="@color/orange"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Baza danych(Opcjonalnie)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/database_textedit"
+                    style="@style/CustomEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{config.Companion.database}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputStyle"

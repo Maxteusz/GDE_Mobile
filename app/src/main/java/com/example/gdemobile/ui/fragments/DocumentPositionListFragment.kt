@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import com.example.gdemobile.ui.dialogs.AmountCargoDialog
 import com.example.gdemobile.ui.dialogs.IDialogDismissListener
 import com.example.gdemobile.ui.dialogs.customdialog.states.ConfirmDocumentState
 import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
+import com.example.gdemobile.ui.dialogs.customdialog.states.DeleteDocumentPositionState
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
@@ -46,10 +48,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private val _sharedViewModel: SharedViewModel by activityViewModels()
 
 
-    private val listener =
+    private val documentPositionDeleteListener =
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
-            override fun onDeleteDocumentPositionItemClicked(idDocumentPostion: Int) {
+            override fun onDeleteDocumentPositionItemClicked(documentPosition: DocumentPosition) {
                 viewLifecycleOwner.lifecycleScope.launch {
+                    CustomDialog(DeleteDocumentPositionState(documentPosition)).show(childFragmentManager,"DELETE_DOCUMENT_POSITION_DIALOG")
                 }
             }
         }
@@ -158,12 +161,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
     private fun initObservers() {
         _viewModel.documentPositions.observe(viewLifecycleOwner) { list ->
             _binding.cargosRecyclerview.also {
-
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
                 _documentPositionAdapter = DocumentPositionAdapter(
                     list,
-                    listener,
+                    documentPositionDeleteListener,
                     listenerDocumentPositionDetails
                 )
                 _binding.cargosRecyclerview.adapter = _documentPositionAdapter
@@ -239,13 +241,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
                 dialog.dismiss()
                 _viewModel.stateResponse = this@DocumentPositionListFragment
                 _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
-
-
             }
         }
         dialog.show(childFragmentManager, "AMOUNT_CARGO_DIALOG")
-
-
     }
 
 

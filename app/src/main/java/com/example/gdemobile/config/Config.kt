@@ -9,6 +9,7 @@ class Config {
     companion object : Serializable {
         var ip: String? = ""
         var port: String? = "5000"
+        var database : String? = ""
         var usernameERP: String? = "Administrator"
         var passwordERP: String? = "12345"
         var fastAddingDocumentPosition: Boolean = false
@@ -23,6 +24,7 @@ class Config {
             with(sharedPref.edit()) {
                 putString(context.getString(R.string.ip_conf), ip)
                 putString(context.getString(R.string.port_conf), port)
+                putString(context.getString(R.string.database_conf), database)
                 putString(context.getString(R.string.username_conf), usernameERP)
                 putString(context.getString(R.string.password_conf), passwordERP)
                 putBoolean(context.getString(R.string.fast_adding_documentpostion), fastAddingDocumentPosition)
@@ -40,6 +42,7 @@ class Config {
             ) ?: return
             ip = sharedPref.getString(context.getString(R.string.ip_conf), "")
             port = sharedPref.getString(context.getString(R.string.port_conf), "")
+            database = sharedPref.getString(context.getString(R.string.database_conf),"")
             usernameERP = sharedPref.getString(context.getString(R.string.username_conf), "")
             passwordERP = sharedPref.getString(context.getString(R.string.password_conf), "")
             fastAddingDocumentPosition = sharedPref.getBoolean(context.getString(R.string.fast_adding_documentpostion), true)

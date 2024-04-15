@@ -52,6 +52,10 @@ class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = n
                 })
 
     }
+    suspend fun deleteDocumentPosition(idDocumentPosition: Int) : Int?
+    {
+        return DocumentPositionDao(stateResponse).deleteDocumentPosition(idDocumentPosition)
+    }
 
 
 }

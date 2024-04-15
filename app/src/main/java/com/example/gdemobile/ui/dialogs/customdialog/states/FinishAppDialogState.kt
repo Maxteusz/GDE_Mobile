@@ -3,7 +3,7 @@ package com.example.gdemobile.ui.dialogs.customdialog.states
 import androidx.fragment.app.DialogFragment
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 
-class FinishAppDialog : ICustomDialogState {
+class FinishAppDialogState : ICustomDialogState {
     override var binding: ConfirmDialogBinding? = null
 
     override var fragment: DialogFragment? = null

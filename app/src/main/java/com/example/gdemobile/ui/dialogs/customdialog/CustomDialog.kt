@@ -39,6 +39,7 @@ class CustomDialog(
             ViewModelProvider(requireActivity()).get(DocumentViewModel::class.java)
         customDialogStates?.binding = binding
         customDialogStates?.fragment = this
+        binding.messageTextview.text = customDialogStates?.message
         binding.confirmButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 customDialogStates?.onPositiveClickOn()

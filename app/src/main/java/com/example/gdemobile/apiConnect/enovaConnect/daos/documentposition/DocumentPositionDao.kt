@@ -3,6 +3,7 @@ package com.example.gdemobile.apiConnect.enovaConnect.daos.documentposition
 
 import com.example.gdemobile.apiConnect.enovaConnect.daos.Dao
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions.AddDocumentPosition
+import com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions.DeleteDocumentPosition
 import com.example.gdemobile.apiConnect.enovaConnect.methods.documentpositions.GetDocumentPositions
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.ui.IStateResponse
@@ -19,7 +20,7 @@ class DocumentPositionDao(stateResponse: IStateResponse?) : Dao(
         return requestList<DocumentPosition>(GetDocumentPositions(idDocument))
     }
 
-    override suspend fun deleteDocumentPosition(idDocumentPosition: Int) {
-      // request<Unit>(DeleteDocumentPositions(idDocumentPosition))
+    override suspend fun deleteDocumentPosition(idDocumentPosition: Int) : Int? {
+      return requestObject<Int>(DeleteDocumentPosition(idDocumentPosition))
     }
 }

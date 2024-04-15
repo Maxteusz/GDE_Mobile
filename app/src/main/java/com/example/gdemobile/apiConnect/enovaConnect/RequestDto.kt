@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 class RequestDto(connectionMethod: IConnectEnovaMethod) {
     @SerializedName("DatabaseHandle")
-    var databaseHanlde: String = "APIGDE"
+    private var _databaseHandle: String? = Config.database
 
     @SerializedName("Operator")
     private val _operator = Config.usernameERP
@@ -21,7 +21,7 @@ class RequestDto(connectionMethod: IConnectEnovaMethod) {
     private var _methodName: String = connectionMethod.methodName
 
     @SerializedName("MethodArgs")
-    private var methodArgsDto  = connectionMethod.dto
+    private var _methodArgsDto  = connectionMethod.dto
 
 
 

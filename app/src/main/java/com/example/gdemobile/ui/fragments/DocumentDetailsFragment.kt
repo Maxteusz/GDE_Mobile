@@ -110,6 +110,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
             createdDocument?.await()?.let { sharedViewModel.setDocument(it) }
             sharedViewModel.setBlockLoadData(true)
             findNavController().navigate(R.id.action_documentDetailsFragment_to_cargoListFragment)
+            sharedViewModel.setBlockLoadData(false)
 
         }
 

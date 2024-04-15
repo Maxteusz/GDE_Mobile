@@ -2,7 +2,6 @@ package com.example.gdemobile.ui.activities
 
 import android.os.Build
 import android.os.Bundle
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,10 +10,8 @@ import com.example.gdemobile.R
 import com.example.gdemobile.config.Config
 import com.example.gdemobile.databinding.ActivityMainBinding
 import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
-import com.example.gdemobile.ui.dialogs.customdialog.states.FinishAppDialog
-import com.example.gdemobile.ui.fragments.MenuFragment
+import com.example.gdemobile.ui.dialogs.customdialog.states.FinishAppDialogState
 import com.google.firebase.FirebaseApp
-import kotlin.reflect.typeOf
 
 
 class MainActivitiy : AppCompatActivity() {
@@ -33,7 +30,7 @@ class MainActivitiy : AppCompatActivity() {
             {
                 override fun handleOnBackPressed() {
                     if(navController.currentDestination?.id == R.id.menuFragment)
-                    CustomDialog(FinishAppDialog()).show(supportFragmentManager,"FINISH_APP_DIALOG")
+                    CustomDialog(FinishAppDialogState()).show(supportFragmentManager,"FINISH_APP_DIALOG")
                     else
                     navController.popBackStack();
                 }
