@@ -30,6 +30,7 @@ import com.example.gdemobile.ui.dialogs.IDialogDismissListener
 import com.example.gdemobile.ui.dialogs.customdialog.states.ConfirmDocumentState
 import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
 import com.example.gdemobile.ui.dialogs.customdialog.states.DeleteDocumentPositionState
+import com.example.gdemobile.ui.interfaces.IOnBackPressedListener
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
@@ -37,7 +38,7 @@ import com.example.gdemobile.utils.CustomToast
 import kotlinx.coroutines.launch
 
 
-class DocumentPositionListFragment() : Fragment(), IStateResponse {
+class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPressedListener {
 
     private lateinit var _documentPositionAdapter: DocumentPositionAdapter
     private lateinit var _binding: FragmentDocumentpositionListBinding
@@ -244,6 +245,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse {
             }
         }
         dialog.show(childFragmentManager, "AMOUNT_CARGO_DIALOG")
+    }
+
+    override fun customOnBackPressed() {
+        Log.i("bbbbbbbb","fdsfdsfdsfds")
     }
 
 

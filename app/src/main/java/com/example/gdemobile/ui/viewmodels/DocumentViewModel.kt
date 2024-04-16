@@ -9,9 +9,10 @@ import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IActionType
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.interfaces.IOnBackPressedListener
 import kotlinx.coroutines.launch
 
-class DocumentViewModel: ViewModel(), IViewModel, IViewModelList {
+class DocumentViewModel : ViewModel(), IViewModel, IViewModelList {
     override var stateResponse: IStateResponse? = null
     override var recyclerViewScrollState: Parcelable? = null
     private var _documents = MutableLiveData<List<Document>>(emptyList())
@@ -36,9 +37,12 @@ class DocumentViewModel: ViewModel(), IViewModel, IViewModelList {
     }
 
 
-        suspend fun confirmDocument(document: Document) =
-            stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
-    }
+    suspend fun confirmDocument(document: Document) =
+        stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
+
+    suspend fun deleteDocument(document: Document) =
+        stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
+}
 
 
 
