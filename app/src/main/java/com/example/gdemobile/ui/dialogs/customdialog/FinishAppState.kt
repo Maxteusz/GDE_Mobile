@@ -1,15 +1,18 @@
-package com.example.gdemobile.ui.dialogs.customdialog.states
+package com.example.gdemobile.ui.dialogs.customdialog
 
 import androidx.fragment.app.DialogFragment
 import com.example.gdemobile.databinding.ConfirmDialogBinding
+import com.example.gdemobile.ui.dialogs.customdialog.states.ICustomDialogState
 
-class FinishAppDialogState : ICustomDialogState {
-    override var binding: ConfirmDialogBinding? = null
+class FinishAppState() : ICustomDialogState {
 
-    override var fragment: DialogFragment? = null
     override var message: String = "Czy zamknąć aplikację?"
+    override var binding: ConfirmDialogBinding? = null
+    override var fragment: DialogFragment? = null
 
-
+    init {
+        binding?.messageTextview?.text = message
+    }
 
     override suspend fun onPositiveClickOn() {
         fragment?.activity?.finish()

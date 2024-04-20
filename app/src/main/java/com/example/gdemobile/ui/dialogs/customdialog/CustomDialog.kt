@@ -46,7 +46,7 @@ class CustomDialog(
             }
 
         }
-        binding.dissmisButton.setOnClickListener { dismiss() }
+        binding.dissmisButton.setOnClickListener { customDialogStates?.onNegativeClickOn() }
 
         return binding.root
     }

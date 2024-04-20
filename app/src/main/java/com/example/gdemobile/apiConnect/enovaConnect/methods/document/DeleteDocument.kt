@@ -12,6 +12,6 @@ class DeleteDocument (val idDocument: Int) : IConnectEnovaMethod {
     override val dto: IDto
         get() = Dto(idDocument)
 
-    private class Dto (@SerializedName("IdDokumentu") val idDocument : Int) : IDto
+    private class Dto (@SerializedName("idDokumentu") val idDocument : Int) : IDto
 
 }

@@ -41,7 +41,7 @@ class DocumentViewModel : ViewModel(), IViewModel, IViewModelList {
         stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
 
     suspend fun deleteDocument(document: Document) =
-        stateResponse?.let { DocumentDao(it).confirmDocument(document.id) }
+        stateResponse?.let { DocumentDao(it).deleteDocument(document.id) }
 }
 
 

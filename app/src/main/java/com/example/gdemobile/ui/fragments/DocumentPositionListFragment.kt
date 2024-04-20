@@ -30,6 +30,7 @@ import com.example.gdemobile.ui.dialogs.IDialogDismissListener
 import com.example.gdemobile.ui.dialogs.customdialog.states.ConfirmDocumentState
 import com.example.gdemobile.ui.dialogs.customdialog.CustomDialog
 import com.example.gdemobile.ui.dialogs.customdialog.states.DeleteDocumentPositionState
+import com.example.gdemobile.ui.dialogs.customdialog.states.DeleteDocumentState
 import com.example.gdemobile.ui.interfaces.IOnBackPressedListener
 import com.example.gdemobile.ui.viewmodels.CargoViewModel
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
@@ -53,7 +54,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(documentPosition: DocumentPosition) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    CustomDialog(DeleteDocumentPositionState(documentPosition)).show(childFragmentManager,"DELETE_DOCUMENT_POSITION_DIALOG")
+                    CustomDialog(DeleteDocumentPositionState(documentPosition)).show(
+                        childFragmentManager,
+                        "DELETE_DOCUMENT_POSITION_DIALOG"
+                    )
                 }
             }
         }
@@ -175,7 +179,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         }
         _sharedViewModel.document.observe(viewLifecycleOwner) {
             if (_sharedViewModel.getBlockLoadData() == false)
-            _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
+                _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
             // sharedViewModel.setBlockLoadData(false)
 
         }
@@ -248,7 +252,11 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
     }
 
     override fun customOnBackPressed() {
-        Log.i("bbbbbbbb","fdsfdsfdsfds")
+        if(_viewModel.documentPositions.value.isNullOrEmpty())
+        CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
+            childFragmentManager,
+            "DELETE_DOCUMENT_DIALOG"
+        )
     }
 
 

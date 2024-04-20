@@ -1,9 +1,13 @@
 package com.example.gdemobile.ui.dialogs.customdialog.states
 
+import android.annotation.SuppressLint
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ToastMessages
 
@@ -16,12 +20,19 @@ class DeleteDocumentState(val document : Document) : ICustomDialogState {
 
 
     override suspend fun onPositiveClickOn() {
-        DocumentPositionsViewModel().apply {
+        DocumentViewModel().apply {
             stateResponse = this@DeleteDocumentState
-        }.deleteDocumentPosition(document.id)
+        }.deleteDocument(document)
+    }
+
+    override fun onNegativeClickOn() {
+        fragment?.findNavController()?.popBackStack()
+        fragment?.dismiss()
     }
 
     override fun onLoading() {
+        binding?.confirmButton?.isClickable = false
+        binding?.dissmisButton?.isClickable = false
 
     }
 
@@ -36,6 +47,7 @@ class DeleteDocumentState(val document : Document) : ICustomDialogState {
         fragment?.dismiss()
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onSuccess() {
         fragment?.let {
             CustomToast.showToast(
@@ -43,6 +55,8 @@ class DeleteDocumentState(val document : Document) : ICustomDialogState {
                 ToastMessages.correctDocumentPositionDelete,
                 CustomToast.Type.Information
             )
+            fragment?.dismiss()
+            fragment?.findNavController()?.popBackStack()
         }
     }
 }

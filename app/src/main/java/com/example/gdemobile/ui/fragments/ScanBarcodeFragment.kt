@@ -139,7 +139,7 @@ class ScanBarcodeFragment : Fragment(), IStateResponse {
 
 
 
-    fun lockScanning() {
+    private fun lockScanning() {
         binding.unlockButton.setBackgroundColor(resources.getColor(R.color.red))
         binding.unlockButton.text = getString(R.string.blocked)
 

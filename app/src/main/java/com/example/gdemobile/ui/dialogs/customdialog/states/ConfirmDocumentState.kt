@@ -22,6 +22,10 @@ class ConfirmDocumentState(val document: Document) :
         }.confirmDocument(document)
     }
 
+    override fun onNegativeClickOn() {
+        fragment?.dismiss()
+    }
+
     override fun onLoading() {
         binding?.messageTextview?.setText("Zatwierdzanie dokumentu...")
         binding?.dissmisButton?.visibility = View.INVISIBLE

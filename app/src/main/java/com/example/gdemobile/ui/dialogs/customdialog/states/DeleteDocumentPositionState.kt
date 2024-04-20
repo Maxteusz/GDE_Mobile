@@ -20,6 +20,9 @@ class DeleteDocumentPositionState(val documentPosition : DocumentPosition) : ICu
             stateResponse = this@DeleteDocumentPositionState
         }.deleteDocumentPosition(documentPosition.id)
     }
+    override fun onNegativeClickOn() {
+        fragment?.dismiss()
+    }
 
     override fun onLoading() {
 

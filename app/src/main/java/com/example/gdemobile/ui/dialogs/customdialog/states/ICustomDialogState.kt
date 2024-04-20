@@ -10,4 +10,5 @@ interface ICustomDialogState : IStateResponse {
     var fragment : DialogFragment?
     var message : String
     suspend fun onPositiveClickOn()
+    fun onNegativeClickOn()
 }
