@@ -9,4 +9,7 @@ The application is intended for warehouse collectors, and its main task is to st
  - MVVM
 # Screens
 
+<img src="https://github.com/Maxteusz/GDE_Mobile/assets/66643824/548d4098-f937-4965-bfab-6f568ac6600a" width="25%" height="25%">
+<img src="https://github.com/Maxteusz/GDE_Mobile/assets/66643824/908fb398-d6a6-41d8-985f-6c3bf13c6e1b" width="25%" height="25%">
 
+<img src="https://github.com/Maxteusz/GDE_Mobile/assets/66643824/d322afed-97a6-421a-a969-12c2c2ad7fe2" width="25%" height="25%">
