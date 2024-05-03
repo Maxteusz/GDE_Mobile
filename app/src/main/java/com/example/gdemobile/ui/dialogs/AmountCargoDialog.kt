@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Quantity
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class AmountCargoDialog : DialogFragment(), IStateResponse {
 
-    var dismissListener : IDialogDismissListener? = null
+     var dismissListener : IDialogDismissListener? = null
     private lateinit var binding: FragmentAmountCargoDialogBinding
     private val sharedViewModel : SharedViewModel by activityViewModels()
     private lateinit var viewModel: DocumentPositionsViewModel
@@ -99,7 +100,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
         val currencySymbolAdapter = ArrayAdapter<String>(
             requireContext(),
-            androidx.transition.R.layout.support_simple_spinner_dropdown_item,
+            R.layout.support_simple_spinner_dropdown_item,
             Currency.symbols
         )
         binding.currencysymbolSpinner.setAdapter(currencySymbolAdapter)

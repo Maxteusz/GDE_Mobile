@@ -15,8 +15,8 @@ import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
 
 class MenuFragment : Fragment() {
-    private lateinit var binding : FragmentMenuBinding
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private lateinit var binding: FragmentMenuBinding
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +27,16 @@ class MenuFragment : Fragment() {
         return binding.root
     }
 
-    fun initViews()
-    {
+    fun initViews() {
         binding.confButton.setOnClickListener { findNavController().navigate(R.id.action_menuFragment_to_configurationFragment) }
-        binding.receivingButton.setOnClickListener {  sharedViewModel.setActionType(
-            Acceptance()
-        )
-            findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment) }
+        binding.receivingButton.setOnClickListener {
+            sharedViewModel.setActionType(
+                Acceptance()
+            )
+            findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
+        }
         binding.issuingButton.setOnClickListener {
-           sharedViewModel.setActionType(Issuance())
+            sharedViewModel.setActionType(Issuance())
             findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
         }
     }

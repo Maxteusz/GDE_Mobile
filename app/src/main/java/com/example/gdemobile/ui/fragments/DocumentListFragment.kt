@@ -2,6 +2,8 @@ package com.example.gdemobile.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,6 +98,21 @@ class DocumentListFragment : Fragment(), IStateResponse {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.getDocuments(sharedViewModel.getActionType()!!)
         }
+
+        binding.searchBar.searchTextfield.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.filterDocuments(s.toString())
+            }
+
+        })
     }
 
 

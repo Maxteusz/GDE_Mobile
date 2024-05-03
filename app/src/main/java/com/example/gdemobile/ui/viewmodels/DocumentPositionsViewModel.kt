@@ -45,10 +45,8 @@ class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = n
         _documentPositions
             .postValue(_originalDocumentPositions.value
                 ?.filter { a ->
-                    a.cargo?.code?.contains(
-                        phrase,
-                        ignoreCase = true
-                    ) == true || a.cargo?.name?.contains(phrase, ignoreCase = true) == true
+                    a.cargo?.code?.contains(phrase, ignoreCase = true) == true ||
+                            a.cargo?.name?.contains(phrase, ignoreCase = true) == true
                 })
 
     }
