@@ -1,13 +1,18 @@
 package com.example.gdemobile.ui.dialogs.customdialog.states
 
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.databinding.ConfirmDialogBinding
 import com.example.gdemobile.models.DocumentPosition
+import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.fragments.DocumentPositionListFragment
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
+import com.example.gdemobile.ui.viewmodels.DocumentViewModel
 import com.example.gdemobile.utils.CustomToast
 import com.example.gdemobile.utils.ToastMessages
 
-class DeleteDocumentPositionState(val documentPosition : DocumentPosition) : ICustomDialogState{
+class DeleteDocumentPositionState(val documentPosition : DocumentPosition, val primaryFragment : IStateResponse) : ICustomDialogState{
     override var binding: ConfirmDialogBinding? = null
 
     override var fragment: DialogFragment? =null
@@ -47,5 +52,11 @@ class DeleteDocumentPositionState(val documentPosition : DocumentPosition) : ICu
                 CustomToast.Type.Information
             )
         }
+
+
+
+           (primaryFragment as DocumentPositionListFragment).refreshUI()
+
+        fragment?.dismiss()
     }
 }

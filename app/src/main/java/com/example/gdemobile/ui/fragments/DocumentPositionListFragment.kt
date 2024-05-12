@@ -1,6 +1,7 @@
 package com.example.gdemobile.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,7 +45,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
     private lateinit var _documentPositionAdapter: DocumentPositionAdapter
     private lateinit var _binding: FragmentDocumentpositionListBinding
-    private lateinit var _viewModel: DocumentPositionsViewModel
+    private  var _viewModel: DocumentPositionsViewModel? = null
     private var _scannedBarcode: String = ""
 
 
@@ -54,7 +56,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(documentPosition: DocumentPosition) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    CustomDialog(DeleteDocumentPositionState(documentPosition)).show(
+                    CustomDialog(DeleteDocumentPositionState(documentPosition, this@DocumentPositionListFragment)).show(
                         childFragmentManager,
                         "DELETE_DOCUMENT_POSITION_DIALOG"
                     )
@@ -78,20 +80,25 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.lifecycleOwner = this
         _viewModel =
             ViewModelProvider(requireActivity()).get(DocumentPositionsViewModel::class.java)
-        _viewModel.stateResponse = this
+        _viewModel?.stateResponse = this
         _binding.documentnumberTextview.text = _sharedViewModel.document.value?.number
         setColorsProgressSwipeLayout()
         initObservers()
         return _binding.root
     }
 
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(_viewModel != null)
+        initObservers()
+    }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onResume() {
         super.onResume()
         initKeyListener()
         view?.isFocusableInTouchMode = true;
         view?.requestFocus()
+
     }
 
     @SuppressLint("ResourceType")
@@ -146,7 +153,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
             }
 
             override fun afterTextChanged(s: Editable?) {
-                _viewModel.filterDocumentPosition(s.toString())
+                _viewModel?.filterDocumentPosition(s.toString())
             }
 
         })
@@ -155,16 +162,17 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
             _binding.searchTextfield.clearFocus()
         }
         _binding.swipeRefreshLayout.setOnRefreshListener {
-            _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
+            _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
 
         }
 
 
     }
 
+
     @SuppressLint("SuspiciousIndentation")
     private fun initObservers() {
-        _viewModel.documentPositions.observe(viewLifecycleOwner) { list ->
+        _viewModel?.documentPositions?.observe(viewLifecycleOwner) { list ->
             _binding.cargosRecyclerview.also {
                 it.layoutManager = LinearLayoutManager(context)
                 it.setHasFixedSize(true)
@@ -178,8 +186,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
             }
         }
         _sharedViewModel.document.observe(viewLifecycleOwner) {
-            if (_sharedViewModel.getBlockLoadData() == false)
-                _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
+            //if (_sharedViewModel.getBlockLoadData() == false)
+                _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
             // sharedViewModel.setBlockLoadData(false)
 
         }
@@ -214,6 +222,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
     }
 
+    fun refreshUI() {
+        initObservers()
+        _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
+    }
 
     override fun onLoading() {
         _binding.succeslayout.visibility = View.GONE
@@ -237,6 +249,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.succeslayout.visibility = View.VISIBLE
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.swipeRefreshLayout.isRefreshing = false
+
+
     }
 
     private fun openDialog() {
@@ -244,20 +258,23 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         dialog.dismissListener = object : IDialogDismissListener {
             override fun dismissDialogFunction() {
                 dialog.dismiss()
-                _viewModel.stateResponse = this@DocumentPositionListFragment
-                _viewModel.getDocumentPositions(_sharedViewModel.document.value!!)
+                _viewModel?.stateResponse = this@DocumentPositionListFragment
+                _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
             }
         }
         dialog.show(childFragmentManager, "AMOUNT_CARGO_DIALOG")
     }
 
     override fun customOnBackPressed() {
-        if(_viewModel.documentPositions.value.isNullOrEmpty())
+        if(_viewModel?.documentPositions?.value.isNullOrEmpty() && !_binding.errorlayout.isVisible)
         CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
             childFragmentManager,
             "DELETE_DOCUMENT_DIALOG"
         )
+        else
+            findNavController().popBackStack()
     }
+
 
 
 }

@@ -12,6 +12,8 @@ class DocumentPosition () : Serializable {
     val  id: Int = 0
     @SerializedName("Towar")
     var cargo : Cargo? = null
+    @SerializedName("Dokument")
+    var document : Document? = null
 
 
 

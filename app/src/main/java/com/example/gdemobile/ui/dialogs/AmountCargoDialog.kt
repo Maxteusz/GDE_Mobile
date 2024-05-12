@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +16,7 @@ import com.example.gdemobile.databinding.FragmentAmountCargoDialogBinding
 import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.Quantity
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.adapters.ListViewAdapter
 import com.example.gdemobile.ui.viewmodels.DocumentPositionsViewModel
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.utils.CustomToast
@@ -98,15 +98,14 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
     fun setAdapters() {
         //documentPosition?.cargo = arguments?.getSerializable(NamesSharedVariable.cargo) as Cargo?
         binding.currencysymbolSpinner.setText(Currency.symbols.first())
-        val currencySymbolAdapter = ArrayAdapter<String>(
+        val currencySymbolAdapter =ListViewAdapter(
             requireContext(),
-            R.layout.support_simple_spinner_dropdown_item,
-            Currency.symbols
+            Currency.symbols as MutableList<String>
         )
         binding.currencysymbolSpinner.setAdapter(currencySymbolAdapter)
     }
 
-    fun blockDialog() {
+    private fun blockDialog() {
         binding.amountEdittext.isClickable = false;
         binding.amountEdittext.isFocusable = false;
         binding.currencysymbolSpinner.isClickable = false;
@@ -118,7 +117,7 @@ class AmountCargoDialog : DialogFragment(), IStateResponse {
         binding.valueEdittext.isFocusable = false;
     }
 
-    fun unblockDialog() {
+    private fun unblockDialog() {
         binding.amountEdittext.isClickable = true;
         binding.amountEdittext.isFocusable = true
         binding.currencysymbolSpinner.isClickable = true

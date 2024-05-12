@@ -2,7 +2,6 @@ package com.example.gdemobile.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.example.gdemobile.models.Currency
 import com.example.gdemobile.models.DocumentPosition
 import com.example.gdemobile.models.WarehouseResource
 import com.example.gdemobile.ui.IStateResponse
+import com.example.gdemobile.ui.adapters.ListViewAdapter
 import com.example.gdemobile.ui.adapters.WarehouseResourcesAdapter
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import com.example.gdemobile.ui.viewmodels.WarehouseResourceViewModel
@@ -67,19 +67,17 @@ class DocumentPositionDetailsFragment : Fragment(), IStateResponse {
 
 
     private fun initAdapters() {
-        val currencyAdapter = ArrayAdapter(
+        val currencyAdapter = ListViewAdapter(
             requireActivity(),
-            R.layout.support_simple_spinner_dropdown_item,
-            Currency.symbols
+            Currency.symbols as MutableList<String>
         )
 
         binding.currencysymbolSpinner.setAdapter(currencyAdapter)
         binding.currencysymbolSpinner.threshold = 100000
 
-        val unitAdapter = ArrayAdapter(
+        val unitAdapter = ListViewAdapter(
             requireActivity(),
-            R.layout.support_simple_spinner_dropdown_item,
-            _documentPosition.cargo?.additionalUnits!!
+            _documentPosition.cargo?.additionalUnits!! as MutableList<String>
         )
         binding.unitSpinner.threshold = 10000
         binding.unitSpinner.setAdapter(unitAdapter)
