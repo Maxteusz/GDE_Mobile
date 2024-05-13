@@ -45,7 +45,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
     private lateinit var _documentPositionAdapter: DocumentPositionAdapter
     private lateinit var _binding: FragmentDocumentpositionListBinding
-    private  var _viewModel: DocumentPositionsViewModel? = null
+    private var _viewModel: DocumentPositionsViewModel? = null
     private var _scannedBarcode: String = ""
 
 
@@ -56,7 +56,12 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         object : DocumentPositionAdapter.DeleteCargoViewHolderListener {
             override fun onDeleteDocumentPositionItemClicked(documentPosition: DocumentPosition) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    CustomDialog(DeleteDocumentPositionState(documentPosition, this@DocumentPositionListFragment)).show(
+                    CustomDialog(
+                        DeleteDocumentPositionState(
+                            documentPosition,
+                            this@DocumentPositionListFragment
+                        )
+                    ).show(
                         childFragmentManager,
                         "DELETE_DOCUMENT_POSITION_DIALOG"
                     )
@@ -89,9 +94,10 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(_viewModel != null)
-        initObservers()
+        if (_viewModel != null)
+            initObservers()
     }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onResume() {
         super.onResume()
@@ -106,6 +112,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.swipeRefreshLayout.setColorSchemeColors(resources.getInteger(R.color.orange))
         _binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(resources.getInteger(R.color.darkGray))
     }
+
 
 
     @Deprecated("Deprecated in Java")
@@ -127,7 +134,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.cargosRecyclerview.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                var sensitiveOnHideButtons = 10
+                val sensitiveOnHideButtons = 10
                 if (dy > sensitiveOnHideButtons) {
                     _binding.cameraButton.hide()
                     _binding.nextButton.hide()
@@ -145,13 +152,9 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
                 start: Int,
                 count: Int,
                 after: Int
-            ) {
-            }
+            ) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 _viewModel?.filterDocumentPosition(s.toString())
             }
@@ -160,6 +163,8 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.searchTextlayout.setEndIconOnClickListener {
             _binding.searchTextfield.setText("")
             _binding.searchTextfield.clearFocus()
+            _binding.root.findFocus()
+            _binding.root.requestFocus()
         }
         _binding.swipeRefreshLayout.setOnRefreshListener {
             _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
@@ -187,7 +192,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         }
         _sharedViewModel.document.observe(viewLifecycleOwner) {
             //if (_sharedViewModel.getBlockLoadData() == false)
-                _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
+            _viewModel?.getDocumentPositions(_sharedViewModel.document.value!!)
             // sharedViewModel.setBlockLoadData(false)
 
         }
@@ -262,15 +267,14 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
     }
 
     override fun customOnBackPressed() {
-        if(_viewModel?.documentPositions?.value.isNullOrEmpty() && !_binding.errorlayout.isVisible)
-        CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
-            childFragmentManager,
-            "DELETE_DOCUMENT_DIALOG"
-        )
+        if (_viewModel?.originalDocumentPositions?.value.isNullOrEmpty() && !_binding.errorlayout.isVisible)
+            CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
+                childFragmentManager,
+                "DELETE_DOCUMENT_DIALOG"
+            )
         else
             findNavController().popBackStack()
     }
-
 
 
 }

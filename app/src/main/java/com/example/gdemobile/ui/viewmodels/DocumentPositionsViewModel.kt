@@ -14,18 +14,18 @@ import kotlinx.coroutines.launch
 class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = null) : ViewModel(),
     IViewModel, IViewModelList {
     override var recyclerViewScrollState: Parcelable? = null
-    private var _originalDocumentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
+     var originalDocumentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
     private var _documentPositions = MutableLiveData<List<DocumentPosition>>(emptyList())
     val documentPositions: MutableLiveData<List<DocumentPosition>>
         get() = _documentPositions
 
     fun getDocumentPositions(document: Document) {
-        _originalDocumentPositions.value = emptyList()
+        originalDocumentPositions.value = emptyList()
         viewModelScope.launch {
             val positions = DocumentPositionDao(stateResponse)
                 .getDocumentPositions(document.id)
                 ?.sortedByDescending { a -> a.id }
-            _originalDocumentPositions.postValue(positions ?: emptyList())
+            originalDocumentPositions.postValue(positions ?: emptyList())
             _documentPositions.postValue(positions ?: emptyList())
 
         }
@@ -40,10 +40,10 @@ class DocumentPositionsViewModel(override var stateResponse: IStateResponse? = n
 
     fun filterDocumentPosition(phrase: String) {
         if (phrase.isEmpty())
-            _documentPositions.postValue(_originalDocumentPositions.value)
+            _documentPositions.postValue(originalDocumentPositions.value)
 
         _documentPositions
-            .postValue(_originalDocumentPositions.value
+            .postValue(originalDocumentPositions.value
                 ?.filter { a ->
                     a.cargo?.code?.contains(phrase, ignoreCase = true) == true ||
                             a.cargo?.name?.contains(phrase, ignoreCase = true) == true
