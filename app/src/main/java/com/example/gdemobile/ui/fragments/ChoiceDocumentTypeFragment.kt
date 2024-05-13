@@ -63,7 +63,6 @@ class ChoiceDocumentTypeFragment : Fragment() {
     private fun setExternalSubAction() {
         when (sharedViewModel.getActionType()) {
             is Acceptance -> sharedViewModel.getActionType()?.subType = Acceptance.External()
-
             is Issuance -> sharedViewModel.getActionType()?.subType = Issuance.External()
         }
     }

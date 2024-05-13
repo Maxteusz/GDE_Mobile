@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gdemobile.apiConnect.enovaConnect.daos.document.DocumentDao
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.IActionType
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.InventoryType
 import com.example.gdemobile.models.Document
 import com.example.gdemobile.ui.IStateResponse
 import kotlinx.coroutines.launch

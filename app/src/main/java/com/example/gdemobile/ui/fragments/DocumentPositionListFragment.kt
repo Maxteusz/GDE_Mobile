@@ -230,7 +230,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
     override fun onLoading() {
         _binding.succeslayout.visibility = View.GONE
-        _binding.errorlayout.visibility = View.GONE
+        _binding.errorlayout.root.visibility = View.GONE
         _binding.loadinglayout.root.visibility = View.VISIBLE
         _binding.swipeRefreshLayout.isRefreshing = false
         _binding.cargosRecyclerview.adapter = null
@@ -238,7 +238,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
     }
 
     override suspend fun onError(message: String) {
-        _binding.errorlayout.visibility = View.VISIBLE
+        _binding.errorlayout.root.visibility = View.VISIBLE
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.succeslayout.visibility = View.GONE
         _binding.swipeRefreshLayout.isRefreshing = false
@@ -246,7 +246,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
 
 
     override fun onSuccess() {
-        _binding.errorlayout.visibility = View.GONE
+        _binding.errorlayout.root.visibility = View.GONE
         _binding.succeslayout.visibility = View.VISIBLE
         _binding.loadinglayout.root.visibility = View.GONE
         _binding.swipeRefreshLayout.isRefreshing = false
@@ -267,7 +267,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
     }
 
     override fun customOnBackPressed() {
-        if (_viewModel?.originalDocumentPositions?.value.isNullOrEmpty() && !_binding.errorlayout.isVisible)
+        if (_viewModel?.originalDocumentPositions?.value.isNullOrEmpty() &&  _binding.errorlayout.root.isVisible)
             CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
                 childFragmentManager,
                 "DELETE_DOCUMENT_DIALOG"

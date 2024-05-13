@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.InventoryType
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issuance
 import com.example.gdemobile.databinding.FragmentDocumentDetailsBinding
 import com.example.gdemobile.models.Document
@@ -29,10 +28,10 @@ import kotlinx.coroutines.launch
 class DocumentDetailsFragment : Fragment(), IStateResponse {
 
     private lateinit var binding: FragmentDocumentDetailsBinding
-    private lateinit var documentViewModel : DocumentViewModel
-    private var createdDocument : Deferred<Document?>? = null
+    private lateinit var documentViewModel: DocumentViewModel
+    private var createdDocument: Deferred<Document?>? = null
 
-     val sharedViewModel : SharedViewModel by activityViewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -42,13 +41,11 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
         documentViewModel = ViewModelProvider(requireActivity())[DocumentViewModel::class.java]
         documentViewModel.stateResponse = this
-
         binding = FragmentDocumentDetailsBinding.inflate(inflater, container, false)
-
-        sharedViewModel.document.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.document.observe(viewLifecycleOwner) {
             binding.document = it
-        })
-        hideContractorField()
+        }
+        _hideContractorField()
 
 
         //Section Document Definition
@@ -66,30 +63,23 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
         binding.warehouseTextfield.setOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_warehouseListFragment) }
         binding.warehouseTextfield.setEndIconOnClickListener { findNavController().navigate(R.id.action_documentDetailsFragment_to_warehouseListFragment) }
 
-
-
         binding.nextButton.setOnClickListener {
             createdDocument = viewLifecycleOwner.lifecycleScope.async {
                 return@async documentViewModel.createDocument(sharedViewModel.document.value!!)
             }
-
-
         }
-
         return binding.root
     }
 
-    private fun hideContractorField()
-    {
+    private fun _hideContractorField() {
         when (sharedViewModel.getActionType()?.subType) {
-            is Acceptance.Internal -> {
+            is Acceptance.Internal,
+            is Issuance.Internal,
+            is InventoryType.InventorySubAction -> {
                 binding.contractorEdittext.visibility = View.GONE
                 binding.contractorTextfield.visibility = View.GONE
             }
-            is Issuance.Internal -> {
-                binding.contractorEdittext.visibility = View.GONE
-                binding.contractorTextfield.visibility = View.GONE
-            }
+
         }
     }
 
@@ -101,7 +91,7 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
     override suspend fun onError(message: String) {
         binding.loadinglayout.visibility = View.GONE
         binding.succeslayout.visibility = View.VISIBLE
-        context?.let { CustomToast.showToast(it,message,CustomToast.Type.Error) }
+        context?.let { CustomToast.showToast(it, message, CustomToast.Type.Error) }
     }
 
     override fun onSuccess() {
@@ -114,14 +104,8 @@ class DocumentDetailsFragment : Fragment(), IStateResponse {
 
         }
 
-
     }
 
-
-
-
-
-
-    }
+}
 
 
