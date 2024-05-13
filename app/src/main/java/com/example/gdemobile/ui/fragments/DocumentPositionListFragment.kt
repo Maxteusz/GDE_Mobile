@@ -206,11 +206,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
                             }
 
                     }
-                    CustomToast.showToast(
-                        requireActivity(),
-                        _scannedBarcode,
-                        CustomToast.Type.Information
-                    )
+
                     _scannedBarcode = ""
                 } else {
                     _scannedBarcode += event.unicodeChar.toChar()
