@@ -111,7 +111,7 @@
                 android:layout_height="60dp"
                 app:cornerRadius="30dp"
                 android:text="Dalej"
-                android:textSize="18sp"
+                android:textSize="12sp"
 
                 android:layout_marginTop="20dp"
                 android:layout_gravity="end"/>
