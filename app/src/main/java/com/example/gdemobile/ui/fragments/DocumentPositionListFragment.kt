@@ -163,7 +163,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
         _binding.searchTextlayout.setEndIconOnClickListener {
             _binding.searchTextfield.setText("")
             _binding.searchTextfield.clearFocus()
-            _binding.root.findFocus()
+
             _binding.root.requestFocus()
         }
         _binding.swipeRefreshLayout.setOnRefreshListener {
