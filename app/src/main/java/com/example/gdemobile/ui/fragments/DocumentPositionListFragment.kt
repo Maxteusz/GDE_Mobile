@@ -267,7 +267,7 @@ class DocumentPositionListFragment() : Fragment(), IStateResponse, IOnBackPresse
     }
 
     override fun customOnBackPressed() {
-        if (_viewModel?.originalDocumentPositions?.value.isNullOrEmpty() &&  _binding.errorlayout.root.isVisible)
+        if (_viewModel?.originalDocumentPositions?.value.isNullOrEmpty() &&  !_binding.errorlayout.root.isVisible)
             CustomDialog(_sharedViewModel.document.value?.let { DeleteDocumentState(it) }).show(
                 childFragmentManager,
                 "DELETE_DOCUMENT_DIALOG"

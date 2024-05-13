@@ -41,7 +41,7 @@ class MenuFragment : Fragment() {
             findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
         }
         binding.inventoryButton.setOnClickListener {
-            sharedViewModel.setActionType(InventoryType ())
+            sharedViewModel.setActionType(InventoryType())
             findNavController().navigate(R.id.action_menuFragment_to_documentListFragment)
         }
     }
