@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.databinding.FragmentMenuBinding
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
+import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.InventoryType
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issuance
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 
@@ -38,6 +39,10 @@ class MenuFragment : Fragment() {
         binding.issuingButton.setOnClickListener {
             sharedViewModel.setActionType(Issuance())
             findNavController().navigate(R.id.action_menuFragment_to_choiceDocumentTypeFragment)
+        }
+        binding.inventoryButton.setOnClickListener {
+            sharedViewModel.setActionType(InventoryType ())
+            findNavController().navigate(R.id.action_menuFragment_to_documentListFragment)
         }
     }
 
