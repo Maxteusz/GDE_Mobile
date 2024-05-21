@@ -1,6 +1,7 @@
 package com.example.gdemobile.config
 
 import android.app.Activity
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,8 +10,10 @@ import android.os.Environment
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
+
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -60,25 +63,25 @@ class UpdateApp(private val context: Context) {
         }
     }
 
-    private fun downloadFile(file: File) {
+     fun downloadFile() {
         try {
-            val outputStream = FileOutputStream(file)
-            val url = URL("http://${Config.ip}/mobileAppApk")
-            val connection = url.openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connect()
+           val uri = Uri.parse("https://pdfobject.com/pdf/sample.pdf");
 
-            val inputStream = connection.inputStream
-            val buffer = ByteArray(1024)
-            var len: Int
-            while (inputStream.read(buffer).also { len = it } > 0) {
-                outputStream.write(buffer, 0, len)
-            }
-            outputStream.close()
+            val request =  DownloadManager.Request(uri);
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);  // Tell on which network you want to download file.
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  // This will show notification on top when downloading the file.
+            request.setTitle("Pobieranie pliku instalacyjnego..."); // Title for notification.
+            request.setVisibleInDownloadsUi(true);
 
-            installApk(file)
-        } catch (e: Exception) {
-            Log.e("UpdateApp", "Exception in downloadFile: ${e.message}")
+            request.setDestinationInExternalFilesDir(context, Environment.getExternalStorageState(), "fff"+".pdf");
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+           val file = downloadManager.enqueue(request)
+            downloadManager.openDownloadedFile(downloadManager.enqueue(request))
+           Log.i("Download Manager", "Download started"+  downloadManager.getUriForDownloadedFile(file))
+          // This will start downloading
+        }
+        catch(_: Exception){
+
         }
     }
 

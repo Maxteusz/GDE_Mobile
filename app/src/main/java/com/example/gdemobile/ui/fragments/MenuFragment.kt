@@ -49,7 +49,7 @@ class MenuFragment : Fragment() {
         }
         binding.logoImage.setOnClickListener {
             val updateManager = UpdateApp(requireActivity());
-            updateManager.update()
+            updateManager.downloadFile()
 
         }
     }
