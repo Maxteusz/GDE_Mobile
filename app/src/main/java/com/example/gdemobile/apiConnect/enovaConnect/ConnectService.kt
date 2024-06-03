@@ -31,10 +31,10 @@ class ConnectService(
 
                     if (!result.body()?.isException!!) {
                         val result = result.body()?.resultInstance
-                        stateResponse?.onSuccess()
+                        stateResponse.onSuccess()
                         return result
                     }
-                    result.body()?.exceptionMessage?.let { stateResponse?.onError(it) }
+                    result.body()?.exceptionMessage?.let { stateResponse.onError(it) }
                 }
 
                 return null

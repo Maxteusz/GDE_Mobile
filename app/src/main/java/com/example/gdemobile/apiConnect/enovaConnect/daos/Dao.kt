@@ -8,7 +8,7 @@ import com.example.gdemobile.utils.ExtensionFunction.Companion.fromJson
 import com.google.gson.Gson
 
 
-abstract class Dao(val stateResponse: IStateResponse?) {
+abstract class Dao(var stateResponse: IStateResponse?) {
     suspend inline fun <reified T>requestObject(method : IConnectEnovaMethod): T? {
         return try {
             val gson = Gson()

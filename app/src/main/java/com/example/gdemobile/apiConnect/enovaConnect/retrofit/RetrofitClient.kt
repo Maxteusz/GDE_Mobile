@@ -16,13 +16,14 @@ import javax.net.ssl.X509TrustManager
 
 class RetrofitClient {
 
+
     fun getInstance(): Retrofit {
         val gson = GsonBuilder()
             .setLenient()
             .create()
 
 
-        var retrofit: Retrofit = Retrofit.Builder()
+        val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("http://${Config.ip}:${Config.port}/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(getUnsafeOkHttpClient().build())
