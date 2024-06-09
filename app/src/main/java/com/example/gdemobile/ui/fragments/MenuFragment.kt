@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.gdemobile.R
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
@@ -16,6 +17,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issua
 import com.example.gdemobile.config.UpdateApp
 import com.example.gdemobile.databinding.FragmentMenuBinding
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
+import kotlinx.coroutines.launch
 
 
 class MenuFragment : Fragment() {
@@ -48,8 +50,12 @@ class MenuFragment : Fragment() {
             findNavController().navigate(R.id.action_menuFragment_to_documentListFragment)
         }
         binding.logoImage.setOnClickListener {
-            val updateManager = UpdateApp(requireActivity());
-            updateManager.downloadFile()
+            viewLifecycleOwner.lifecycleScope.launch {
+
+                val updateManager = UpdateApp(this@MenuFragment).saveFile()
+            }
+
+
 
         }
     }
