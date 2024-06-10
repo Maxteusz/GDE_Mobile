@@ -61,7 +61,8 @@ val context : Context? = fragment.context
             Files.write(filePath, file)
         }*/
 
-    downloadFile()
+    withContext(Dispatchers.IO).launch { downloadFile()}
+
 
 
     }
