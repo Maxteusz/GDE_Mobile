@@ -20,6 +20,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.http.PATCH
+import java.io.BufferedReader
+import java.io.StringReader
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.io.path.Path
@@ -49,7 +51,7 @@ val context : Context? = fragment.context
 
     suspend fun saveFile() {
 
-        val file = convertToFile().await()
+      /*  val file = convertToFile().await()
         val filePath = Paths.get(context?.getExternalFilesDir(null).toString() + "/test.apk")
 
         withContext(Dispatchers.IO) {
@@ -57,9 +59,9 @@ val context : Context? = fragment.context
             if (!Files.exists(filePath))
                 Files.createFile(filePath)
             Files.write(filePath, file)
-        }
+        }*/
 
-
+    downloadFile()
 
 
     }
@@ -67,16 +69,16 @@ val context : Context? = fragment.context
 
     private suspend fun convertToFile(): Deferred<ByteArray> {
 
-        val deferred = fragment.lifecycleScope.async(Dispatchers.IO) {
-            val text = downloadFile()
-            val decodedBytes = Base64.decode(text!!, Base64.DEFAULT)
+        return fragment.lifecycleScope.async(Dispatchers.IO) {
+            val text = downloadFile().toString()
+            val decodedBytes = Base64.decode(text, Base64.DEFAULT)
             return@async decodedBytes
+
         }
-        return deferred
     }
 
 
-    private suspend fun downloadFile(): String? {
+    private suspend fun downloadFile(): List<FilePart>? {
         return UpdateDao(updateStateResponse).downloadFileInString("dd")
 
 
@@ -84,11 +86,14 @@ val context : Context? = fragment.context
 
 
     private class UpdateDao(stateResult: IStateResponse) : Dao(stateResult) {
-        suspend fun downloadFileInString(test: String): String? {
-            return requestObject<String>(UpdateAppConnection())
+
+        suspend fun downloadFileInString(test: String): List<FilePart>? {
+            return requestList<FilePart>(UpdateAppConnection())
 
         }
     }
+
+
 
     private class UpdateAppConnection : IConnectEnovaMethod {
         override val methodName: String
@@ -100,5 +105,13 @@ val context : Context? = fragment.context
         private class Dto : IDto
 
 
+    }
+
+    class FilePart()
+    {
+        val fileName : String = ""
+        val partIndex : Int = 0;
+        val totalParts : Int = 0;
+        val content : String = ""
     }
 }

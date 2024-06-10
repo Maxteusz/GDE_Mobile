@@ -10,15 +10,15 @@ import com.google.gson.Gson
 
 abstract class Dao(var stateResponse: IStateResponse?) {
     suspend inline fun <reified T>requestObject(method : IConnectEnovaMethod): T? {
-        return try {
+         try {
             val gson = Gson()
             val connection = ConnectService(stateResponse)
             val receiveDto = connection.makeConnection<Any>(method)
-            gson.fromJson<T>(gson.toJson(receiveDto))
+           return gson.fromJson<T>(gson.toJson(receiveDto))
         } catch (e: Exception) {
             Log.i("DaoRequestException", e.message.toString())
             stateResponse?.onError("Błąd pobierania danych")
-            null
+            return null
         }
     }
 
@@ -32,7 +32,7 @@ abstract class Dao(var stateResponse: IStateResponse?) {
         {
             Log.i("DaoRequestException", e.message.toString())
             stateResponse?.onError("Błąd pobierania danych")
-            return emptyList<T>()
+            return emptyList()
         }
     }
 

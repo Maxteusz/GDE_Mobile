@@ -7,6 +7,7 @@ import com.example.gdemobile.apiConnect.enovaConnect.retrofit.RetrofitClient
 import com.example.gdemobile.ui.IStateResponse
 import com.example.gdemobile.utils.LogTag
 import com.google.gson.Gson
+import java.io.FileOutputStream
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -30,9 +31,9 @@ class ConnectService(
                     Log.i(LogTag.enovaApiResultInstance, result.body()!!.resultInstance.toString())
 
                     if (!result.body()?.isException!!) {
-                        val result = result.body()?.resultInstance
                         stateResponse.onSuccess()
-                        return result
+                        
+                        return result.body()?.resultInstance
                     }
                     result.body()?.exceptionMessage?.let { stateResponse.onError(it) }
                 }
