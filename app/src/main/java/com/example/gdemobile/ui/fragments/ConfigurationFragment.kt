@@ -30,11 +30,11 @@ private lateinit var binding : FragmentConfigurationBinding
     }
     private fun bindFields()
     {
-        Config.ip = binding.ipTextedit.text.toString()
-        Config.port = binding.portTextedit.text.toString()
-        Config.usernameERP = binding.usernameTextedit.text.toString()
-        Config.database = binding.databaseTextedit.text.toString()
-        Config.passwordERP = binding.passwordTextedit.text.toString()
+        Config.ip = binding.ipTextedit.text.toString().trim()
+        Config.port = binding.portTextedit.text.toString().trim()
+        Config.usernameERP = binding.usernameTextedit.text.toString().trim()
+        Config.database = binding.databaseTextedit.text.toString().trim()
+        Config.passwordERP = binding.passwordTextedit.text.toString().trim()
         Config.fastAddingDocumentPosition = binding.fastAddingDocumentposition.isChecked
 
 

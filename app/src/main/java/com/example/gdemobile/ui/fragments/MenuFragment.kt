@@ -14,7 +14,7 @@ import com.example.gdemobile.R
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Acceptance
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.InventoryType
 import com.example.gdemobile.apiConnect.enovaConnect.helpers.documenttypes.Issuance
-import com.example.gdemobile.config.UpdateApp
+import com.example.gdemobile.config.updateApp.UpdateViewModel
 import com.example.gdemobile.databinding.FragmentMenuBinding
 import com.example.gdemobile.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class MenuFragment : Fragment() {
         binding.logoImage.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
 
-                val updateManager = UpdateApp(this@MenuFragment).saveFile()
+                val updateManager = UpdateViewModel(this@MenuFragment).update()
             }
 
 
