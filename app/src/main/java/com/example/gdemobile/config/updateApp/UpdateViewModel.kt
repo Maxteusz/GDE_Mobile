@@ -1,27 +1,27 @@
 package com.example.gdemobile.config.updateApp
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
+import android.net.Uri
 import android.util.Base64
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.gdemobile.BuildConfig
 import com.example.gdemobile.R
 import com.example.gdemobile.ui.IStateResponse
-import com.example.gdemobile.utils.CustomToast
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+
 
 class UpdateViewModel(private val fragment: Fragment) {
 
@@ -54,6 +54,15 @@ class UpdateViewModel(private val fragment: Fragment) {
         }
     }
 
+    private fun x() : PendingIntent
+    {
+        val file  = Paths.get(context.getExternalFilesDir(null).toString() + "/$NAME_FILE")
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(Uri.fromFile(file, null)
+
+       return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
     private fun showNotifyAboutErrorDownload() {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID.toString())
             .setContentTitle("Błąd pobierania pliku")
@@ -75,6 +84,7 @@ class UpdateViewModel(private val fragment: Fragment) {
             .setContentText("Zakończono pobieranie pliku instalacyjnego")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setSmallIcon(R.drawable.cargo_icon)
+            .setContentIntent(x())
 
         val notificationManager =
             context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -85,7 +95,7 @@ class UpdateViewModel(private val fragment: Fragment) {
     suspend fun update() {
         val file = convertToFile().await()
         val filePath =
-            Paths.get(context.getExternalFilesDir(null).toString() + "/test.apk")
+            Paths.get(context.getExternalFilesDir(null).toString() + "/$NAME_FILE")
 
         withContext(Dispatchers.IO) {
             if (!Files.exists(filePath))
@@ -112,6 +122,7 @@ class UpdateViewModel(private val fragment: Fragment) {
         private const val NOTIFICATION_ID = 101
         private const val NOTIFICACTION_NAME = "Powiadomienia o stanie aktualizacji"
         private const val CHANNEL_ID = 101
+        private const val NAME_FILE = "App.apk"
     }
 
 
