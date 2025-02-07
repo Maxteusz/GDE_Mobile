@@ -58,7 +58,7 @@ class UpdateViewModel(private val fragment: Fragment) {
     {
         val file  = Paths.get(context.getExternalFilesDir(null).toString() + "/$NAME_FILE")
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.fromFile(file, null)
+       // intent.setDataAndType(Uri.fromFile(file,null)
 
        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
     }

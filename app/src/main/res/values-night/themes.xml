@@ -2,11 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.GDEMobile" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
+
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/darkGray</item>
-        <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/darkGray</item>
         <item name="colorSecondaryVariant">@color/darkGray</item>
